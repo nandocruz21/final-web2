@@ -2,7 +2,11 @@ import React from 'react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import { Target, Flag, BookOpen, HeartHandshake } from 'lucide-react';
-
+/**
+ * Halaman Profil TPQ
+ * Menampilkan informasi sejarah, visi, dan misi
+ * dari TPQ MSANTRI dengan tata letak visual yang menarik.
+ */
 const ProfilTpq: React.FC = () => {
   return (
     <div className="min-h-screen bg-surface font-sans text-on-surface flex flex-col">
