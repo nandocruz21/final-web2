@@ -4,6 +4,11 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import api from '../../services/api';
 
+/**
+ * Halaman Papan Pengumuman
+ * Menampilkan daftar berita, informasi akademik, dan kegiatan TPQ.
+ * Dilengkapi dengan fitur filter kategori dan pencarian.
+ */
 const Pengumuman: React.FC = () => {
   useEffect(() => {
     api.get('/home').then(() => {}).catch(() => {});
