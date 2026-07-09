@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RiwayatProgres extends Model
+class ProgressHistory extends Model
 {
     protected $table = 'riwayat_progres';
     protected $primaryKey = 'id_riwayat';
@@ -16,6 +16,6 @@ class RiwayatProgres extends Model
 
     public function santri()
     {
-        return $this->belongsTo(Santri::class, 'id_santri', 'id_santri');
+        return $this->belongsTo(Student::class, 'id_santri', 'id_santri');
     }
 }

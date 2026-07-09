@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pengaturan;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
-class JadwalController extends Controller
+class ScheduleController extends Controller
 {
     public function index()
     {
-        $pengaturan = Pengaturan::first();
+        $pengaturan = Setting::first();
         return view('admin.jadwal.index', compact('pengaturan'));
     }
 
     public function update(Request $request)
     {
-        $pengaturan = Pengaturan::first();
+        $pengaturan = Setting::first();
 
         if ($request->input('jenis_form') === 'jadwal') {
             $pengaturan->update([

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Santri extends Model
+class Student extends Model
 {
     protected $table = 'santri';
     protected $primaryKey = 'id_santri';
@@ -24,6 +24,6 @@ class Santri extends Model
 
     public function riwayat()
     {
-        return $this->hasMany(RiwayatProgres::class, 'id_santri', 'id_santri');
+        return $this->hasMany(ProgressHistory::class, 'id_santri', 'id_santri');
     }
 }

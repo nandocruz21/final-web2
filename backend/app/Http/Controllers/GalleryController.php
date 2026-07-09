@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Galeri;
+use App\Models\Gallery;
 use Illuminate\Http\Request;
 
-class GaleriController extends Controller
+class GalleryController extends Controller
 {
     public function index()
     {
-        $galeri = Galeri::orderByDesc('id_galeri')->get();
+        $galeri = Gallery::orderByDesc('id_galeri')->get();
         return view('admin.galeri.index', compact('galeri'));
     }
 
@@ -32,7 +32,7 @@ class GaleriController extends Controller
         $namaFile = uniqid() . '.' . $ekstensi;
         $foto->move(public_path('img'), $namaFile);
 
-        Galeri::create([
+        Gallery::create([
             'nama_file'  => $namaFile,
             'keterangan' => $request->input('keterangan'),
         ]);
@@ -42,7 +42,7 @@ class GaleriController extends Controller
 
     public function destroy($id)
     {
-        $galeri = Galeri::findOrFail($id);
+        $galeri = Gallery::findOrFail($id);
         $path   = public_path('img/' . $galeri->nama_file);
 
         if (file_exists($path)) {

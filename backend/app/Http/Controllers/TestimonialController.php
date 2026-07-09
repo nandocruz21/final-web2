@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Testimoni;
-use App\Models\Pengaturan;
+use App\Models\Testimonial;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
-class TestimoniController extends Controller
+class TestimonialController extends Controller
 {
     // Halaman publik semua testimoni
     public function index()
     {
-        $testimoni  = Testimoni::orderByDesc('id_testi')->get();
-        $pengaturan = Pengaturan::first();
+        $testimoni  = Testimonial::orderByDesc('id_testi')->get();
+        $pengaturan = Setting::first();
         return view('home.testimoni', compact('testimoni', 'pengaturan'));
     }
 
@@ -24,7 +24,7 @@ class TestimoniController extends Controller
         $rating  = (int) $request->input('rating');
         $isi     = $request->input('isi_testimoni');
 
-        Testimoni::create([
+        Testimonial::create([
             'nama_wali'    => $nama,
             'kelas_santri' => 'Wali Santri',
             'inisial'      => $inisial,

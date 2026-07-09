@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\RiwayatProgres;
+use App\Models\ProgressHistory;
 
-class RiwayatController extends Controller
+class ProgressHistoryController extends Controller
 {
     public function show($id)
     {
-        $riwayat = RiwayatProgres::where('id_santri', $id)
+        $riwayat = ProgressHistory::where('id_santri', $id)
             ->orderByDesc('tanggal_riwayat')
             ->get();
 

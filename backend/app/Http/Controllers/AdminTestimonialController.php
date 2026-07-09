@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Testimoni;
+use App\Models\Testimonial;
 use Illuminate\Http\Request;
 
-class AdminTestimoniController extends Controller
+class AdminTestimonialController extends Controller
 {
     public function index()
     {
-        $testimoni = Testimoni::orderByDesc('id_testi')->get();
+        $testimoni = Testimonial::orderByDesc('id_testi')->get();
         return view('admin.testimoni.index', compact('testimoni'));
     }
 
     public function store(Request $request)
     {
-        Testimoni::create([
+        Testimonial::create([
             'nama_wali'    => $request->input('nama_wali'),
             'kelas_santri' => 'Wali Santri',
             'inisial'      => strtoupper(substr($request->input('inisial'), 0, 2)),
@@ -28,7 +28,7 @@ class AdminTestimoniController extends Controller
 
     public function destroy($id)
     {
-        Testimoni::findOrFail($id)->delete();
+        Testimonial::findOrFail($id)->delete();
         return back()->with('success', 'Testimoni berhasil dihapus!');
     }
 }

@@ -3,23 +3,23 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Santri;
-use App\Models\Informasi;
-use App\Models\Pengaturan;
-use App\Models\Galeri;
-use App\Models\Testimoni;
-use App\Models\RiwayatProgres;
+use App\Models\Student;
+use App\Models\Information;
+use App\Models\Setting;
+use App\Models\Gallery;
+use App\Models\Testimonial;
+use App\Models\ProgressHistory;
 use Illuminate\Http\Request;
 
 class PublicApiController extends Controller
 {
     public function home()
     {
-        $totalSantri = Santri::count();
-        $info        = Informasi::orderByDesc('tanggal_posting')->orderByDesc('id_info')->first();
-        $pengaturan  = Pengaturan::first();
-        $galeri      = Galeri::orderByDesc('id_galeri')->get();
-        $testimoni   = Testimoni::orderByDesc('id_testi')->take(5)->get();
+        $totalSantri = Student::count();
+        $info        = Information::orderByDesc('tanggal_posting')->orderByDesc('id_info')->first();
+        $pengaturan  = Setting::first();
+        $galeri      = Gallery::orderByDesc('id_galeri')->get();
+        $testimoni   = Testimonial::orderByDesc('id_testi')->take(5)->get();
 
         return response()->json([
             'totalSantri' => $totalSantri,
@@ -34,13 +34,13 @@ class PublicApiController extends Controller
     {
         $search = $request->query('q');
         
-        $query = Santri::orderBy('nama_lengkap');
+        $query = Student::orderBy('nama_lengkap');
         if ($search) {
             $query->where('nama_lengkap', 'like', "%{$search}%");
         }
         $santri = $query->get();
 
-        $pengaturan = Pengaturan::first();
+        $pengaturan = Setting::first();
         $namaTpq = $pengaturan->nama_tpq ?? 'MSANTRI';
 
         return response()->json([
@@ -51,7 +51,7 @@ class PublicApiController extends Controller
 
     public function riwayat($id)
     {
-        $riwayat = RiwayatProgres::where('id_santri', $id)
+        $riwayat = ProgressHistory::where('id_santri', $id)
             ->orderByDesc('tanggal_riwayat')
             ->get();
 
@@ -69,7 +69,7 @@ class PublicApiController extends Controller
         $nama = trim($request->input('nama_wali'));
         $inisial = strtoupper(substr($nama, 0, 1));
 
-        $testi = Testimoni::create([
+        $testi = Testimonial::create([
             'nama_wali'    => $nama,
             'kelas_santri' => 'Wali Santri',
             'inisial'      => $inisial,
@@ -82,7 +82,7 @@ class PublicApiController extends Controller
 
     public function allTestimoni()
     {
-        $testimoni = Testimoni::orderByDesc('id_testi')->get();
+        $testimoni = Testimonial::orderByDesc('id_testi')->get();
         return response()->json($testimoni);
     }
 }

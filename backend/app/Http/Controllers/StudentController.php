@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Santri;
-use App\Models\Pengaturan;
-use App\Models\RiwayatProgres;
+use App\Models\Student;
+use App\Models\Setting;
+use App\Models\ProgressHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class SantriController extends Controller
+class StudentController extends Controller
 {
     // ===== FRONTEND =====
 
     public function cekRapor()
     {
-        $santri     = Santri::orderBy('nama_lengkap')->get();
-        $pengaturan = Pengaturan::first();
+        $santri     = Student::orderBy('nama_lengkap')->get();
+        $pengaturan = Setting::first();
         $namaTpq    = $pengaturan->nama_tpq ?? 'MSANTRI';
 
         return view('home.cek_rapor', compact('santri', 'namaTpq'));
@@ -25,7 +25,7 @@ class SantriController extends Controller
 
     public function index()
     {
-        $santri = Santri::orderByDesc('id_santri')->get();
+        $santri = Student::orderByDesc('id_santri')->get();
         return view('admin.santri.index', compact('santri'));
     }
 
@@ -65,10 +65,10 @@ class SantriController extends Controller
             // INSERT
             if (empty($data['foto'])) $data['foto'] = 'default.png';
             $data['kehadiran'] = 'hadir';
-            $santri = Santri::create($data);
+            $santri = Student::create($data);
 
             // Riwayat awal
-            RiwayatProgres::create([
+            ProgressHistory::create([
                 'id_santri'        => $santri->id_santri,
                 'capaian_hafalan'  => $data['capaian_hafalan'],
                 'catatan_pengajar' => $data['catatan_pengajar'],
@@ -78,13 +78,13 @@ class SantriController extends Controller
             return redirect()->route('admin.santri')->with('alert_type', 'success')->with('alert_message', 'Data santri berhasil ditambahkan!');
         } else {
             // UPDATE - cek perubahan untuk riwayat
-            $santri = Santri::findOrFail($id);
+            $santri = Student::findOrFail($id);
             $buatRiwayat = ($santri->capaian_hafalan !== $data['capaian_hafalan'] || $santri->catatan_pengajar !== $data['catatan_pengajar']);
 
             $santri->update($data);
 
             if ($buatRiwayat) {
-                RiwayatProgres::create([
+                ProgressHistory::create([
                     'id_santri'        => $santri->id_santri,
                     'capaian_hafalan'  => $data['capaian_hafalan'],
                     'catatan_pengajar' => $data['catatan_pengajar'],
@@ -101,11 +101,11 @@ class SantriController extends Controller
         $id     = $request->input('id');
         $status = $request->input('status');
 
-        $santri = Santri::findOrFail($id);
+        $santri = Student::findOrFail($id);
         $santri->update(['kehadiran' => $status]);
 
         // Rekam riwayat
-        RiwayatProgres::create([
+        ProgressHistory::create([
             'id_santri'        => $santri->id_santri,
             'capaian_hafalan'  => $santri->capaian_hafalan,
             'catatan_pengajar' => $santri->catatan_pengajar,
@@ -122,7 +122,7 @@ class SantriController extends Controller
 
     public function destroy($id)
     {
-        $santri = Santri::findOrFail($id);
+        $santri = Student::findOrFail($id);
         $santri->delete();
         return redirect()->route('admin.santri')->with('alert_type', 'success')->with('alert_message', 'Data santri berhasil dihapus!');
     }

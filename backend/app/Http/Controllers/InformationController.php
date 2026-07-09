@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Informasi;
+use App\Models\Information;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class InformasiController extends Controller
+class InformationController extends Controller
 {
     public function index()
     {
-        $informasi = Informasi::orderByDesc('tanggal_posting')->orderByDesc('id_info')->get();
+        $informasi = Information::orderByDesc('tanggal_posting')->orderByDesc('id_info')->get();
         return view('admin.informasi.index', compact('informasi'));
     }
 
@@ -21,14 +21,14 @@ class InformasiController extends Controller
         $isi   = $request->input('isi');
 
         if (empty($id)) {
-            Informasi::create([
+            Information::create([
                 'kategori'       => 'PENGUMUMAN',
                 'judul_info'     => $judul,
                 'isi_info'       => $isi,
                 'tanggal_posting' => now()->toDateString(),
             ]);
         } else {
-            Informasi::where('id_info', $id)->update([
+            Information::where('id_info', $id)->update([
                 'judul_info' => $judul,
                 'isi_info'   => $isi,
             ]);
@@ -39,7 +39,7 @@ class InformasiController extends Controller
 
     public function destroy($id)
     {
-        Informasi::findOrFail($id)->delete();
+        Information::findOrFail($id)->delete();
         return redirect()->route('admin.informasi');
     }
 }

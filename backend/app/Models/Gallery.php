@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Galeri extends Model
+class Gallery extends Model
 {
     protected $table = 'galeri';
     protected $primaryKey = 'id_galeri';
