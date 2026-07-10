@@ -13,11 +13,11 @@ return new class extends Migration
             $table->string('nama_lengkap');
             $table->string('tempat_lahir')->default('-');
             $table->date('tanggal_lahir')->nullable();
-            $table->text('alamat')->default('-');
+            $table->text('alamat')->nullable();
             $table->string('nama_ortu')->default('-');
             $table->string('no_wa_ortu')->default('-');
             $table->string('capaian_hafalan')->default('Iqra/Juz Amma');
-            $table->text('catatan_pengajar')->default('- Belum ada catatan -');
+            $table->text('catatan_pengajar')->nullable();
             $table->enum('kehadiran', ['hadir', 'izin', 'sakit', 'alpha'])->default('hadir');
             $table->string('foto')->default('default.png');
             $table->timestamp('waktu_update')->nullable()->useCurrent()->useCurrentOnUpdate();
