@@ -4,12 +4,21 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import api from '../../services/api';
 
+/**
+ * Halaman Cek Rapor Santri
+ * Memungkinkan pengguna untuk mencari santri berdasarkan nama
+ * dan melihat ringkasan rapor/progres hafalan mereka.
+ */
 const CekRapor: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [results, setResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
 
+  /**
+   * Menangani pengiriman form pencarian santri
+   * Akan memanggil API backend untuk mencari data santri
+   */
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (!searchQuery.trim()) return;
