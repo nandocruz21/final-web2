@@ -3,6 +3,11 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import { Calendar, Clock, BookOpen } from 'lucide-react';
 
+/**
+ * Halaman Jadwal Belajar
+ * Menampilkan daftar rutinitas harian santri
+ * yang dirender secara dinamis dari array jadwal.
+ */
 const JadwalBelajar: React.FC = () => {
   const jadwal = [
     {
