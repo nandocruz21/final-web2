@@ -12,8 +12,8 @@ export default {
         accent: '#f59e0b',
       },
       fontFamily: {
-        sans: ['Poppins', 'sans-serif'],
-        serif: ['Amiri', 'serif'],
+        sans: ['Inter', 'sans-serif'],
+        serif: ['"Playfair Display"', 'serif'],
       }
     },
   },

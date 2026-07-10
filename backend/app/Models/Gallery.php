@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Gallery extends Model
 {
-    protected $table = 'galeri';
-    protected $primaryKey = 'id_galeri';
-    public $timestamps = false;
+    use HasFactory;
 
     protected $fillable = [
-        'nama_file', 'keterangan', 'tanggal_upload', 'waktu_update',
+        'nama_file', 'keterangan', 'tanggal_upload',
     ];
 }

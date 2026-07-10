@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Information extends Model
 {
-    protected $table = 'informasi';
-    protected $primaryKey = 'id_info';
-    public $timestamps = false;
+    use HasFactory;
 
     protected $fillable = [
-        'kategori', 'judul_info', 'isi_info', 'tanggal_posting', 'waktu_update',
+        'kategori', 'judul_info', 'isi_info', 'tanggal_posting',
     ];
 
     protected $attributes = [

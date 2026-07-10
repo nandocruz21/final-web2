@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('pengaturan', function (Blueprint $table) {
+        Schema::create('settings', function (Blueprint $table) {
             $table->id();
             $table->string('nama_tpq')->default('Miftahul Jannah');
             $table->string('slogan')->nullable();
@@ -17,12 +17,12 @@ return new class extends Migration
             $table->string('jadwal_sabtu')->nullable();
             $table->string('jadwal_minggu')->nullable();
             $table->text('link_maps')->nullable();
-            $table->timestamp('waktu_update')->nullable()->useCurrent()->useCurrentOnUpdate();
+            $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('pengaturan');
+        Schema::dropIfExists('settings');
     }
 };

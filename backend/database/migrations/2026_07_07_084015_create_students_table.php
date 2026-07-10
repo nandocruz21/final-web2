@@ -8,8 +8,8 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('santri', function (Blueprint $table) {
-            $table->id('id_santri');
+        Schema::create('students', function (Blueprint $table) {
+            $table->id();
             $table->string('nama_lengkap');
             $table->string('tempat_lahir')->default('-');
             $table->date('tanggal_lahir')->nullable();
@@ -20,12 +20,12 @@ return new class extends Migration
             $table->text('catatan_pengajar')->nullable();
             $table->enum('kehadiran', ['hadir', 'izin', 'sakit', 'alpha'])->default('hadir');
             $table->string('foto')->default('default.png');
-            $table->timestamp('waktu_update')->nullable()->useCurrent()->useCurrentOnUpdate();
+            $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('santri');
+        Schema::dropIfExists('students');
     }
 };

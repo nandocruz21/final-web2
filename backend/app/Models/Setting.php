@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Setting extends Model
 {
-    protected $table = 'pengaturan';
-    public $timestamps = false;
+    use HasFactory;
 
     protected $fillable = [
         'nama_tpq', 'slogan', 'jadwal_seninkamis', 'jadwal_jumat',
-        'jadwal_sabtu', 'jadwal_minggu', 'link_maps', 'waktu_update',
+        'jadwal_sabtu', 'jadwal_minggu', 'link_maps',
     ];
 }

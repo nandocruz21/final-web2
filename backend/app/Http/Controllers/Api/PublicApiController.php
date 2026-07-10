@@ -16,10 +16,10 @@ class PublicApiController extends Controller
     public function home()
     {
         $totalSantri = Student::count();
-        $info        = Information::orderByDesc('tanggal_posting')->orderByDesc('id_info')->first();
+        $info        = Information::orderByDesc('tanggal_posting')->orderByDesc('id')->first();
         $pengaturan  = Setting::first();
-        $galeri      = Gallery::orderByDesc('id_galeri')->get();
-        $testimoni   = Testimonial::orderByDesc('id_testi')->take(5)->get();
+        $galeri      = Gallery::orderByDesc('id')->get();
+        $testimoni   = Testimonial::orderByDesc('id')->take(5)->get();
 
         return response()->json([
             'totalSantri' => $totalSantri,
@@ -51,7 +51,7 @@ class PublicApiController extends Controller
 
     public function riwayat($id)
     {
-        $riwayat = ProgressHistory::where('id_santri', $id)
+        $riwayat = ProgressHistory::where('student_id', $id)
             ->orderByDesc('tanggal_riwayat')
             ->get();
 
@@ -82,7 +82,7 @@ class PublicApiController extends Controller
 
     public function allTestimoni()
     {
-        $testimoni = Testimonial::orderByDesc('id_testi')->get();
+        $testimoni = Testimonial::orderByDesc('id')->get();
         return response()->json($testimoni);
     }
 }

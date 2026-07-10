@@ -1,0 +1,52 @@
+======================================================
+DAFTAR TUGAS BACKEND (SELANJUTNYA)
+======================================================
+
+Halo Tim Backend! 
+Saat ini struktur tabel (migrations), model, dan API Publik (untuk frontend yang tidak butuh login) sudah selesai dibuat.
+
+Tugas kamu selanjutnya adalah fokus membuat sistem untuk sisi ADMIN (CMS), supaya data bisa dimasukkan ke database melalui API.
+
+Berikut adalah urutan tugas yang perlu dikerjakan, susun dari atas ke bawah:
+
+------------------------------------------------------
+1. MEMBUAT CONTROLLER ADMIN (CRUD API)
+------------------------------------------------------
+Buat controller baru (disarankan ditaruh di dalam folder `app/Http/Controllers/Api/Admin/`) untuk mengelola semua tabel. 
+Kamu perlu membuat fungsi CRUD (Create, Read, Update, Delete) di dalam controller tersebut:
+
+[ ] StudentController       : Untuk Tambah, Edit, Hapus, dan Lihat data siswa.
+[ ] ProgressHistoryController: Untuk Tambah dan Edit riwayat nilai atau rapor siswa.
+[ ] InformationController   : Untuk Tambah, Edit, Hapus pengumuman/informasi.
+[ ] GalleryController       : Untuk Upload gambar galeri & Hapus gambar.
+[ ] TestimonialController   : Untuk melihat daftar testimoni dan menghapus testimoni.
+[ ] SettingController       : Untuk mengupdate pengaturan website (logo, nama, dll).
+
+------------------------------------------------------
+2. MENGATUR ROUTING API UNTUK ADMIN
+------------------------------------------------------
+Buka file `routes/api.php`. Saat ini baru ada route public dan auth.
+Kamu harus menambahkan grup route khusus untuk Admin yang dilindungi *middleware* (harus login).
+
+Contoh kode yang perlu ditambahkan:
+Route::middleware('auth:sanctum')->group(function () {
+    // Taruh route CRUD untuk admin di sini
+    // Contoh menggunakan apiResource:
+    // Route::apiResource('admin/students', StudentController::class);
+    // Route::apiResource('admin/information', InformationController::class);
+});
+
+------------------------------------------------------
+3. MEMBUAT DATABASE SEEDER (DUMMY DATA)
+------------------------------------------------------
+Supaya tim Frontend gampang saat mendesain UI dan testing API, tolong buatkan data awal (dummy) menggunakan Seeder.
+
+[ ] Buat UserSeeder (Akun Admin untuk login API, misal email: admin@admin.com, pass: password)
+[ ] Buat SettingSeeder (Isi data awal setting web)
+[ ] (Opsional) Buat StudentSeeder menggunakan Factory (Bikin 5 siswa dummy)
+
+Catatan: Setelah dibuat, jangan lupa jalankan `php artisan db:seed` atau `php artisan migrate:fresh --seed`.
+
+======================================================
+Semangat! Jika ada error atau API-nya sudah jadi, kabari tim Frontend supaya bisa langsung disambungkan (consume).
+======================================================

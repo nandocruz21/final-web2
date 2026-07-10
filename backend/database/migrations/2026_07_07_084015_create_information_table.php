@@ -8,18 +8,18 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('informasi', function (Blueprint $table) {
-            $table->id('id_info');
+        Schema::create('information', function (Blueprint $table) {
+            $table->id();
             $table->string('kategori')->default('PENGUMUMAN');
             $table->string('judul_info');
             $table->text('isi_info');
             $table->date('tanggal_posting')->useCurrent();
-            $table->timestamp('waktu_update')->nullable()->useCurrent()->useCurrentOnUpdate();
+            $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('informasi');
+        Schema::dropIfExists('information');
     }
 };

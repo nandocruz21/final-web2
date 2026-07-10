@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Testimonial extends Model
 {
-    protected $table = 'testimoni';
-    protected $primaryKey = 'id_testi';
-    public $timestamps = false;
+    use HasFactory;
 
     protected $fillable = [
         'nama_wali', 'kelas_santri', 'inisial', 'rating', 'isi_testimoni',

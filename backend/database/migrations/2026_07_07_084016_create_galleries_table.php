@@ -8,17 +8,17 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('galeri', function (Blueprint $table) {
-            $table->id('id_galeri');
+        Schema::create('galleries', function (Blueprint $table) {
+            $table->id();
             $table->string('nama_file');
             $table->text('keterangan')->nullable();
             $table->timestamp('tanggal_upload')->useCurrent();
-            $table->timestamp('waktu_update')->nullable()->useCurrent()->useCurrentOnUpdate();
+            $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('galeri');
+        Schema::dropIfExists('galleries');
     }
 };

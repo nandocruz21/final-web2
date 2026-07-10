@@ -1,8 +1,13 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/public/Home';
-// import CekRapor from './pages/public/CekRapor'; // Placeholder
-// import AdminLogin from './pages/admin/Login'; // Placeholder
-// import AdminDashboard from './pages/admin/Dashboard'; // Placeholder
+import Pengumuman from './pages/public/Pengumuman';
+import CekRapor from './pages/public/CekRapor';
+import AdminLogin from './pages/admin/Login';
+import AdminDashboard from './pages/admin/Dashboard';
+import JadwalBelajar from './pages/public/JadwalBelajar';
+import Statistik from './pages/public/Statistik';
+import ProfilTpq from './pages/public/ProfilTpq';
+import HubungiKami from './pages/public/HubungiKami';
 
 function App() {
   return (
@@ -10,13 +15,18 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
-        {/* <Route path="/cek-rapor" element={<CekRapor />} /> */}
+        <Route path="/pengumuman" element={<Pengumuman />} />
+        <Route path="/cek-rapor" element={<CekRapor />} />
+        <Route path="/jadwal" element={<JadwalBelajar />} />
+        <Route path="/statistik" element={<Statistik />} />
+        <Route path="/profil" element={<ProfilTpq />} />
+        <Route path="/hubungi" element={<HubungiKami />} />
 
         {/* Admin Auth */}
-        {/* <Route path="/admin/login" element={<AdminLogin />} /> */}
+        <Route path="/admin/login" element={<AdminLogin />} />
 
         {/* Admin Protected Routes */}
-        {/* <Route path="/admin/dashboard" element={<AdminDashboard />} /> */}
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
         
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />

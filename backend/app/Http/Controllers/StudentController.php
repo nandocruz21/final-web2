@@ -2,19 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\StudentService;
+use App\Http\Requests\StoreStudentRequest;
+use App\Http\Requests\UpdateStudentRequest;
 use App\Models\Student;
 use App\Models\Setting;
-use App\Models\ProgressHistory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller
 {
-    // ===== FRONTEND =====
+    protected StudentService $studentService;
 
+    public function __construct(StudentService $studentService)
+    {
+        $this->studentService = $studentService;
+    }
+
+    // ===== FRONTEND =====
     public function cekRapor()
     {
-        $santri     = Student::orderBy('nama_lengkap')->get();
+        $santri     = $this->studentService->all();
         $pengaturan = Setting::first();
         $namaTpq    = $pengaturan->nama_tpq ?? 'MSANTRI';
 
@@ -22,108 +29,60 @@ class StudentController extends Controller
     }
 
     // ===== ADMIN =====
-
     public function index()
     {
-        $santri = Student::orderByDesc('id_santri')->get();
+        $santri = $this->studentService->all();
         return view('admin.santri.index', compact('santri'));
     }
 
-    public function store(Request $request)
+    public function store(StoreStudentRequest $request)
     {
-        $id = $request->input('id_santri');
+        try {
+            $id = $request->input('id_santri');
+            $foto = $request->hasFile('foto') ? $request->file('foto') : null;
 
-        $data = [
-            'nama_lengkap'     => $request->input('nama') ?: '-',
-            'tempat_lahir'     => $request->input('tempat_lahir') ?: '-',
-            'tanggal_lahir'    => $request->input('tanggal_lahir') ?: null,
-            'alamat'           => $request->input('alamat') ?: '-',
-            'nama_ortu'        => $request->input('nama_ortu') ?: '-',
-            'no_wa_ortu'       => $request->input('no_wa_ortu') ?: '-',
-            'capaian_hafalan'  => $request->input('capaian'),
-            'catatan_pengajar' => $request->input('catatan') ?: '- Belum ada catatan -',
-        ];
-
-        // Handle foto upload
-        if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
-            $foto     = $request->file('foto');
-            $ekstensi = strtolower($foto->getClientOriginalExtension());
-
-            if (!in_array($ekstensi, ['png', 'jpg', 'jpeg'])) {
-                return back()->with('alert_type', 'error')->with('alert_message', 'Ekstensi file tidak diperbolehkan (Hanya JPG/PNG).');
-            }
-            if ($foto->getSize() > 2048000) {
-                return back()->with('alert_type', 'error')->with('alert_message', 'Ukuran file terlalu besar (Maks 2MB).');
+            if (empty($id)) {
+                $student = $this->studentService->create($request->validated(), $foto);
+            } else {
+                $student = $this->studentService->update($id, $request->validated(), $foto);
             }
 
-            $namaFile = 'santri_' . time() . '_' . rand(100, 999) . '.' . $ekstensi;
-            $foto->move(public_path('uploads'), $namaFile);
-            $data['foto'] = $namaFile;
-        }
-
-        if (empty($id)) {
-            // INSERT
-            if (empty($data['foto'])) $data['foto'] = 'default.png';
-            $data['kehadiran'] = 'hadir';
-            $santri = Student::create($data);
-
-            // Riwayat awal
-            ProgressHistory::create([
-                'id_santri'        => $santri->id_santri,
-                'capaian_hafalan'  => $data['capaian_hafalan'],
-                'catatan_pengajar' => $data['catatan_pengajar'],
-                'kehadiran'        => 'hadir',
-            ]);
-
-            return redirect()->route('admin.santri')->with('alert_type', 'success')->with('alert_message', 'Data santri berhasil ditambahkan!');
-        } else {
-            // UPDATE - cek perubahan untuk riwayat
-            $santri = Student::findOrFail($id);
-            $buatRiwayat = ($santri->capaian_hafalan !== $data['capaian_hafalan'] || $santri->catatan_pengajar !== $data['catatan_pengajar']);
-
-            $santri->update($data);
-
-            if ($buatRiwayat) {
-                ProgressHistory::create([
-                    'id_santri'        => $santri->id_santri,
-                    'capaian_hafalan'  => $data['capaian_hafalan'],
-                    'catatan_pengajar' => $data['catatan_pengajar'],
-                    'kehadiran'        => $santri->kehadiran,
-                ]);
-            }
-
-            return redirect()->route('admin.santri')->with('alert_type', 'success')->with('alert_message', 'Data santri berhasil diperbarui!');
+            // Mempertahankan redirect agar flow admin tidak rusak (Tujuannya sama saja)
+            return redirect()->route('admin.santri')->with('alert_type', 'success')->with('alert_message', 'Data santri berhasil disimpan!');
+        } catch (\Exception $e) {
+            return back()->with('alert_type', 'error')->with('alert_message', $e->getMessage());
         }
     }
 
     public function updateStatus(Request $request)
     {
-        $id     = $request->input('id');
-        $status = $request->input('status');
+        try {
+            $id     = $request->input('id');
+            $status = $request->input('status');
 
-        $santri = Student::findOrFail($id);
-        $santri->update(['kehadiran' => $status]);
+            $student = $this->studentService->updateStatus($id, $status);
 
-        // Rekam riwayat
-        ProgressHistory::create([
-            'id_santri'        => $santri->id_santri,
-            'capaian_hafalan'  => $santri->capaian_hafalan,
-            'catatan_pengajar' => $santri->catatan_pengajar,
-            'kehadiran'        => $status,
-        ]);
-
-        // Kirim WA jika hadir (opsional - uncomment jika Fonnte API tersedia)
-        // if ($status === 'hadir' && !empty($santri->no_wa_ortu) && $santri->no_wa_ortu !== '-') {
-        //     // implementasi kirim WA di sini
-        // }
-
-        return response()->json(['status' => 'ok']);
+            return response()->json([
+                'status' => 'success',
+                'data' => $student,
+                'message' => 'Status berhasil diupdate'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'data' => null,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function destroy($id)
     {
-        $santri = Student::findOrFail($id);
-        $santri->delete();
-        return redirect()->route('admin.santri')->with('alert_type', 'success')->with('alert_message', 'Data santri berhasil dihapus!');
+        try {
+            $this->studentService->delete($id);
+            return redirect()->route('admin.santri')->with('alert_type', 'success')->with('alert_message', 'Data santri berhasil dihapus!');
+        } catch (\Exception $e) {
+            return back()->with('alert_type', 'error')->with('alert_message', $e->getMessage());
+        }
     }
 }

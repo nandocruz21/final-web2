@@ -8,19 +8,19 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('riwayat_progres', function (Blueprint $table) {
-            $table->id('id_riwayat');
-            $table->unsignedBigInteger('id_santri');
+        Schema::create('progress_histories', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('student_id')->constrained()->onDelete('cascade');
             $table->string('capaian_hafalan');
             $table->text('catatan_pengajar')->nullable();
             $table->enum('kehadiran', ['hadir', 'izin', 'sakit', 'alpha'])->default('hadir');
             $table->timestamp('tanggal_riwayat')->useCurrent();
-            $table->foreign('id_santri')->references('id_santri')->on('santri')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('riwayat_progres');
+        Schema::dropIfExists('progress_histories');
     }
 };
