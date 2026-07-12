@@ -3,6 +3,11 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import { MapPin, Phone, Mail, Send } from 'lucide-react';
 
+/**
+ * Halaman Hubungi Kami (Kontak)
+ * Berisi informasi alamat, peta, dan formulir kontak interaktif
+ * untuk memudahkan wali santri atau pengunjung berkomunikasi dengan TPQ.
+ */
 const HubungiKami: React.FC = () => {
   return (
     <div className="min-h-screen bg-surface font-sans text-on-surface flex flex-col">
