@@ -12,9 +12,23 @@ Route::post('/testimoni', [PublicApiController::class, 'submitTestimoni']);
 Route::get('/testimoni', [PublicApiController::class, 'allTestimoni']);
 
 Route::post('/login', [AuthApiController::class, 'login']);
-Route::get('/auth/check', [AuthApiController::class, 'check']);
-Route::post('/logout', [AuthApiController::class, 'logout']);
+Route::post('/login/google', [\App\Http\Controllers\Api\GoogleAuthController::class, 'login']);
 
-// Untuk Admin kita bisa buat group dengan route Auth
-// Karena ini SPA berbasis cookie (same domain / localhost), session middleware jalan secara default di group web, tapi kita taruh di api. 
-// Untuk itu, kita perlu pastikan di bootstrap/app.php middleware 'web' memuat endpoint api, ATAU kita daftarkan StartSession middleware ke grup 'api'.
+// Protected Routes
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/auth/check', [AuthApiController::class, 'check']);
+    Route::post('/logout', [AuthApiController::class, 'logout']);
+
+    // Admin Routes
+    Route::prefix('admin')->group(function () {
+        Route::get('/dashboard', [\App\Http\Controllers\Api\DashboardApiController::class, 'index']);
+        Route::get('/rapor', [\App\Http\Controllers\Api\RaporApiController::class, 'index']);
+        
+        Route::get('/santri', [\App\Http\Controllers\Api\StudentApiController::class, 'index']);
+        Route::get('/santri/{id}', [\App\Http\Controllers\Api\StudentApiController::class, 'show']);
+        Route::post('/santri', [\App\Http\Controllers\Api\StudentApiController::class, 'store']);
+        Route::put('/santri/{id}', [\App\Http\Controllers\Api\StudentApiController::class, 'update']);
+        Route::delete('/santri/{id}', [\App\Http\Controllers\Api\StudentApiController::class, 'destroy']);
+        Route::post('/santri/{id}/status', [\App\Http\Controllers\Api\StudentApiController::class, 'updateStatus']);
+    });
+});
