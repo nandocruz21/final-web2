@@ -79,27 +79,27 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-surface flex font-sans text-on-surface">
+    <div className="min-h-screen h-screen overflow-hidden bg-surface flex font-sans text-on-surface">
       {/* Left Side - Image/Illustration (hidden on mobile) */}
-      <div className="hidden lg:flex w-1/2 bg-[#004d34] text-white p-12 flex-col justify-between relative overflow-hidden">
+      <div className="hidden lg:flex w-1/2 bg-[#004d34] text-white p-8 flex-col justify-center relative overflow-hidden">
         {/* Pola ornamen SVG yang elegan */}
         <div className="absolute inset-0 opacity-10 pointer-events-none" 
           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff'%3E%3Cpolygon points='30,5 55,30 30,55 5,30'/%3E%3C/g%3E%3C/svg%3E")`, backgroundSize: '60px 60px' }}>
         </div>
         
-        <div className="relative z-10">
-          <Link to="/" className="inline-flex items-center gap-2 text-gold-dim hover:text-gold transition-colors mb-12 text-sm font-sans font-medium group">
+        <div className="relative z-10 mb-8">
+          <Link to="/" className="inline-flex items-center gap-2 text-gold-dim hover:text-gold transition-colors mb-6 text-sm font-sans font-medium group">
             <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" /> Kembali ke Beranda
           </Link>
-          <div className="font-serif font-bold text-4xl mb-1 text-white">MSANTRI</div>
+          <div className="font-serif font-bold text-3xl mb-1 text-white">MSANTRI</div>
           <div className="text-gold text-xs uppercase tracking-[0.2em] font-sans font-semibold">Sistem Informasi Manajemen</div>
         </div>
 
-        <div className="relative z-10 mt-auto">
-          <h1 className="text-4xl lg:text-5xl font-bold font-serif leading-tight mb-6 text-white">
+        <div className="relative z-10">
+          <h1 className="text-3xl lg:text-4xl font-bold font-serif leading-tight mb-4 text-white">
             Kelola TPQ dengan <span className="text-gold italic">lebih mudah</span> dan cepat.
           </h1>
-          <p className="text-white/70 max-w-md text-sm leading-relaxed font-sans">
+          <p className="text-white/70 max-w-sm text-sm leading-relaxed font-sans">
             Akses Dasbor Admin khusus pengelola dan pengajar untuk memantau progres hafalan, mengisi rapor, dan mengatur jadwal kegiatan santri secara *real-time*.
           </p>
         </div>
@@ -109,11 +109,11 @@ const Login: React.FC = () => {
       </div>
 
       {/* Right Side - Login Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 md:p-12 relative">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-8 relative overflow-y-auto">
         {/* Ornamen latar belakang tipis */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl pointer-events-none"></div>
         
-        <div className="max-w-md w-full card-marble p-8 md:p-10 relative z-10 animate-fade-in-up">
+        <div className="max-w-md w-full card-marble p-6 sm:p-8 relative z-10 animate-fade-in-up">
           <div className="text-center lg:text-left mb-10">
             <div className="lg:hidden font-serif font-bold text-2xl text-primary mb-2">MSANTRI</div>
             <p className="label-small text-gold mb-2">Login Pengelola</p>
