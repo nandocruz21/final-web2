@@ -4,10 +4,16 @@ import Pengumuman from './pages/public/Pengumuman';
 import CekRapor from './pages/public/CekRapor';
 import AdminLogin from './pages/admin/Login';
 import AdminDashboard from './pages/admin/Dashboard';
+import SantriList from './pages/admin/SantriList';
+import SantriForm from './pages/admin/SantriForm';
 import JadwalBelajar from './pages/public/JadwalBelajar';
 import Statistik from './pages/public/Statistik';
 import ProfilTpq from './pages/public/ProfilTpq';
 import HubungiKami from './pages/public/HubungiKami';
+
+import RaporList from './pages/admin/RaporList';
+import Kehadiran from './pages/admin/Kehadiran';
+import Laporan from './pages/admin/Laporan';
 
 function App() {
   return (
@@ -27,6 +33,12 @@ function App() {
 
         {/* Admin Protected Routes */}
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/santri" element={<SantriList />} />
+        <Route path="/admin/santri/tambah" element={<SantriForm />} />
+        <Route path="/admin/santri/edit/:id" element={<SantriForm />} />
+        <Route path="/admin/rapor" element={<RaporList />} />
+        <Route path="/admin/kehadiran" element={<Kehadiran />} />
+        <Route path="/admin/laporan" element={<Laporan />} />
         
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />
