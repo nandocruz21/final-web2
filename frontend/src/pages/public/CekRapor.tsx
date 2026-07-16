@@ -27,12 +27,11 @@ const CekRapor: React.FC = () => {
     <div className="min-h-screen bg-surface font-sans text-on-surface flex flex-col">
       <Header />
 
-      {/* Banner Halaman */}
-      <div className="bg-primary-dark py-12 px-6 md:px-12">
+      <div style={{ backgroundColor: '#004d34' }} className="py-14 px-6 md:px-12">
         <div className="max-w-4xl mx-auto">
-          <p className="label-small text-gold mb-2">Progres Belajar</p>
-          <h1 className="font-serif text-4xl text-white">Cek Rapor Santri</h1>
-          <p className="text-white/60 font-sans text-sm mt-2">
+          <p className="label-small mb-3" style={{ color: '#a37c35' }}>Progres Belajar</p>
+          <h1 className="font-serif text-5xl font-bold mb-3" style={{ color: '#ffffff' }}>Cek Rapor Santri</h1>
+          <p className="font-sans text-sm" style={{ color: 'rgba(255,255,255,0.65)' }}>
             Masukkan nama lengkap santri untuk melihat catatan hafalan dan progres belajar secara detail.
           </p>
         </div>

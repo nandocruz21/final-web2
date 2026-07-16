@@ -19,11 +19,11 @@ const Statistik: React.FC = () => {
       <Header />
 
       {/* Banner Halaman */}
-      <div className="bg-primary-dark py-12 px-6 md:px-12">
+      <div style={{ backgroundColor: '#004d34' }} className="py-14 px-6 md:px-12">
         <div className="max-w-6xl mx-auto">
-          <p className="label-small text-gold mb-2">Data & Pencapaian</p>
-          <h1 className="font-serif text-4xl text-white">Statistik Lembaga</h1>
-          <p className="text-white/60 font-sans text-sm mt-2 max-w-xl">
+          <p className="label-small mb-3" style={{ color: '#a37c35' }}>Data &amp; Pencapaian</p>
+          <h1 className="font-serif text-5xl font-bold mb-3" style={{ color: '#ffffff' }}>Statistik Lembaga</h1>
+          <p className="font-sans text-sm max-w-xl" style={{ color: 'rgba(255,255,255,0.65)' }}>
             Transparansi data dan perkembangan lembaga MSANTRI dari tahun ke tahun sebagai bentuk dedikasi kami dalam pendidikan Al-Qur'an.
           </p>
         </div>
@@ -60,7 +60,7 @@ const Statistik: React.FC = () => {
         </div>
 
         {/* CTA Pendaftaran */}
-        <div className="bg-primary-dark rounded-md p-10 md:p-16 text-center relative overflow-hidden">
+        <div style={{ backgroundColor: '#004d34' }} className="rounded-md p-10 md:p-16 text-center relative overflow-hidden">
           {/* Cahaya ambient */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-primary/30 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-gold/10 rounded-full blur-3xl pointer-events-none" />

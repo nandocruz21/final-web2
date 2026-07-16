@@ -4,7 +4,7 @@ import { ChevronRight, Mail } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-primary-dark text-white pt-16 pb-6 px-6 md:px-12 w-full mt-auto relative overflow-hidden">
+    <footer style={{ backgroundColor: '#004d34' }} className="text-white pt-16 pb-6 px-6 md:px-12 w-full mt-auto relative overflow-hidden">
 
       {/* Ornamen pola geometris halus di sudut */}
       <div

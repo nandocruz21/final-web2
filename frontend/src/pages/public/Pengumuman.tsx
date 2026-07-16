@@ -22,12 +22,11 @@ const Pengumuman: React.FC = () => {
     <div className="min-h-screen bg-surface font-sans text-on-surface flex flex-col">
       <Header />
 
-      {/* Banner Halaman */}
-      <div className="bg-primary-dark py-12 px-6 md:px-12">
+      <div style={{ backgroundColor: '#004d34' }} className="py-14 px-6 md:px-12">
         <div className="max-w-7xl mx-auto">
-          <p className="label-small text-gold mb-2">Informasi & Berita</p>
-          <h1 className="font-serif text-4xl text-white">Papan Pengumuman</h1>
-          <p className="text-white/60 font-sans text-sm mt-2 max-w-lg">
+          <p className="label-small mb-3" style={{ color: '#a37c35' }}>Informasi &amp; Berita</p>
+          <h1 className="font-serif text-5xl font-bold mb-3" style={{ color: '#ffffff' }}>Papan Pengumuman</h1>
+          <p className="font-sans text-sm max-w-lg" style={{ color: 'rgba(255,255,255,0.65)' }}>
             Informasi terbaru dan pembaruan penting mengenai kegiatan akademik dan administrasi TPQ.
           </p>
         </div>

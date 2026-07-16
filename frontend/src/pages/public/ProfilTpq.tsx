@@ -8,8 +8,8 @@ const ProfilTpq: React.FC = () => {
     <div className="min-h-screen bg-surface font-sans text-on-surface flex flex-col">
       <Header />
 
-      {/* Banner Halaman — Zamrud gelap dengan pola geometris */}
-      <div className="bg-primary-dark py-20 px-6 text-center relative overflow-hidden">
+      {/* Banner Halaman */}
+      <div style={{ backgroundColor: '#004d34' }} className="py-20 px-6 text-center relative overflow-hidden">
         <div className="absolute inset-0 opacity-5"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff'%3E%3Cpolygon points='30,5 55,30 30,55 5,30'/%3E%3C/g%3E%3C/svg%3E")`,
@@ -17,9 +17,9 @@ const ProfilTpq: React.FC = () => {
           }}
         />
         <div className="relative z-10">
-          <p className="label-small text-gold mb-3">Tentang Kami</p>
-          <h1 className="font-serif text-4xl md:text-5xl text-white mb-4">Profil TPQ MSANTRI</h1>
-          <p className="text-white/60 font-sans max-w-2xl mx-auto text-sm leading-relaxed">
+          <p className="label-small mb-4" style={{ color: '#a37c35' }}>Tentang Kami</p>
+          <h1 className="font-serif text-5xl md:text-6xl font-bold mb-5" style={{ color: '#ffffff' }}>Profil TPQ MSANTRI</h1>
+          <p className="font-sans max-w-2xl mx-auto text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.65)' }}>
             Mengenal lebih dekat visi, misi, dan sejarah perjalanan kami dalam mencetak generasi cinta Al-Qur'an.
           </p>
         </div>

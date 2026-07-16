@@ -36,11 +36,11 @@ const JadwalBelajar: React.FC = () => {
       <Header />
 
       {/* Banner Halaman */}
-      <div className="bg-primary-dark py-12 px-6 md:px-12">
+      <div style={{ backgroundColor: '#004d34' }} className="py-14 px-6 md:px-12">
         <div className="max-w-5xl mx-auto">
-          <p className="label-small text-gold mb-2">Rutinitas Harian</p>
-          <h1 className="font-serif text-4xl text-white">Jadwal Belajar</h1>
-          <p className="text-white/60 font-sans text-sm mt-2">
+          <p className="label-small mb-3" style={{ color: '#a37c35' }}>Rutinitas Harian</p>
+          <h1 className="font-serif text-5xl font-bold mb-3" style={{ color: '#ffffff' }}>Jadwal Belajar</h1>
+          <p className="font-sans text-sm" style={{ color: 'rgba(255,255,255,0.65)' }}>
             Berikut adalah rutinitas dan jadwal kegiatan belajar mengajar harian santri di lingkungan MSANTRI.
           </p>
         </div>

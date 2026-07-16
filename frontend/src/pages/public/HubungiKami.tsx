@@ -9,11 +9,11 @@ const HubungiKami: React.FC = () => {
       <Header />
 
       {/* Banner Halaman */}
-      <div className="bg-primary-dark py-12 px-6 md:px-12">
+      <div style={{ backgroundColor: '#004d34' }} className="py-14 px-6 md:px-12">
         <div className="max-w-6xl mx-auto">
-          <p className="label-small text-gold mb-2">Kontak</p>
-          <h1 className="font-serif text-4xl text-white">Hubungi Kami</h1>
-          <p className="text-white/60 font-sans text-sm mt-2">
+          <p className="label-small mb-3" style={{ color: '#a37c35' }}>Kontak</p>
+          <h1 className="font-serif text-5xl font-bold mb-3" style={{ color: '#ffffff' }}>Hubungi Kami</h1>
+          <p className="font-sans text-sm" style={{ color: 'rgba(255,255,255,0.65)' }}>
             Punya pertanyaan atau butuh informasi lebih lanjut? Jangan ragu untuk menghubungi kami.
           </p>
         </div>
@@ -65,7 +65,7 @@ const HubungiKami: React.FC = () => {
                 alt="Peta Lokasi"
                 className="w-full h-full object-cover opacity-80"
               />
-              <div className="absolute inset-0 flex items-center justify-center bg-primary-dark/20">
+              <div className="absolute inset-0 flex items-center justify-center" style={{ backgroundColor: 'rgba(0, 77, 52, 0.2)' }}>
                 <button className="bg-white text-primary font-sans font-semibold px-4 py-2 rounded-sm text-sm shadow-md hover:bg-surface-low transition-colors">
                   Buka di Google Maps
                 </button>
