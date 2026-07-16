@@ -105,12 +105,16 @@ const Login: React.FC = () => {
       </div>
 
       {/* Right Side - Login Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
-        <div className="max-w-md w-full">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 md:p-12 relative">
+        {/* Ornamen latar belakang tipis */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl pointer-events-none"></div>
+        
+        <div className="max-w-md w-full card-marble p-8 md:p-10 relative z-10 animate-fade-in-up">
           <div className="text-center lg:text-left mb-10">
-            <div className="lg:hidden font-serif font-bold text-2xl text-emerald-800 mb-2">MSANTRI</div>
-            <h2 className="text-3xl font-bold text-slate-900 mb-3">Selamat Datang</h2>
-            <p className="text-slate-500">Silakan masuk menggunakan akun pengelola Anda.</p>
+            <div className="lg:hidden font-serif font-bold text-2xl text-primary mb-2">MSANTRI</div>
+            <p className="label-small text-gold mb-2">Login Pengelola</p>
+            <h2 className="text-3xl font-bold font-serif text-on-surface mb-3">Selamat Datang</h2>
+            <p className="text-on-surface-variant font-sans text-sm">Silakan masuk menggunakan akun admin Anda.</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
