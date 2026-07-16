@@ -18,14 +18,14 @@ class UpdateStudentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama_lengkap' => 'sometimes|required|string|max:255',
-            'tempat_lahir' => 'nullable|string|max:255',
-            'tanggal_lahir' => 'nullable|date',
-            'alamat' => 'nullable|string',
-            'nama_ortu' => 'nullable|string|max:255',
-            'no_wa_ortu' => 'nullable|string|max:50',
-            'capaian_hafalan' => 'nullable|string|max:255',
-            'catatan_pengajar' => 'nullable|string',
+            'nama_lengkap' => 'required|string|max:255',
+            'tempat_lahir' => 'required|string|max:255',
+            'tanggal_lahir' => 'required|date',
+            'alamat' => 'required|string',
+            'nama_ortu' => 'required|string|max:255',
+            'no_wa_ortu' => 'required|string|max:50',
+            'capaian_hafalan' => 'required|string|max:255',
+            'catatan_pengajar' => 'required|string',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ];
     }

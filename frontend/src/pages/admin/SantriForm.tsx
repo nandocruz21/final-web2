@@ -123,44 +123,44 @@ const SantriForm: React.FC = () => {
                   <input required type="text" name="nama_lengkap" value={formData.nama_lengkap} onChange={handleChange} className="w-full bg-slate-50 border border-slate-300 rounded-lg py-2.5 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Tempat Lahir</label>
-                  <input type="text" name="tempat_lahir" value={formData.tempat_lahir} onChange={handleChange} className="w-full bg-slate-50 border border-slate-300 rounded-lg py-2.5 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500" />
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Tempat Lahir *</label>
+                  <input required type="text" name="tempat_lahir" value={formData.tempat_lahir} onChange={handleChange} className="w-full bg-slate-50 border border-slate-300 rounded-lg py-2.5 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Tanggal Lahir</label>
-                  <input type="date" name="tanggal_lahir" value={formData.tanggal_lahir} onChange={handleChange} className="w-full bg-slate-50 border border-slate-300 rounded-lg py-2.5 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500" />
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Tanggal Lahir *</label>
+                  <input required type="date" name="tanggal_lahir" value={formData.tanggal_lahir} onChange={handleChange} className="w-full bg-slate-50 border border-slate-300 rounded-lg py-2.5 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Alamat Lengkap</label>
-                  <textarea rows={3} name="alamat" value={formData.alamat} onChange={handleChange} className="w-full bg-slate-50 border border-slate-300 rounded-lg py-2.5 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"></textarea>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Alamat Lengkap *</label>
+                  <textarea required rows={3} name="alamat" value={formData.alamat} onChange={handleChange} className="w-full bg-slate-50 border border-slate-300 rounded-lg py-2.5 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"></textarea>
                 </div>
               </div>
 
               {/* Right Column */}
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Nama Orang Tua/Wali</label>
-                  <input type="text" name="nama_ortu" value={formData.nama_ortu} onChange={handleChange} className="w-full bg-slate-50 border border-slate-300 rounded-lg py-2.5 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500" />
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Nama Orang Tua/Wali *</label>
+                  <input required type="text" name="nama_ortu" value={formData.nama_ortu} onChange={handleChange} className="w-full bg-slate-50 border border-slate-300 rounded-lg py-2.5 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">No. WhatsApp Wali</label>
-                  <input type="text" name="no_wa_ortu" value={formData.no_wa_ortu} onChange={handleChange} className="w-full bg-slate-50 border border-slate-300 rounded-lg py-2.5 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500" placeholder="Contoh: 081234567890" />
+                  <label className="block text-sm font-medium text-slate-700 mb-1">No. WhatsApp Wali *</label>
+                  <input required type="text" name="no_wa_ortu" value={formData.no_wa_ortu} onChange={handleChange} className="w-full bg-slate-50 border border-slate-300 rounded-lg py-2.5 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500" placeholder="Contoh: 081234567890" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Capaian Hafalan Terkini</label>
-                  <input type="text" name="capaian_hafalan" value={formData.capaian_hafalan} onChange={handleChange} className="w-full bg-slate-50 border border-slate-300 rounded-lg py-2.5 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500" placeholder="Contoh: Juz 30 - An-Naba" />
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Capaian Hafalan Terkini *</label>
+                  <input required type="text" name="capaian_hafalan" value={formData.capaian_hafalan} onChange={handleChange} className="w-full bg-slate-50 border border-slate-300 rounded-lg py-2.5 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500" placeholder="Contoh: Juz 30 - An-Naba" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Upload Foto</label>
-                  <input type="file" accept="image/*" onChange={handleFileChange} className="w-full bg-slate-50 border border-slate-300 rounded-lg py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 file:mr-4 file:py-1 file:px-4 file:rounded-md file:border-0 file:bg-emerald-100 file:text-emerald-700 file:text-sm file:font-semibold hover:file:bg-emerald-200" />
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Upload Foto {!isEdit && '*'}</label>
+                  <input type="file" required={!isEdit} accept="image/*" onChange={handleFileChange} className="w-full bg-slate-50 border border-slate-300 rounded-lg py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 file:mr-4 file:py-1 file:px-4 file:rounded-md file:border-0 file:bg-emerald-100 file:text-emerald-700 file:text-sm file:font-semibold hover:file:bg-emerald-200" />
                   <p className="text-xs text-slate-500 mt-1">Format: JPG, PNG. Maksimal 2MB.</p>
                 </div>
               </div>
             </div>
 
             <div className="pt-4 border-t border-slate-200">
-              <label className="block text-sm font-medium text-slate-700 mb-1">Catatan Pengajar (Opsional)</label>
-              <textarea rows={3} name="catatan_pengajar" value={formData.catatan_pengajar} onChange={handleChange} className="w-full bg-slate-50 border border-slate-300 rounded-lg py-2.5 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500" placeholder="Tuliskan catatan khusus atau pesan untuk wali santri..."></textarea>
+              <label className="block text-sm font-medium text-slate-700 mb-1">Catatan Pengajar *</label>
+              <textarea required rows={3} name="catatan_pengajar" value={formData.catatan_pengajar} onChange={handleChange} className="w-full bg-slate-50 border border-slate-300 rounded-lg py-2.5 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500" placeholder="Tuliskan catatan khusus atau pesan untuk wali santri..."></textarea>
             </div>
 
             <div className="flex justify-end pt-4">
