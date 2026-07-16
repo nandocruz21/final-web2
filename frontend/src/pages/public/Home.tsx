@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Search, Bell, FileText, Calendar, Users, Info, Phone, BookOpen, MapPin, Activity, Clock, CheckCircle2, PhoneCall } from 'lucide-react';
+import { Users, BookOpen, CheckCircle2, Clock, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
@@ -9,144 +9,317 @@ const Home: React.FC = () => {
   const [data, setData] = useState<any>(null);
 
   useEffect(() => {
-    api.get('/home')
-      .then(res => {
-        setData(res.data);
-      })
-      .catch(err => {
-        console.error("Error fetching home data:", err);
-      });
+    api.get('/home').then(res => {
+      setData(res.data);
+    }).catch(err => {
+      console.error("Error fetching home data:", err);
+    });
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#f5f5f5] font-sans text-slate-800 flex flex-col">
+    <div className="min-h-screen bg-surface font-sans text-on-surface flex flex-col">
       <Header />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12 flex-grow w-full">
-        
-        {/* Hero Section */}
-        <section className="flex flex-col md:flex-row bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
-          {/* Left Side (Dark Green) */}
-          <div className="md:w-[45%] bg-[#104b3a] text-white p-10 md:p-14 lg:p-16 flex flex-col justify-center">
-            <h2 className="text-4xl md:text-5xl font-bold leading-tight font-serif mb-6 text-white">
-              Pantau Hafalan<br/>Anak Anda
-            </h2>
-            <p className="text-emerald-50/90 text-sm md:text-base mb-8 max-w-sm leading-relaxed">
-              Sistem Informasi Capaian Hafalan Santri (MSANTRI) memudahkan wali santri untuk melihat progres hafalan secara real-time.
-            </p>
-            <div className="flex flex-wrap items-center gap-4">
-              <Link to="/cek-rapor" className="bg-white text-slate-800 hover:bg-slate-50 py-3 px-6 rounded font-medium transition-all text-sm shadow-sm">
-                Cek Rapor Santri
-              </Link>
-              <a href="#lokasi" className="border border-white/70 hover:bg-white/10 py-3 px-6 rounded font-medium transition-all text-sm text-white">
-                Lokasi & Jadwal
-              </a>
+      <main className="flex-grow">
+
+        {/* ================================================ */}
+        {/* HERO SECTION — Al-Quran 3D Melayang              */}
+        {/* ================================================ */}
+        <section className="relative overflow-hidden bg-surface min-h-screen flex items-center">
+
+          {/* Lingkaran cahaya hijau di belakang (efek ambient) */}
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gold/5 rounded-full blur-3xl pointer-events-none" />
+
+          {/* Partikel bintang berkilau */}
+          {[
+            { top: '15%', left: '10%', delay: '0s', size: 8 },
+            { top: '30%', left: '85%', delay: '0.8s', size: 6 },
+            { top: '70%', left: '5%', delay: '1.5s', size: 10 },
+            { top: '80%', left: '75%', delay: '0.4s', size: 7 },
+            { top: '50%', left: '95%', delay: '2s', size: 5 },
+            { top: '10%', left: '60%', delay: '1.2s', size: 9 },
+          ].map((star, i) => (
+            <div
+              key={i}
+              className="absolute pointer-events-none animate-shimmer"
+              style={{ top: star.top, left: star.left, animationDelay: star.delay }}
+            >
+              <svg width={star.size} height={star.size} viewBox="0 0 10 10" fill="#a37c35">
+                <polygon points="5,0 6,4 10,5 6,6 5,10 4,6 0,5 4,4" />
+              </svg>
             </div>
-            
-            <div className="flex gap-2 mt-12">
-              <div className="w-8 h-1.5 bg-white rounded-full"></div>
-              <div className="w-1.5 h-1.5 bg-white/40 rounded-full"></div>
-              <div className="w-1.5 h-1.5 bg-white/40 rounded-full"></div>
+          ))}
+
+          <div className="max-w-7xl mx-auto px-6 md:px-12 py-20 grid grid-cols-1 md:grid-cols-2 gap-12 items-center w-full">
+
+            {/* --- KIRI: Teks Hero --- */}
+            <div className="space-y-6" style={{ animation: 'fadeUp 0.8s ease-out forwards' }}>
+              {/* Label kecil bergaya butik */}
+              <div className="label-small text-gold flex items-center gap-2">
+                <div className="w-8 h-px bg-gold" />
+                Sistem Informasi Manajemen
+              </div>
+
+              {/* Judul utama — Playfair Display */}
+              <h2 className="font-serif text-5xl md:text-6xl leading-tight text-on-surface">
+                TPQ{' '}
+                <span className="text-gold-gradient">Miftahul</span>
+                <br />Jannah
+              </h2>
+
+              {/* Deskripsi */}
+              <p className="text-on-surface-variant font-sans text-lg leading-relaxed max-w-md">
+                Tempat Pengajian Al-Quran modern untuk mencetak generasi Qur'ani yang cemerlang. Pantau hafalan anak Anda secara real-time.
+              </p>
+
+              {/* Tombol CTA */}
+              <div className="flex flex-wrap gap-4 pt-2">
+                <Link to="/cek-rapor" className="btn-primary">
+                  Cek Progres Santri
+                </Link>
+                <Link to="/profil" className="btn-gold">
+                  Daftar Baru
+                </Link>
+              </div>
+
+              {/* Statistik kecil di bawah tombol */}
+              {data?.statistik && (
+                <div className="flex gap-8 pt-4 border-t border-outline-light">
+                  <div>
+                    <p className="font-serif text-2xl font-bold text-primary">{data.statistik.total_santri ?? 0}+</p>
+                    <p className="text-xs text-on-surface-variant font-sans">Santri Aktif</p>
+                  </div>
+                  <div>
+                    <p className="font-serif text-2xl font-bold text-primary">{data.statistik.total_hafiz ?? 0}+</p>
+                    <p className="text-xs text-on-surface-variant font-sans">Hafiz Lahir</p>
+                  </div>
+                  <div>
+                    <p className="font-serif text-2xl font-bold text-primary">5+</p>
+                    <p className="text-xs text-on-surface-variant font-sans">Tahun Berdiri</p>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* --- KANAN: Al-Quran 3D Melayang --- */}
+            <div className="relative flex items-center justify-center h-[420px]">
+
+              {/* Cahaya ambient di bawah buku */}
+              <div
+                className="absolute bottom-12 left-1/2 -translate-x-1/2 w-48 h-8 bg-primary/20 rounded-full blur-xl animate-floatShadow"
+              />
+
+              {/* Buku Al-Quran melayang */}
+              <div className="animate-float relative z-10">
+
+                {/* Efek cahaya keemasan mengelilingi buku */}
+                <div className="absolute -inset-6 bg-gradient-radial from-gold/10 via-transparent to-transparent rounded-full blur-xl" />
+
+                {/* === BUKU QURAN 3D menggunakan CSS murni === */}
+                <div
+                  className="relative"
+                  style={{
+                    width: 220,
+                    height: 290,
+                    perspective: '800px',
+                  }}
+                >
+                  {/* Bagian depan buku */}
+                  <div
+                    className="absolute inset-0 rounded-sm overflow-hidden"
+                    style={{
+                      background: 'linear-gradient(160deg, #b8960c 0%, #a37c35 30%, #8b6914 60%, #c9a227 100%)',
+                      boxShadow: '8px 12px 40px rgba(0,0,0,0.35), inset -3px 0 8px rgba(0,0,0,0.2), 0 0 30px rgba(163,124,53,0.3)',
+                      transform: 'rotateY(-8deg) rotateX(3deg)',
+                    }}
+                  >
+                    {/* Ornamen bingkai emas di cover */}
+                    <div className="absolute inset-3 border border-yellow-200/30 rounded-sm" />
+                    <div className="absolute inset-5 border border-yellow-100/20 rounded-sm" />
+
+                    {/* Teks judul buku */}
+                    <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+                      {/* Tulisan Arab */}
+                      <p className="text-yellow-100 text-2xl font-bold mb-2" style={{ fontFamily: 'serif', textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>
+                        ﷻ
+                      </p>
+                      <p className="text-yellow-100/90 text-base font-bold tracking-widest mb-1" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}>
+                        القرآن الكريم
+                      </p>
+                      <div className="w-16 h-px bg-yellow-200/50 my-2" />
+                      <p className="text-yellow-200/70 text-xs tracking-[0.2em] uppercase">AL-QUR'AN</p>
+                      <p className="text-yellow-200/70 text-xs tracking-[0.15em]">AL-KARIIM</p>
+
+                      {/* Ornamen geometri kecil */}
+                      <div className="mt-4">
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                          <polygon points="20,2 38,20 20,38 2,20" stroke="rgba(255,235,150,0.4)" strokeWidth="1" fill="none"/>
+                          <polygon points="20,8 32,20 20,32 8,20" stroke="rgba(255,235,150,0.3)" strokeWidth="1" fill="none"/>
+                          <circle cx="20" cy="20" r="4" fill="rgba(255,235,150,0.3)"/>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Sisi samping buku (efek tebal/3D) */}
+                  <div
+                    className="absolute top-2 right-0 h-full"
+                    style={{
+                      width: 18,
+                      background: 'linear-gradient(to bottom, #6b4e0a, #8b6914, #5a4008)',
+                      transform: 'translateX(14px) rotateY(85deg)',
+                      transformOrigin: 'left center',
+                      boxShadow: 'inset -2px 0 5px rgba(0,0,0,0.4)',
+                    }}
+                  />
+
+                  {/* Halaman-halaman buku (efek kertas) */}
+                  <div
+                    className="absolute right-0 bottom-0"
+                    style={{
+                      width: 12,
+                      height: '95%',
+                      background: 'linear-gradient(to right, #f5e6c8, #fffdf5, #f0d9aa)',
+                      transform: 'translateX(10px) rotateY(85deg) skewY(-1deg)',
+                      transformOrigin: 'left bottom',
+                      boxShadow: '2px 0 4px rgba(0,0,0,0.15)',
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* Partikel cahaya kecil melayang di sekitar buku */}
+              {[
+                { top: '20%', left: '15%', delay: '0s', dur: '3s' },
+                { top: '60%', left: '80%', delay: '1s', dur: '2.5s' },
+                { top: '15%', left: '75%', delay: '0.5s', dur: '3.5s' },
+                { top: '75%', left: '25%', delay: '1.5s', dur: '2.8s' },
+              ].map((p, i) => (
+                <div
+                  key={i}
+                  className="absolute w-1.5 h-1.5 rounded-full bg-gold/60 animate-shimmer"
+                  style={{ top: p.top, left: p.left, animationDelay: p.delay, animationDuration: p.dur }}
+                />
+              ))}
             </div>
           </div>
-          
-          {/* Right Side (Image) */}
-          <div className="md:w-[55%] bg-slate-100 flex relative min-h-[300px] md:min-h-[400px]">
-            <img src="/hero_illustration.png" alt="Ilustrasi Belajar" className="absolute inset-0 w-full h-full object-cover" />
+
+          {/* Ornamen garis melengkung di bawah hero */}
+          <div className="absolute bottom-0 left-0 right-0">
+            <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0,40 C360,0 1080,80 1440,40 L1440,60 L0,60 Z" fill="#f6f3f2"/>
+            </svg>
           </div>
         </section>
 
-
-
-        {/* Statistics Banner */}
-        <section className="bg-gradient-to-r from-[#eef8f2] to-[#f8fcf9] rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between border border-[#e3efe8]">
-          <div className="md:w-1/2 mb-8 md:mb-0">
-            <h3 className="text-3xl font-bold font-serif text-[#104b3a] leading-tight">
-              TPQ Kami,<br/>
-              Mencetak Generasi Qurani
-            </h3>
-          </div>
-          
-          <div className="md:w-1/2 flex flex-col items-start md:items-end w-full">
-            <div className="text-center md:text-right mb-6">
-              <h4 className="text-xl font-bold font-serif text-slate-900">Statistik MSANTRI</h4>
-              <p className="text-slate-500 font-medium text-xs tracking-wide">Tahun Ajaran Aktif</p>
-            </div>
-            
-            <div className="flex gap-8 md:gap-12 w-full md:w-auto justify-between md:justify-start">
-              <div className="flex flex-col items-center">
-                <div className="text-orange-500 mb-3"><Users size={24} /></div>
-                <div className="text-[10px] font-bold text-slate-800 uppercase tracking-widest mb-1">Total Santri</div>
-                <div className="text-3xl font-bold text-[#104b3a] font-serif">{data?.totalSantri || 0}</div>
-              </div>
-              <div className="flex flex-col items-center">
-                <div className="text-amber-500 mb-3"><MapPin size={24} /></div>
-                <div className="text-[10px] font-bold text-slate-800 uppercase tracking-widest mb-1">Pengajar</div>
-                <div className="text-3xl font-bold text-slate-400 font-serif">{data?.totalPengajar || 0}</div>
-              </div>
-              <div className="flex flex-col items-center">
-                <div className="text-emerald-700 mb-3"><Activity size={24} /></div>
-                <div className="text-[10px] font-bold text-slate-800 uppercase tracking-widest mb-1">Pembaruan Rapor</div>
-                <div className="text-3xl font-bold text-slate-400 font-serif">{data?.totalPembaruanRapor || 0}</div>
-              </div>
+        {/* ================================================ */}
+        {/* SECTION STATISTIK                                */}
+        {/* ================================================ */}
+        <section className="bg-surface-low py-16 px-6 md:px-12">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {[
+                { icon: <Users size={22} className="text-primary" />, label: 'Total Santri', value: data?.statistik?.total_santri ?? '—' },
+                { icon: <BookOpen size={22} className="text-primary" />, label: 'Total Hafiz', value: data?.statistik?.total_hafiz ?? '—' },
+                { icon: <CheckCircle2 size={22} className="text-primary" />, label: 'Kehadiran', value: `${data?.statistik?.rata_kehadiran ?? '—'}%` },
+                { icon: <Clock size={22} className="text-primary" />, label: 'Jam Belajar/Minggu', value: '12 Jam' },
+              ].map((stat, i) => (
+                <div key={i} className="card-marble p-6 text-center hover:scale-105 transition-transform duration-300">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
+                    {stat.icon}
+                  </div>
+                  <p className="font-serif text-3xl font-bold text-on-surface mb-1">{stat.value}</p>
+                  <p className="text-xs text-on-surface-variant font-sans uppercase tracking-widest">{stat.label}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* Fitur Unggulan Section */}
-        <section className="py-8">
-          <div className="text-center mb-10">
-            <h3 className="text-2xl font-bold font-serif text-slate-900 mb-3">Mengapa Memilih MSANTRI?</h3>
-            <p className="text-slate-500 max-w-2xl mx-auto">Kami menyediakan sistem informasi terbaik untuk memastikan transparansi dan kemudahan pemantauan hafalan santri.</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white p-6 rounded-2xl border border-slate-200 text-center hover:shadow-md transition-shadow">
-              <div className="w-14 h-14 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <CheckCircle2 size={28} />
+        {/* ================================================ */}
+        {/* SECTION FITUR / KEUNGGULAN                       */}
+        {/* ================================================ */}
+        <section className="py-20 px-6 md:px-12 bg-surface">
+          <div className="max-w-7xl mx-auto">
+            {/* Judul section */}
+            <div className="text-center mb-14">
+              <p className="label-small text-gold mb-3">Keunggulan Kami</p>
+              <h3 className="font-serif text-4xl text-on-surface mb-4">Mengapa Memilih MSANTRI?</h3>
+              {/* Ornamen pemisah emas */}
+              <div className="divider-gold max-w-xs mx-auto">
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="#a37c35" className="flex-shrink-0">
+                  <polygon points="5,0 10,5 5,10 0,5" />
+                </svg>
               </div>
-              <h4 className="text-lg font-bold text-slate-900 mb-2">Pantauan Real-Time</h4>
-              <p className="text-slate-500 text-sm leading-relaxed">Pantau perkembangan hafalan dan kehadiran anak langsung dari smartphone Anda kapan saja.</p>
             </div>
-            <div className="bg-white p-6 rounded-2xl border border-slate-200 text-center hover:shadow-md transition-shadow">
-              <div className="w-14 h-14 bg-blue-100 text-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <Clock size={28} />
-              </div>
-              <h4 className="text-lg font-bold text-slate-900 mb-2">Jadwal Terstruktur</h4>
-              <p className="text-slate-500 text-sm leading-relaxed">Jadwal kegiatan mengaji yang tertata rapi dan mudah diakses untuk kedisiplinan santri.</p>
-            </div>
-            <div className="bg-white p-6 rounded-2xl border border-slate-200 text-center hover:shadow-md transition-shadow">
-              <div className="w-14 h-14 bg-orange-100 text-orange-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <Users size={28} />
-              </div>
-              <h4 className="text-lg font-bold text-slate-900 mb-2">Pengajar Berkompeten</h4>
-              <p className="text-slate-500 text-sm leading-relaxed">Dibimbing langsung oleh para pengajar yang ahli dan berpengalaman di bidangnya.</p>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
+                {
+                  icon: '📊',
+                  title: 'Pantau Hafalan Real-Time',
+                  desc: 'Lihat perkembangan hafalan anak Anda kapan saja dan di mana saja langsung dari genggaman.',
+                },
+                {
+                  icon: '📅',
+                  title: 'Jadwal Terstruktur',
+                  desc: 'Jadwal belajar yang terorganisir dengan baik untuk memastikan konsistensi hafalan setiap santri.',
+                },
+                {
+                  icon: '🏆',
+                  title: 'Laporan Prestasi',
+                  desc: 'Rapor digital lengkap untuk setiap santri, mudah diakses oleh wali kapan saja dibutuhkan.',
+                },
+              ].map((item, i) => (
+                <div key={i} className="card-marble p-8 group hover:border-gold/50 transition-all duration-300">
+                  <div className="text-4xl mb-5">{item.icon}</div>
+                  <h4 className="font-serif text-xl text-on-surface mb-3">{item.title}</h4>
+                  <p className="text-on-surface-variant font-sans text-sm leading-relaxed">{item.desc}</p>
+                  <div className="mt-5 w-8 h-0.5 bg-gold group-hover:w-16 transition-all duration-300" />
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* Galeri Kegiatan Section */}
-        <section className="py-8">
-          <div className="text-center mb-10">
-            <h3 className="text-2xl font-bold font-serif text-slate-900 mb-3">Galeri Kegiatan Santri</h3>
-            <p className="text-slate-500 max-w-2xl mx-auto">Sekilas potret keaktifan dan keceriaan santri saat belajar di TPQ kami.</p>
+        {/* ================================================ */}
+        {/* SECTION GALERI KEGIATAN (Marquee)                */}
+        {/* ================================================ */}
+        <section className="py-20 bg-surface-low px-6 md:px-12">
+          <div className="max-w-7xl mx-auto mb-10 text-center">
+            <p className="label-small text-gold mb-3">Dokumentasi</p>
+            <h3 className="font-serif text-4xl text-on-surface mb-4">Galeri Kegiatan Santri</h3>
+            <div className="divider-gold max-w-xs mx-auto">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="#a37c35" className="flex-shrink-0">
+                <polygon points="5,0 10,5 5,10 0,5" />
+              </svg>
+            </div>
           </div>
+
+          {/* Galeri bergerak otomatis ke kiri */}
           <div className="overflow-hidden w-full relative">
-            <div className="flex animate-marquee gap-4 w-max hover:animation-play-state-paused">
+            <div className="flex animate-marquee gap-4 w-max">
               {[0, 1].map((loopIdx) => (
                 <React.Fragment key={loopIdx}>
                   {data?.galeri && data.galeri.length > 0 ? (
                     data.galeri.map((item: any, index: number) => (
-                      <div key={`${loopIdx}-${index}`} className="group relative overflow-hidden rounded-xl w-64 md:w-80 aspect-[4/3] shadow-sm cursor-pointer flex-shrink-0">
+                      <div key={`${loopIdx}-${index}`} className="group relative overflow-hidden rounded-md w-64 md:w-80 aspect-[4/3] flex-shrink-0 border border-outline-light">
                         <img src={`http://localhost:8000/storage/galeri/${item.nama_file}`} alt={item.keterangan || 'Galeri'} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
-                          <p className="text-white text-sm font-medium">{item.keterangan}</p>
+                          <p className="text-white text-sm font-sans">{item.keterangan}</p>
                         </div>
                       </div>
                     ))
                   ) : (
-                    // Fallback jika API kosong
-                    ['/WhatsApp Image 2026-03-16 at 23.15.08.jpeg', '/WhatsApp Image 2026-03-16 at 23.17.16.jpeg', '/WhatsApp Image 2026-03-16 at 23.28.55.jpeg', '/WhatsApp Image 2026-03-16 at 23.29.16.jpeg', '/69b938fe33a5a.jpeg'].map((src, idx) => (
-                      <div key={`${loopIdx}-${idx}`} className="group relative overflow-hidden rounded-xl w-64 md:w-80 aspect-[4/3] shadow-sm cursor-pointer flex-shrink-0">
+                    [
+                      '/WhatsApp Image 2026-03-16 at 23.15.08.jpeg',
+                      '/WhatsApp Image 2026-03-16 at 23.17.16.jpeg',
+                      '/WhatsApp Image 2026-03-16 at 23.28.55.jpeg',
+                      '/WhatsApp Image 2026-03-16 at 23.29.16.jpeg',
+                      '/WhatsApp Image 2026-03-16 at 23.18.23.jpeg',
+                    ].map((src, idx) => (
+                      <div key={`${loopIdx}-${idx}`} className="group relative overflow-hidden rounded-md w-64 md:w-80 aspect-[4/3] flex-shrink-0 border border-outline-light">
                         <img src={src} alt={`Galeri ${idx + 1}`} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                       </div>
                     ))
@@ -157,79 +330,89 @@ const Home: React.FC = () => {
           </div>
         </section>
 
-        {/* Testimoni Section */}
-        <section className="py-8">
-          <div className="text-center mb-10">
-            <h3 className="text-2xl font-bold font-serif text-slate-900 mb-3">Kata Wali Santri</h3>
-            <p className="text-slate-500 max-w-2xl mx-auto">Apa pendapat mereka tentang pengalaman belajar di MSANTRI?</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {data?.testimoni && data.testimoni.length > 0 ? (
-              data.testimoni.slice(0, 3).map((item: any, index: number) => (
-                <div key={index} className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col">
-                  <div className="flex text-amber-400 mb-4">
+        {/* ================================================ */}
+        {/* SECTION TESTIMONI WALI SANTRI                     */}
+        {/* ================================================ */}
+        <section className="py-20 px-6 md:px-12 bg-surface">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-14">
+              <p className="label-small text-gold mb-3">Kepercayaan Mereka</p>
+              <h3 className="font-serif text-4xl text-on-surface mb-4">Kata Wali Santri</h3>
+              <div className="divider-gold max-w-xs mx-auto">
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="#a37c35" className="flex-shrink-0">
+                  <polygon points="5,0 10,5 5,10 0,5" />
+                </svg>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {(data?.testimoni && data.testimoni.length > 0
+                ? data.testimoni.slice(0, 3)
+                : [
+                    { nama_wali: 'Bpk. Ahmad', isi_testimoni: 'Alhamdulillah sejak menggunakan MSANTRI, saya jadi lebih mudah memantau hafalan anak meskipun sedang bekerja.', inisial: 'A', rating: 5 },
+                    { nama_wali: 'Ibu Siti', isi_testimoni: 'Fiturnya sangat membantu. Jadwal mengaji anak selalu up-to-date dan pengajarnya sangat profesional!', inisial: 'S', rating: 5 },
+                    { nama_wali: 'Bpk. Budi', isi_testimoni: 'Sangat inovatif! Dulu susah tau anak sudah sampai surat apa, sekarang tinggal buka HP semua kelihatan jelas.', inisial: 'B', rating: 5 },
+                  ]
+              ).map((item: any, idx: number) => (
+                <div key={idx} className="card-marble p-7 flex flex-col hover:border-gold/40 transition-all duration-300 hover:-translate-y-1">
+                  {/* Tanda kutip pembuka */}
+                  <div className="text-gold font-serif text-5xl leading-none mb-2 opacity-40">"</div>
+                  {/* Bintang rating */}
+                  <div className="flex gap-1 mb-4">
                     {Array.from({ length: item.rating || 5 }).map((_, i) => (
-                      <svg key={i} viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                      <svg key={i} viewBox="0 0 24 24" fill="#a37c35" className="w-4 h-4">
+                        <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
+                      </svg>
                     ))}
                   </div>
-                  <p className="text-slate-600 italic text-sm flex-grow mb-6">"{item.isi_testimoni}"</p>
-                  <div className="flex items-center gap-3 mt-auto">
-                    <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm">
+                  {/* Isi testimoni */}
+                  <p className="text-on-surface-variant font-sans text-sm leading-relaxed italic flex-grow mb-6">
+                    {item.isi_testimoni}
+                  </p>
+                  {/* Profil pengirim */}
+                  <div className="flex items-center gap-3 pt-4 border-t border-outline-light">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm font-sans">
                       {item.inisial || item.nama_wali?.charAt(0) || 'W'}
                     </div>
                     <div>
-                      <h4 className="font-bold text-slate-900 text-sm">{item.nama_wali}</h4>
-                      <p className="text-xs text-slate-500">Wali Santri</p>
+                      <h4 className="font-sans font-semibold text-on-surface text-sm">{item.nama_wali}</h4>
+                      <p className="text-xs text-gold font-sans">Wali Santri</p>
                     </div>
                   </div>
                 </div>
-              ))
-            ) : (
-              // Fallback Testimoni
-              [
-                { nama: "Bpk. Ahmad", isi: "Alhamdulillah sejak menggunakan aplikasi ini, saya jadi lebih mudah memantau setoran hafalan anak saya meskipun sedang bekerja.", inisial: "A" },
-                { nama: "Ibu Siti", isi: "Fiturnya sangat membantu. Jadwal mengaji anak selalu up-to-date dan pengajarnya sangat profesional. Pertahankan!", inisial: "S" },
-                { nama: "Bpk. Budi", isi: "Sangat inovatif! Dulu susah tau anak sudah sampai surat apa, sekarang tinggal buka HP semua kelihatan jelas.", inisial: "B" }
-              ].map((item, idx) => (
-                <div key={idx} className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col">
-                  <div className="flex text-amber-400 mb-4">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <svg key={i} viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
-                    ))}
-                  </div>
-                  <p className="text-slate-600 italic text-sm flex-grow mb-6">"{item.isi}"</p>
-                  <div className="flex items-center gap-3 mt-auto">
-                    <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm">
-                      {item.inisial}
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-slate-900 text-sm">{item.nama}</h4>
-                      <p className="text-xs text-slate-500">Wali Santri</p>
-                    </div>
-                  </div>
-                </div>
-              ))
-            )}
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* Optional Events Section (Kept for feature parity) */}
+        {/* ================================================ */}
+        {/* SECTION PENGUMUMAN TERBARU                       */}
+        {/* ================================================ */}
         {data?.info && (
-          <section className="pt-4">
-            <h3 className="text-2xl font-bold font-serif text-[#104b3a] mb-6">Pengumuman Terbaru</h3>
-            <div className="bg-white rounded-xl p-6 border border-slate-200 flex flex-col md:flex-row items-start md:items-center gap-6">
-              <div className="flex-1">
-                <h4 className="text-lg font-bold text-slate-900 mb-1">{data.info.judul_info}</h4>
-                <p className="text-xs font-semibold text-emerald-600 mb-2 uppercase tracking-wide">{data.info.kategori || 'Umum'}</p>
-                <p className="text-slate-600 text-sm line-clamp-2">{data.info.isi_info}</p>
+          <section className="py-12 bg-surface-low px-6 md:px-12">
+            <div className="max-w-7xl mx-auto">
+              <div className="flex items-center justify-between mb-8">
+                <div>
+                  <p className="label-small text-gold mb-1">Terbaru</p>
+                  <h3 className="font-serif text-3xl text-on-surface">Pengumuman</h3>
+                </div>
+                <Link to="/pengumuman" className="flex items-center gap-1 text-sm text-primary font-sans font-medium hover:text-primary-dark transition-colors group">
+                  Lihat Semua <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                </Link>
               </div>
-              <Link to="/pengumuman" className="bg-slate-100 hover:bg-slate-200 text-slate-800 px-6 py-2 rounded text-sm font-medium transition whitespace-nowrap">
-                Baca Selengkapnya
-              </Link>
+              <div className="card-marble p-6 flex flex-col md:flex-row items-start md:items-center gap-6 hover:border-gold/30 transition-all">
+                <div className="flex-1">
+                  <span className="label-small text-gold mb-2 block">{data.info.kategori || 'Umum'}</span>
+                  <h4 className="font-serif text-xl text-on-surface mb-2">{data.info.judul_info}</h4>
+                  <p className="text-on-surface-variant font-sans text-sm line-clamp-2">{data.info.isi_info}</p>
+                </div>
+                <Link to="/pengumuman" className="btn-primary text-sm whitespace-nowrap">
+                  Baca Selengkapnya
+                </Link>
+              </div>
             </div>
           </section>
         )}
-
 
       </main>
 

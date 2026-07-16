@@ -2,61 +2,80 @@ import React from 'react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import { Users, Award, BookOpen, GraduationCap, TrendingUp, Heart } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Statistik: React.FC = () => {
   const stats = [
-    { label: 'Total Santri Aktif', value: '450+', icon: Users, color: 'text-blue-600', bg: 'bg-blue-100' },
-    { label: 'Jumlah Pengajar', value: '35', icon: BookOpen, color: 'text-emerald-600', bg: 'bg-emerald-100' },
-    { label: 'Kelas Berjalan', value: '24', icon: TrendingUp, color: 'text-amber-600', bg: 'bg-amber-100' },
-    { label: 'Alumni Lulusan', value: '1,200+', icon: GraduationCap, color: 'text-purple-600', bg: 'bg-purple-100' },
-    { label: 'Penghargaan', value: '48', icon: Award, color: 'text-rose-600', bg: 'bg-rose-100' },
-    { label: 'Kepuasan Wali Santri', value: '98%', icon: Heart, color: 'text-pink-600', bg: 'bg-pink-100' },
+    { label: 'Total Santri Aktif', value: '450+', icon: Users },
+    { label: 'Jumlah Pengajar', value: '35', icon: BookOpen },
+    { label: 'Kelas Berjalan', value: '24', icon: TrendingUp },
+    { label: 'Alumni Lulusan', value: '1.200+', icon: GraduationCap },
+    { label: 'Penghargaan Diraih', value: '48', icon: Award },
+    { label: 'Kepuasan Wali Santri', value: '98%', icon: Heart },
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-800 flex flex-col">
+    <div className="min-h-screen bg-surface font-sans text-on-surface flex flex-col">
       <Header />
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 flex-grow w-full">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center justify-center p-3 bg-emerald-100 text-emerald-700 rounded-full mb-6">
-            <TrendingUp size={32} />
-          </div>
-          <h1 className="text-4xl font-bold font-serif text-slate-900 mb-4">Statistik & Pencapaian</h1>
-          <p className="text-slate-500 max-w-2xl mx-auto text-lg">
+      {/* Banner Halaman */}
+      <div className="bg-primary-dark py-12 px-6 md:px-12">
+        <div className="max-w-6xl mx-auto">
+          <p className="label-small text-gold mb-2">Data & Pencapaian</p>
+          <h1 className="font-serif text-4xl text-white">Statistik Lembaga</h1>
+          <p className="text-white/60 font-sans text-sm mt-2 max-w-xl">
             Transparansi data dan perkembangan lembaga MSANTRI dari tahun ke tahun sebagai bentuk dedikasi kami dalam pendidikan Al-Qur'an.
           </p>
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 flex-grow w-full">
+
+        {/* Grid Statistik */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
           {stats.map((stat, index) => {
             const IconComponent = stat.icon;
             return (
-              <div key={index} className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex items-center gap-6 group">
-                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-110 ${stat.bg} ${stat.color}`}>
-                  <IconComponent size={32} />
+              <div key={index} className="card-marble p-8 flex items-center gap-6 group hover:border-gold/40 hover:-translate-y-1 transition-all duration-300">
+                {/* Ikon dengan latar zamrud muda */}
+                <div className="w-16 h-16 bg-primary/10 text-primary rounded-md flex items-center justify-center shrink-0 group-hover:bg-primary/15 transition-colors">
+                  <IconComponent size={28} />
                 </div>
                 <div>
-                  <div className="text-4xl font-bold text-slate-800 mb-1">{stat.value}</div>
-                  <div className="text-sm font-medium text-slate-500 uppercase tracking-wider">{stat.label}</div>
+                  {/* Nilai statistik — Playfair Display */}
+                  <p className="font-serif text-4xl font-bold text-on-surface mb-0.5">{stat.value}</p>
+                  {/* Label — Manrope uppercase */}
+                  <p className="label-small text-on-surface-variant">{stat.label}</p>
                 </div>
               </div>
             );
           })}
         </div>
 
-        <div className="mt-20 bg-emerald-900 rounded-3xl p-10 md:p-16 text-center text-white relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-800 rounded-full mix-blend-multiply filter blur-3xl opacity-50 translate-x-1/2 -translate-y-1/2"></div>
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-800 rounded-full mix-blend-multiply filter blur-3xl opacity-50 -translate-x-1/2 translate-y-1/2"></div>
-          
+        {/* Ornamen pemisah */}
+        <div className="divider-gold mb-20">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="#a37c35" className="flex-shrink-0">
+            <polygon points="5,0 10,5 5,10 0,5" />
+          </svg>
+        </div>
+
+        {/* CTA Pendaftaran */}
+        <div className="bg-primary-dark rounded-md p-10 md:p-16 text-center relative overflow-hidden">
+          {/* Cahaya ambient */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-primary/30 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-gold/10 rounded-full blur-3xl pointer-events-none" />
+
           <div className="relative z-10">
-            <h2 className="text-3xl md:text-4xl font-bold font-serif mb-6">Mari Bergabung Bersama Kami!</h2>
-            <p className="text-emerald-100 max-w-2xl mx-auto text-lg mb-10">
-              Pendaftaran santri baru tahun ajaran ini masih dibuka. Daftarkan putra-putri Anda untuk menjadi generasi Qur'ani yang berakhlak mulia.
+            <p className="label-small text-gold mb-4">Bergabunglah Bersama Kami</p>
+            <h2 className="font-serif text-3xl md:text-4xl text-white mb-5">
+              Mari Cetak Generasi Qur'ani!
+            </h2>
+            <p className="text-white/60 font-sans max-w-2xl mx-auto text-sm mb-8 leading-relaxed">
+              Pendaftaran santri baru tahun ajaran ini masih dibuka. Daftarkan putra-putri Anda untuk menjadi generasi yang berakhlak mulia dan cinta Al-Qur'an.
             </p>
-            <button className="bg-white text-emerald-900 px-8 py-4 rounded-xl font-bold hover:bg-emerald-50 transition-colors shadow-lg">
+            <Link to="/hubungi" className="btn-gold inline-flex">
               Informasi Pendaftaran
-            </button>
+            </Link>
           </div>
         </div>
       </main>

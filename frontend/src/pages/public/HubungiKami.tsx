@@ -5,101 +5,129 @@ import { MapPin, Phone, Mail, Send } from 'lucide-react';
 
 const HubungiKami: React.FC = () => {
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-800 flex flex-col">
+    <div className="min-h-screen bg-surface font-sans text-on-surface flex flex-col">
       <Header />
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 flex-grow w-full">
-        <div className="text-center mb-16">
-          <h1 className="text-4xl font-bold font-serif text-slate-900 mb-4">Hubungi Kami</h1>
-          <p className="text-slate-500 max-w-2xl mx-auto text-lg">
-            Punya pertanyaan atau butuh informasi lebih lanjut? Jangan ragu untuk menghubungi tim administrasi kami.
+      {/* Banner Halaman */}
+      <div className="bg-primary-dark py-12 px-6 md:px-12">
+        <div className="max-w-6xl mx-auto">
+          <p className="label-small text-gold mb-2">Kontak</p>
+          <h1 className="font-serif text-4xl text-white">Hubungi Kami</h1>
+          <p className="text-white/60 font-sans text-sm mt-2">
+            Punya pertanyaan atau butuh informasi lebih lanjut? Jangan ragu untuk menghubungi kami.
           </p>
         </div>
+      </div>
 
-        <div className="flex flex-col lg:flex-row gap-12 bg-white p-8 md:p-12 rounded-3xl border border-slate-200 shadow-sm">
-          
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 flex-grow w-full">
+
+        <div className="flex flex-col lg:flex-row gap-10">
+
           {/* Informasi Kontak */}
-          <div className="w-full lg:w-5/12 space-y-10">
+          <div className="w-full lg:w-5/12 space-y-8">
             <div>
-              <h3 className="text-2xl font-bold text-slate-800 mb-6">Informasi Kontak</h3>
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center shrink-0">
-                    <MapPin size={24} />
+              <p className="label-small text-gold mb-5">Informasi Kontak</p>
+              <div className="space-y-5">
+                {[
+                  {
+                    icon: <MapPin size={20} />,
+                    label: 'Alamat Lengkap',
+                    value: 'Jl. Sultan Hasanuddin, Kel. Letwaru, RT.009, Kec. Kota Masohi, Kab. Maluku Tengah, 97511',
+                  },
+                  {
+                    icon: <Phone size={20} />,
+                    label: 'Telepon / WhatsApp',
+                    value: '+62 812 3456 7890 (Senin – Sabtu, 08:00–17:00)',
+                  },
+                  {
+                    icon: <Mail size={20} />,
+                    label: 'Email',
+                    value: 'info@msantri.sch.id',
+                  },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start gap-4">
+                    <div className="w-11 h-11 bg-primary/10 text-primary rounded-md flex items-center justify-center shrink-0">
+                      {item.icon}
+                    </div>
+                    <div>
+                      <h4 className="font-sans font-semibold text-on-surface text-sm">{item.label}</h4>
+                      <p className="text-on-surface-variant font-sans text-sm mt-0.5 leading-relaxed">{item.value}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-bold text-slate-800">Alamat Lengkap</h4>
-                    <p className="text-slate-600 mt-1">Jl. Pendidikan No. 123, Komplek Islamic Center, Kec. Makassar, Kota Makassar, 90222</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center shrink-0">
-                    <Phone size={24} />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-slate-800">Telepon / WhatsApp</h4>
-                    <p className="text-slate-600 mt-1">+62 812 3456 7890</p>
-                    <p className="text-slate-600">Senin - Sabtu (08:00 - 17:00)</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center shrink-0">
-                    <Mail size={24} />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-slate-800">Email</h4>
-                    <p className="text-slate-600 mt-1">info@msantri.sch.id</p>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
 
-            {/* Peta (Placeholder) */}
-            <div className="bg-slate-200 rounded-2xl h-48 w-full relative overflow-hidden border border-slate-300">
-               <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2074&auto=format&fit=crop" alt="Map Location" className="w-full h-full object-cover opacity-80" />
-               <div className="absolute inset-0 flex items-center justify-center bg-black/10">
-                 <button className="bg-white px-4 py-2 rounded-lg font-bold text-sm shadow text-slate-700 hover:text-emerald-700 transition">Buka di Google Maps</button>
-               </div>
+            {/* Peta Lokasi */}
+            <div className="rounded-md h-44 w-full relative overflow-hidden border border-outline-light">
+              <img
+                src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2074&auto=format&fit=crop"
+                alt="Peta Lokasi"
+                className="w-full h-full object-cover opacity-80"
+              />
+              <div className="absolute inset-0 flex items-center justify-center bg-primary-dark/20">
+                <button className="bg-white text-primary font-sans font-semibold px-4 py-2 rounded-sm text-sm shadow-md hover:bg-surface-low transition-colors">
+                  Buka di Google Maps
+                </button>
+              </div>
             </div>
           </div>
 
           {/* Formulir Kontak */}
           <div className="w-full lg:w-7/12">
-            <div className="bg-slate-50 p-8 rounded-3xl border border-slate-200 h-full">
-              <h3 className="text-2xl font-bold text-slate-800 mb-2">Kirim Pesan</h3>
-              <p className="text-slate-500 mb-8">Kami akan merespon pesan Anda secepatnya.</p>
+            <div className="card-marble p-8 h-full">
+              <p className="label-small text-gold mb-2">Kirim Pesan</p>
+              <h3 className="font-serif text-2xl text-on-surface mb-1">Ada yang bisa kami bantu?</h3>
+              <p className="text-on-surface-variant font-sans text-sm mb-7">Kami akan merespon pesan Anda secepatnya.</p>
 
-              <form className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
+              <form className="space-y-5">
+                <div className="grid md:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-2">Nama Lengkap</label>
-                    <input type="text" placeholder="Masukkan nama" className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors" />
+                    <label className="label-small text-on-surface-variant mb-2 block">Nama Lengkap</label>
+                    {/* Input bergaya garis bawah emas dari design system */}
+                    <input
+                      type="text"
+                      placeholder="Masukkan nama Anda"
+                      className="w-full bg-transparent border-0 border-b-2 border-outline-light py-2.5 font-sans text-sm text-on-surface focus:outline-none focus:border-gold transition-colors placeholder:text-on-surface-variant/40"
+                    />
                   </div>
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-2">Nomor Telepon</label>
-                    <input type="text" placeholder="0812xxxx" className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors" />
+                    <label className="label-small text-on-surface-variant mb-2 block">Nomor Telepon</label>
+                    <input
+                      type="text"
+                      placeholder="0812xxxx"
+                      className="w-full bg-transparent border-0 border-b-2 border-outline-light py-2.5 font-sans text-sm text-on-surface focus:outline-none focus:border-gold transition-colors placeholder:text-on-surface-variant/40"
+                    />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-2">Subjek Pesan</label>
-                  <input type="text" placeholder="Pilih subjek" className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors" />
+                  <label className="label-small text-on-surface-variant mb-2 block">Subjek Pesan</label>
+                  <input
+                    type="text"
+                    placeholder="Tentang apa pesan Anda?"
+                    className="w-full bg-transparent border-0 border-b-2 border-outline-light py-2.5 font-sans text-sm text-on-surface focus:outline-none focus:border-gold transition-colors placeholder:text-on-surface-variant/40"
+                  />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-2">Pesan Anda</label>
-                  <textarea rows={5} placeholder="Tuliskan pertanyaan atau pesan Anda di sini..." className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors resize-none"></textarea>
+                  <label className="label-small text-on-surface-variant mb-2 block">Pesan Anda</label>
+                  <textarea
+                    rows={5}
+                    placeholder="Tuliskan pertanyaan atau pesan Anda di sini..."
+                    className="w-full bg-surface-low border border-outline-light rounded-sm px-4 py-3 font-sans text-sm text-on-surface focus:outline-none focus:border-gold transition-colors resize-none placeholder:text-on-surface-variant/40 mt-2"
+                  />
                 </div>
 
-                <button type="button" className="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-colors shadow-sm">
-                  <Send size={18} /> Kirim Pesan Sekarang
+                <button
+                  type="button"
+                  className="btn-primary w-full flex items-center justify-center gap-2"
+                >
+                  <Send size={16} /> Kirim Pesan Sekarang
                 </button>
               </form>
             </div>
           </div>
-
         </div>
       </main>
 
