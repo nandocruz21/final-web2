@@ -6,7 +6,7 @@ import { Search, CheckCircle2, XCircle, Clock, AlertCircle } from 'lucide-react'
 interface Santri {
   id: number;
   nama_lengkap: string;
-  kehadiran: 'hadir' | 'izin' | 'sakit' | 'alpa';
+  kehadiran: 'hadir' | 'izin' | 'sakit' | 'alpha';
   capaian_hafalan: string;
 }
 
@@ -128,10 +128,10 @@ const Kehadiran: React.FC = () => {
                           </button>
                           
                           <button 
-                            onClick={() => handleUpdateStatus(item.id, 'alpa')}
+                            onClick={() => handleUpdateStatus(item.id, 'alpha')}
                             disabled={updatingId === item.id}
                             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-medium text-xs transition-all ${
-                              item.kehadiran === 'alpa' 
+                              item.kehadiran === 'alpha' 
                                 ? 'bg-red-600 text-white shadow-md' 
                                 : 'bg-slate-100 text-slate-600 hover:bg-red-50 hover:text-red-600'
                             }`}
