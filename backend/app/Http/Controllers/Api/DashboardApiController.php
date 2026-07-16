@@ -17,8 +17,8 @@ class DashboardApiController extends Controller
         // Hadir Hari Ini (berdasarkan status kehadiran terakhir di tabel santri)
         $hadirHariIni = Student::where('kehadiran', 'hadir')->count();
 
-        // Rapor Diperbarui (total progress history)
-        $raporDiperbarui = ProgressHistory::count();
+        // Alpa Hari Ini (berdasarkan status kehadiran terakhir di tabel santri)
+        $alpaHariIni = Student::where('kehadiran', 'alpha')->count();
 
         // Pembaruan Hafalan Terbaru (5 data terakhir)
         $recentUpdates = ProgressHistory::with('santri')
@@ -39,9 +39,8 @@ class DashboardApiController extends Controller
             'status' => 'success',
             'data' => [
                 'total_santri' => $totalSantri,
-                'kelas_aktif' => 12, // Dummy / statis
                 'hadir_hari_ini' => $hadirHariIni,
-                'rapor_diperbarui' => $raporDiperbarui,
+                'alpa_hari_ini' => $alpaHariIni,
                 'recent_updates' => $recentUpdates,
             ]
         ]);

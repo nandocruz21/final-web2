@@ -30,5 +30,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/santri/{id}', [\App\Http\Controllers\Api\StudentApiController::class, 'update']);
         Route::delete('/santri/{id}', [\App\Http\Controllers\Api\StudentApiController::class, 'destroy']);
         Route::post('/santri/{id}/status', [\App\Http\Controllers\Api\StudentApiController::class, 'updateStatus']);
+        Route::get('/santri/{id}/report-pdf', [\App\Http\Controllers\Api\StudentApiController::class, 'downloadPdf']);
     });
 });

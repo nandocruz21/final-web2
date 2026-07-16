@@ -7,9 +7,8 @@ import api from '../../services/api';
 const Dashboard: React.FC = () => {
   const [data, setData] = useState({
     total_santri: 0,
-    kelas_aktif: 12,
     hadir_hari_ini: 0,
-    rapor_diperbarui: 0,
+    alpa_hari_ini: 0,
     recent_updates: [] as any[]
   });
   const [loading, setLoading] = useState(true);
@@ -35,7 +34,7 @@ const Dashboard: React.FC = () => {
         ) : (
           <>
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
               <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
                 <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center"><Users size={24} /></div>
                 <div>
@@ -43,13 +42,7 @@ const Dashboard: React.FC = () => {
                   <h3 className="text-2xl font-bold text-slate-900">{data.total_santri}</h3>
                 </div>
               </div>
-              <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center"><BookOpen size={24} /></div>
-                <div>
-                  <p className="text-sm font-medium text-slate-500">Kelas Aktif</p>
-                  <h3 className="text-2xl font-bold text-slate-900">{data.kelas_aktif}</h3>
-                </div>
-              </div>
+              
               <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
                 <div className="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center"><CheckSquare size={24} /></div>
                 <div>
@@ -57,11 +50,12 @@ const Dashboard: React.FC = () => {
                   <h3 className="text-2xl font-bold text-slate-900">{data.hadir_hari_ini}</h3>
                 </div>
               </div>
+
               <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center"><FileText size={24} /></div>
+                <div className="w-12 h-12 rounded-full bg-red-100 text-red-600 flex items-center justify-center"><FileText size={24} /></div>
                 <div>
-                  <p className="text-sm font-medium text-slate-500">Rapor Diperbarui</p>
-                  <h3 className="text-2xl font-bold text-slate-900">{data.rapor_diperbarui}</h3>
+                  <p className="text-sm font-medium text-slate-500">Alpa Hari Ini</p>
+                  <h3 className="text-2xl font-bold text-slate-900">{data.alpa_hari_ini}</h3>
                 </div>
               </div>
             </div>

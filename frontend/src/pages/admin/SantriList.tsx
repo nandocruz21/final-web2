@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Plus, Edit2, Trash2, Search, FileText } from 'lucide-react';
+import { Plus, Edit2, Trash2, Search, FileText, Download } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import AdminLayout from '../../components/AdminLayout';
 import api from '../../services/api';
@@ -38,6 +38,24 @@ const SantriList: React.FC = () => {
         console.error("Gagal menghapus santri", error);
         alert("Gagal menghapus santri");
       }
+    }
+  };
+
+  const handleDownloadPdf = async (id: number, nama: string) => {
+    try {
+      // Create an anchor element to trigger download
+      const response = await api.get(`/admin/santri/${id}/report-pdf`, { responseType: 'blob' });
+      
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `laporan_santri_${nama}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Gagal mengunduh PDF", error);
+      alert("Gagal mengunduh PDF");
     }
   };
 
@@ -114,6 +132,13 @@ const SantriList: React.FC = () => {
                         </td>
                         <td className="px-6 py-4 text-center">
                           <div className="flex items-center justify-center gap-2">
+                            <button 
+                              onClick={() => handleDownloadPdf(item.id, item.nama_lengkap)}
+                              className="w-8 h-8 flex items-center justify-center bg-purple-50 text-purple-600 rounded-lg hover:bg-purple-100 transition-colors"
+                              title="Unduh Laporan PDF"
+                            >
+                              <Download size={16} />
+                            </button>
                             <Link 
                               to={`/admin/santri/edit/${item.id}`}
                               className="w-8 h-8 flex items-center justify-center bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors"

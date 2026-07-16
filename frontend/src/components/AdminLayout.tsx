@@ -28,9 +28,6 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           <Link to="/admin/kehadiran" className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${path.startsWith('/admin/kehadiran') ? 'bg-emerald-800/50 text-white' : 'text-emerald-200 hover:bg-emerald-800/30 hover:text-white'}`}>
             <CheckSquare size={20} /> Kehadiran
           </Link>
-          <Link to="/admin/laporan" className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${path.startsWith('/admin/laporan') ? 'bg-emerald-800/50 text-white' : 'text-emerald-200 hover:bg-emerald-800/30 hover:text-white'}`}>
-            <FileText size={20} /> Laporan
-          </Link>
         </nav>
         
         <div className="p-4 mt-auto">

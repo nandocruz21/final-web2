@@ -117,4 +117,28 @@ class StudentApiController extends Controller
             ], 500);
         }
     }
+
+    public function downloadPdf($id)
+    {
+        try {
+            $student = $this->studentService->find($id);
+            // Retrieve latest progress histories for this student, e.g. last 7 records
+            $histories = \App\Models\ProgressHistory::where('student_id', $id)
+                                ->orderByDesc('created_at')
+                                ->take(7)
+                                ->get();
+            
+            $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf.laporan_santri', [
+                'student' => $student,
+                'histories' => $histories
+            ]);
+
+            return $pdf->download('laporan_santri_'.$student->nama_lengkap.'.pdf');
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Gagal mengunduh PDF: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 }
