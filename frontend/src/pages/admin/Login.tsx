@@ -168,12 +168,12 @@ const Login: React.FC = () => {
             <button 
               type="submit"
               disabled={loading}
-              className={`w-full text-white font-bold py-3.5 rounded-xl transition-colors flex justify-center items-center gap-2 mt-4 ${
-                loading ? 'bg-emerald-600 cursor-not-allowed' : 'bg-emerald-800 hover:bg-emerald-900'
+              className={`btn-primary w-full flex justify-center items-center gap-2 mt-6 ${
+                loading ? 'opacity-70 cursor-not-allowed' : ''
               }`}
             >
               {loading ? 'Memproses...' : (
-                <>Masuk ke Dashboard <ArrowRight size={18} /></>
+                <>Masuk ke Dasbor <ArrowRight size={16} /></>
               )}
             </button>
             
