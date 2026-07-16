@@ -1,15 +1,77 @@
 import React, { useState } from 'react';
 import { Lock, Mail, ArrowRight, ArrowLeft } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useGoogleLogin } from '@react-oauth/google';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [errorMsg, setErrorMsg] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleGoogleSuccess = async (tokenResponse: any) => {
+    setLoading(true);
+    setErrorMsg('');
+    try {
+      const response = await fetch('http://localhost:8000/api/login/google', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          token: tokenResponse.access_token
+        })
+      });
+
+      const data = await response.json();
+      if (data.success && data.token) {
+        localStorage.setItem('admin_token', data.token);
+        navigate('/admin/dashboard');
+      } else {
+        setErrorMsg(data.message || 'Gagal login dengan akun Google.');
+      }
+    } catch (err) {
+      setErrorMsg('Gagal terhubung ke server.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, you would call your API here and redirect on success
-    // window.location.href = '/admin/dashboard';
+    setLoading(true);
+    setErrorMsg('');
+    
+    try {
+      // API call requires full URL or relying on axios base url, but we'll import api
+      const response = await fetch('http://localhost:8000/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          username: email,
+          password: password
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.success && data.token) {
+        localStorage.setItem('admin_token', data.token);
+        navigate('/admin/dashboard');
+      } else {
+        setErrorMsg(data.message || 'Login gagal. Periksa kembali email dan password Anda.');
+      }
+    } catch (err) {
+      setErrorMsg('Gagal terhubung ke server. Pastikan server berjalan.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -48,6 +110,11 @@ const Login: React.FC = () => {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
+            {errorMsg && (
+              <div className="bg-red-50 text-red-600 p-4 rounded-xl text-sm border border-red-200">
+                {errorMsg}
+              </div>
+            )}
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-2">Email atau Username</label>
               <div className="relative">
@@ -92,10 +159,28 @@ const Login: React.FC = () => {
 
             <button 
               type="submit"
-              className="w-full bg-emerald-800 hover:bg-emerald-900 text-white font-bold py-3.5 rounded-xl transition-colors flex justify-center items-center gap-2 mt-4"
+              disabled={loading}
+              className={`w-full text-white font-bold py-3.5 rounded-xl transition-colors flex justify-center items-center gap-2 mt-4 ${
+                loading ? 'bg-emerald-600 cursor-not-allowed' : 'bg-emerald-800 hover:bg-emerald-900'
+              }`}
             >
-              Masuk ke Dashboard <ArrowRight size={18} />
+              {loading ? 'Memproses...' : (
+                <>Masuk ke Dashboard <ArrowRight size={18} /></>
+              )}
             </button>
+            
+            <div className="relative flex py-2 items-center">
+              <div className="flex-grow border-t border-slate-200"></div>
+              <span className="flex-shrink-0 mx-4 text-slate-400 text-sm">Atau masuk dengan</span>
+              <div className="flex-grow border-t border-slate-200"></div>
+            </div>
+
+            <div className="flex justify-center">
+              <GoogleLoginButton 
+                onSuccess={handleGoogleSuccess} 
+                onError={(err: any) => setErrorMsg(err || 'Gagal terhubung dengan akun Google.')}
+              />
+            </div>
           </form>
           
           <div className="mt-12 text-center lg:text-left text-sm text-slate-500">
@@ -104,6 +189,25 @@ const Login: React.FC = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+// Custom button component to use the useGoogleLogin hook for access_token
+const GoogleLoginButton = ({ onSuccess, onError }: { onSuccess: Function, onError: Function }) => {
+  const login = useGoogleLogin({
+    onSuccess: (tokenResponse) => onSuccess(tokenResponse),
+    onError: () => onError('Login failed'),
+  });
+
+  return (
+    <button 
+      type="button"
+      onClick={() => login()}
+      className="flex items-center justify-center gap-3 bg-white border border-slate-300 text-slate-700 font-medium py-2.5 px-4 rounded-xl w-full hover:bg-slate-50 transition-colors"
+    >
+      <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="w-5 h-5" />
+      Sign in with Google
+    </button>
   );
 };
 
