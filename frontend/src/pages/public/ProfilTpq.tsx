@@ -33,7 +33,7 @@ const ProfilTpq: React.FC = () => {
             <div className="w-full md:w-1/2">
               <div className="aspect-video rounded-md overflow-hidden border border-outline-light shadow-md">
                 <img
-                  src="https://images.unsplash.com/photo-1584515979956-d416f5c88b77?q=80&w=2070&auto=format&fit=crop"
+                  src="/profil.jpeg"
                   alt="TPQ MSANTRI"
                   className="w-full h-full object-cover"
                 />
