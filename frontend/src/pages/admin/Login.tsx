@@ -124,9 +124,9 @@ const Login: React.FC = () => {
               </div>
             )}
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-2">Email atau Username</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+              <label className="label-small text-on-surface-variant mb-2 block">Email atau Username</label>
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none text-on-surface-variant group-focus-within:text-gold transition-colors">
                   <Mail size={20} />
                 </div>
                 <input 
@@ -134,7 +134,7 @@ const Login: React.FC = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="admin@msantri.com"
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-800"
+                  className="w-full bg-transparent border-0 border-b-2 border-outline-light py-2.5 pl-10 pr-4 font-sans text-sm text-on-surface focus:outline-none focus:border-gold transition-colors placeholder:text-on-surface-variant/40"
                   required
                 />
               </div>
@@ -142,11 +142,11 @@ const Login: React.FC = () => {
 
             <div>
               <div className="flex justify-between items-center mb-2">
-                <label className="block text-sm font-semibold text-slate-700">Password</label>
-                <a href="#" className="text-sm font-medium text-emerald-700 hover:text-emerald-800 transition-colors">Lupa Password?</a>
+                <label className="label-small text-on-surface-variant block">Password</label>
+                <a href="#" className="text-xs font-medium text-gold hover:text-gold-dim transition-colors">Lupa Sandi?</a>
               </div>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none text-on-surface-variant group-focus-within:text-gold transition-colors">
                   <Lock size={20} />
                 </div>
                 <input 
@@ -154,15 +154,15 @@ const Login: React.FC = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 pl-11 pr-4 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-800"
+                  className="w-full bg-transparent border-0 border-b-2 border-outline-light py-2.5 pl-10 pr-4 font-sans text-sm text-on-surface focus:outline-none focus:border-gold transition-colors placeholder:text-on-surface-variant/40"
                   required
                 />
               </div>
             </div>
 
-            <div className="flex items-center">
-              <input type="checkbox" id="remember" className="w-4 h-4 rounded border-slate-300 text-emerald-700 focus:ring-emerald-500/20" />
-              <label htmlFor="remember" className="ml-2 text-sm text-slate-600">Ingat Saya</label>
+            <div className="flex items-center mt-4">
+              <input type="checkbox" id="remember" className="w-4 h-4 rounded border-outline-light text-primary focus:ring-primary/20 bg-transparent" />
+              <label htmlFor="remember" className="ml-2 text-sm text-on-surface-variant font-sans">Ingat sesi saya</label>
             </div>
 
             <button 
