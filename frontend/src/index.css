@@ -8,7 +8,7 @@
 /* ====== GAYA DASAR GLOBAL ====== */
 @layer base {
   html {
-    scroll-behavior: smooth;
+    /* Removed scroll-behavior: smooth as it causes janky/stuck scrolling */
   }
   body {
     /* Warna background marmer putih dari design system */
