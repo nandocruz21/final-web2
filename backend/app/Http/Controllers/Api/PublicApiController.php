@@ -16,6 +16,8 @@ class PublicApiController extends Controller
     public function home()
     {
         $totalSantri = Student::count();
+        $totalPengajar = 12; // Static for now
+        $totalPembaruanRapor = ProgressHistory::count();
         $info        = Information::orderByDesc('tanggal_posting')->orderByDesc('id')->first();
         $pengaturan  = Setting::first();
         $galeri      = Gallery::orderByDesc('id')->get();
@@ -23,6 +25,8 @@ class PublicApiController extends Controller
 
         return response()->json([
             'totalSantri' => $totalSantri,
+            'totalPengajar' => $totalPengajar,
+            'totalPembaruanRapor' => $totalPembaruanRapor,
             'info' => $info,
             'pengaturan' => $pengaturan,
             'galeri' => $galeri,

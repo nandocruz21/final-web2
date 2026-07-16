@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Search, Bell, FileText, Calendar, Users, Info, Phone, BookOpen, MapPin } from 'lucide-react';
+import { Search, Bell, FileText, Calendar, Users, Info, Phone, BookOpen, MapPin, Activity, Clock, CheckCircle2, PhoneCall } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
@@ -59,7 +59,7 @@ const Home: React.FC = () => {
 
 
         {/* Statistics Banner */}
-        <section id="jadwal" className="bg-gradient-to-r from-[#eef8f2] to-[#f8fcf9] rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between border border-[#e3efe8]">
+        <section className="bg-gradient-to-r from-[#eef8f2] to-[#f8fcf9] rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between border border-[#e3efe8]">
           <div className="md:w-1/2 mb-8 md:mb-0">
             <h3 className="text-3xl font-bold font-serif text-[#104b3a] leading-tight">
               TPQ Kami,<br/>
@@ -80,15 +80,46 @@ const Home: React.FC = () => {
                 <div className="text-3xl font-bold text-[#104b3a] font-serif">{data?.totalSantri || 0}</div>
               </div>
               <div className="flex flex-col items-center">
-                <div className="text-emerald-700 mb-3"><BookOpen size={24} /></div>
-                <div className="text-[10px] font-bold text-slate-800 uppercase tracking-widest mb-1">Kelas</div>
-                <div className="text-3xl font-bold text-slate-400 font-serif">--</div>
-              </div>
-              <div className="flex flex-col items-center">
                 <div className="text-amber-500 mb-3"><MapPin size={24} /></div>
                 <div className="text-[10px] font-bold text-slate-800 uppercase tracking-widest mb-1">Pengajar</div>
-                <div className="text-3xl font-bold text-slate-400 font-serif">--</div>
+                <div className="text-3xl font-bold text-slate-400 font-serif">{data?.totalPengajar || 0}</div>
               </div>
+              <div className="flex flex-col items-center">
+                <div className="text-emerald-700 mb-3"><Activity size={24} /></div>
+                <div className="text-[10px] font-bold text-slate-800 uppercase tracking-widest mb-1">Pembaruan Rapor</div>
+                <div className="text-3xl font-bold text-slate-400 font-serif">{data?.totalPembaruanRapor || 0}</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Fitur Unggulan Section */}
+        <section className="py-8">
+          <div className="text-center mb-10">
+            <h3 className="text-2xl font-bold font-serif text-slate-900 mb-3">Mengapa Memilih MSANTRI?</h3>
+            <p className="text-slate-500 max-w-2xl mx-auto">Kami menyediakan sistem informasi terbaik untuk memastikan transparansi dan kemudahan pemantauan hafalan santri.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-white p-6 rounded-2xl border border-slate-200 text-center hover:shadow-md transition-shadow">
+              <div className="w-14 h-14 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <CheckCircle2 size={28} />
+              </div>
+              <h4 className="text-lg font-bold text-slate-900 mb-2">Pantauan Real-Time</h4>
+              <p className="text-slate-500 text-sm leading-relaxed">Pantau perkembangan hafalan dan kehadiran anak langsung dari smartphone Anda kapan saja.</p>
+            </div>
+            <div className="bg-white p-6 rounded-2xl border border-slate-200 text-center hover:shadow-md transition-shadow">
+              <div className="w-14 h-14 bg-blue-100 text-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <Clock size={28} />
+              </div>
+              <h4 className="text-lg font-bold text-slate-900 mb-2">Jadwal Terstruktur</h4>
+              <p className="text-slate-500 text-sm leading-relaxed">Jadwal kegiatan mengaji yang tertata rapi dan mudah diakses untuk kedisiplinan santri.</p>
+            </div>
+            <div className="bg-white p-6 rounded-2xl border border-slate-200 text-center hover:shadow-md transition-shadow">
+              <div className="w-14 h-14 bg-orange-100 text-orange-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <Users size={28} />
+              </div>
+              <h4 className="text-lg font-bold text-slate-900 mb-2">Pengajar Berkompeten</h4>
+              <p className="text-slate-500 text-sm leading-relaxed">Dibimbing langsung oleh para pengajar yang ahli dan berpengalaman di bidangnya.</p>
             </div>
           </div>
         </section>
@@ -109,6 +140,26 @@ const Home: React.FC = () => {
             </div>
           </section>
         )}
+
+        {/* Lokasi & Kontak Section */}
+        <section id="lokasi" className="bg-[#104b3a] rounded-2xl p-8 md:p-12 text-white flex flex-col md:flex-row items-center justify-between mt-8">
+          <div className="md:w-2/3 mb-6 md:mb-0">
+            <h3 className="text-2xl font-bold font-serif mb-3">Kunjungi TPQ Kami</h3>
+            <p className="text-emerald-100/80 mb-4 max-w-lg">
+              Kami terbuka untuk diskusi dan pendaftaran santri baru. Silakan kunjungi lokasi kami atau hubungi pengurus untuk informasi lebih lanjut.
+            </p>
+            <div className="flex items-center gap-2 text-emerald-50 text-sm">
+              <MapPin size={16} className="text-emerald-400" />
+              <span>{data?.pengaturan?.alamat_tpq || 'Jl. Pendidikan No. 1, Kota Santri'}</span>
+            </div>
+          </div>
+          <div className="md:w-1/3 flex justify-end w-full">
+            <a href={`https://wa.me/${data?.pengaturan?.nomor_telepon || '6281234567890'}`} target="_blank" rel="noopener noreferrer" className="bg-white text-[#104b3a] hover:bg-emerald-50 px-6 py-4 rounded-xl font-bold flex items-center justify-center gap-3 w-full md:w-auto transition-colors shadow-lg">
+              <PhoneCall size={20} />
+              Hubungi Pengurus
+            </a>
+          </div>
+        </section>
 
       </main>
 
