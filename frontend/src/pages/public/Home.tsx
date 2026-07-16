@@ -130,24 +130,30 @@ const Home: React.FC = () => {
             <h3 className="text-2xl font-bold font-serif text-slate-900 mb-3">Galeri Kegiatan Santri</h3>
             <p className="text-slate-500 max-w-2xl mx-auto">Sekilas potret keaktifan dan keceriaan santri saat belajar di TPQ kami.</p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {data?.galeri && data.galeri.length > 0 ? (
-              data.galeri.slice(0, 4).map((item: any, index: number) => (
-                <div key={index} className="group relative overflow-hidden rounded-xl aspect-square shadow-sm cursor-pointer">
-                  <img src={`http://localhost:8000/storage/galeri/${item.nama_file}`} alt={item.keterangan || 'Galeri'} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
-                    <p className="text-white text-sm font-medium">{item.keterangan}</p>
-                  </div>
-                </div>
-              ))
-            ) : (
-              // Fallback jika API kosong
-              ['/WhatsApp Image 2026-03-16 at 23.15.08.jpeg', '/WhatsApp Image 2026-03-16 at 23.17.16.jpeg', '/WhatsApp Image 2026-03-16 at 23.28.55.jpeg', '/WhatsApp Image 2026-03-16 at 23.29.16.jpeg'].map((src, idx) => (
-                <div key={idx} className="group relative overflow-hidden rounded-xl aspect-square shadow-sm cursor-pointer">
-                  <img src={src} alt={`Galeri ${idx + 1}`} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                </div>
-              ))
-            )}
+          <div className="overflow-hidden w-full relative">
+            <div className="flex animate-marquee gap-4 w-max hover:animation-play-state-paused">
+              {[0, 1].map((loopIdx) => (
+                <React.Fragment key={loopIdx}>
+                  {data?.galeri && data.galeri.length > 0 ? (
+                    data.galeri.map((item: any, index: number) => (
+                      <div key={`${loopIdx}-${index}`} className="group relative overflow-hidden rounded-xl w-64 md:w-80 aspect-[4/3] shadow-sm cursor-pointer flex-shrink-0">
+                        <img src={`http://localhost:8000/storage/galeri/${item.nama_file}`} alt={item.keterangan || 'Galeri'} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
+                          <p className="text-white text-sm font-medium">{item.keterangan}</p>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    // Fallback jika API kosong
+                    ['/WhatsApp Image 2026-03-16 at 23.15.08.jpeg', '/WhatsApp Image 2026-03-16 at 23.17.16.jpeg', '/WhatsApp Image 2026-03-16 at 23.28.55.jpeg', '/WhatsApp Image 2026-03-16 at 23.29.16.jpeg', '/69b938fe33a5a.jpeg'].map((src, idx) => (
+                      <div key={`${loopIdx}-${idx}`} className="group relative overflow-hidden rounded-xl w-64 md:w-80 aspect-[4/3] shadow-sm cursor-pointer flex-shrink-0">
+                        <img src={src} alt={`Galeri ${idx + 1}`} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                      </div>
+                    ))
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -224,25 +230,6 @@ const Home: React.FC = () => {
           </section>
         )}
 
-        {/* Lokasi & Kontak Section */}
-        <section id="lokasi" className="bg-[#104b3a] rounded-2xl p-8 md:p-12 text-white flex flex-col md:flex-row items-center justify-between mt-8">
-          <div className="md:w-2/3 mb-6 md:mb-0">
-            <h3 className="text-2xl font-bold font-serif mb-3">Kunjungi TPQ Kami</h3>
-            <p className="text-emerald-100/80 mb-4 max-w-lg">
-              Kami terbuka untuk diskusi dan pendaftaran santri baru. Silakan kunjungi lokasi kami atau hubungi pengurus untuk informasi lebih lanjut.
-            </p>
-            <div className="flex items-center gap-2 text-emerald-50 text-sm">
-              <MapPin size={16} className="text-emerald-400" />
-              <span>{data?.pengaturan?.alamat_tpq || 'Jl. Pendidikan No. 1, Kota Santri'}</span>
-            </div>
-          </div>
-            <div className="md:w-1/3 flex justify-end w-full">
-              <a href={`https://wa.me/${data?.pengaturan?.nomor_telepon || '6281234567890'}`} target="_blank" rel="noopener noreferrer" className="bg-white text-[#104b3a] hover:bg-emerald-50 px-6 py-4 rounded-xl font-bold flex items-center justify-center gap-3 w-full md:w-auto transition-colors shadow-lg">
-                <PhoneCall size={20} />
-                Hubungi Pengurus
-              </a>
-            </div>
-        </section>
 
       </main>
 
