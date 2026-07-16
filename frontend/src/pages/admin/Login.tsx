@@ -109,62 +109,62 @@ const Login: React.FC = () => {
       </div>
 
       {/* Right Side - Login Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-8 relative overflow-y-auto">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-4 relative overflow-y-auto">
         {/* Ornamen latar belakang tipis */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl pointer-events-none"></div>
         
-        <div className="max-w-md w-full card-marble p-6 sm:p-8 relative z-10 animate-fade-in-up">
-          <div className="text-center lg:text-left mb-8">
+        <div className="max-w-md w-full card-marble p-6 sm:px-8 sm:py-6 relative z-10 animate-fade-in-up">
+          <div className="text-center lg:text-left mb-6">
             <div className="lg:hidden font-serif font-bold text-2xl text-primary mb-2">MSANTRI</div>
             <p className="label-small text-gold mb-1">Login Pengelola</p>
             <h2 className="text-2xl sm:text-3xl font-bold font-serif text-on-surface mb-2">Selamat Datang</h2>
             <p className="text-on-surface-variant font-sans text-sm">Silakan masuk menggunakan akun admin Anda.</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-4">
             {errorMsg && (
-              <div className="bg-red-50 text-red-600 p-4 rounded-xl text-sm border border-red-200">
+              <div className="bg-red-50 text-red-600 p-3 rounded-xl text-sm border border-red-200">
                 {errorMsg}
               </div>
             )}
             <div>
-              <label className="label-small text-on-surface-variant mb-2 block">Email atau Username</label>
+              <label className="label-small text-on-surface-variant mb-1 block">Email atau Username</label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none text-on-surface-variant group-focus-within:text-gold transition-colors">
-                  <Mail size={20} />
+                  <Mail size={18} />
                 </div>
                 <input 
                   type="text" 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="admin@msantri.com"
-                  className="w-full bg-transparent border-0 border-b-2 border-outline-light py-2.5 pl-10 pr-4 font-sans text-sm text-on-surface focus:outline-none focus:border-gold transition-colors placeholder:text-on-surface-variant/40 [color-scheme:light] [&:-webkit-autofill]:bg-transparent [&:-webkit-autofill]:[-webkit-box-shadow:0_0_0_1000px_white_inset]"
+                  className="w-full bg-transparent border-0 border-b-2 border-outline-light py-2 pl-9 pr-4 font-sans text-sm text-on-surface focus:outline-none focus:border-gold transition-colors placeholder:text-on-surface-variant/40 [color-scheme:light] [&:-webkit-autofill]:bg-transparent [&:-webkit-autofill]:[-webkit-box-shadow:0_0_0_1000px_white_inset]"
                   required
                 />
               </div>
             </div>
 
             <div>
-              <div className="flex justify-between items-center mb-2">
+              <div className="flex justify-between items-center mb-1">
                 <label className="label-small text-on-surface-variant block">Password</label>
                 <a href="#" className="text-xs font-medium text-gold hover:text-gold-dim transition-colors">Lupa Sandi?</a>
               </div>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none text-on-surface-variant group-focus-within:text-gold transition-colors">
-                  <Lock size={20} />
+                  <Lock size={18} />
                 </div>
                 <input 
                   type="password" 
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full bg-transparent border-0 border-b-2 border-outline-light py-2.5 pl-10 pr-4 font-sans text-sm text-on-surface focus:outline-none focus:border-gold transition-colors placeholder:text-on-surface-variant/40 [color-scheme:light] [&:-webkit-autofill]:bg-transparent [&:-webkit-autofill]:[-webkit-box-shadow:0_0_0_1000px_white_inset]"
+                  className="w-full bg-transparent border-0 border-b-2 border-outline-light py-2 pl-9 pr-4 font-sans text-sm text-on-surface focus:outline-none focus:border-gold transition-colors placeholder:text-on-surface-variant/40 [color-scheme:light] [&:-webkit-autofill]:bg-transparent [&:-webkit-autofill]:[-webkit-box-shadow:0_0_0_1000px_white_inset]"
                   required
                 />
               </div>
             </div>
 
-            <div className="flex items-center mt-4">
+            <div className="flex items-center mt-3">
               <input type="checkbox" id="remember" className="w-4 h-4 rounded border-outline-light text-primary focus:ring-primary/20 bg-transparent" />
               <label htmlFor="remember" className="ml-2 text-sm text-on-surface-variant font-sans">Ingat sesi saya</label>
             </div>
@@ -172,7 +172,7 @@ const Login: React.FC = () => {
             <button 
               type="submit"
               disabled={loading}
-              className={`btn-primary w-full flex justify-center items-center gap-2 mt-6 ${
+              className={`btn-primary w-full flex justify-center items-center gap-2 mt-5 py-2.5 text-sm ${
                 loading ? 'opacity-70 cursor-not-allowed' : ''
               }`}
             >
@@ -181,13 +181,13 @@ const Login: React.FC = () => {
               )}
             </button>
             
-            <div className="relative flex py-5 items-center">
+            <div className="relative flex py-4 items-center">
               <div className="flex-grow border-t border-outline-light"></div>
               <span className="flex-shrink-0 mx-4 text-on-surface-variant text-xs font-sans">Atau masuk dengan</span>
               <div className="flex-grow border-t border-outline-light"></div>
             </div>
 
-            <div className="flex justify-center pb-2">
+            <div className="flex justify-center pb-1">
               <GoogleLoginButton 
                 onSuccess={handleGoogleSuccess} 
                 onError={(err: any) => setErrorMsg(err || 'Gagal terhubung dengan akun Google.')}
@@ -195,7 +195,7 @@ const Login: React.FC = () => {
             </div>
           </form>
           
-          <div className="mt-8 text-center text-xs font-sans text-on-surface-variant">
+          <div className="mt-6 text-center text-xs font-sans text-on-surface-variant">
             &copy; {new Date().getFullYear()} MSANTRI School Management System.
           </div>
         </div>
