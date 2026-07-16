@@ -78,26 +78,30 @@ const Login: React.FC = () => {
     <div className="min-h-screen bg-surface flex font-sans text-on-surface">
       {/* Left Side - Image/Illustration (hidden on mobile) */}
       <div className="hidden lg:flex w-1/2 bg-[#004d34] text-white p-12 flex-col justify-between relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(circle at 20% 50%, rgba(255,255,255,0.8) 0%, transparent 50%)" }}></div>
+        {/* Pola ornamen SVG yang elegan */}
+        <div className="absolute inset-0 opacity-10 pointer-events-none" 
+          style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff'%3E%3Cpolygon points='30,5 55,30 30,55 5,30'/%3E%3C/g%3E%3C/svg%3E")`, backgroundSize: '60px 60px' }}>
+        </div>
+        
         <div className="relative z-10">
-          <Link to="/" className="inline-flex items-center gap-2 text-emerald-200 hover:text-white transition-colors mb-12">
-            <ArrowLeft size={20} /> Kembali ke Beranda
+          <Link to="/" className="inline-flex items-center gap-2 text-gold-dim hover:text-gold transition-colors mb-12 text-sm font-sans font-medium group">
+            <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" /> Kembali ke Beranda
           </Link>
-          <div className="font-serif font-bold text-3xl mb-2 tracking-wide">MSANTRI</div>
-          <div className="text-emerald-200 text-sm uppercase tracking-widest">Sistem Informasi Santri</div>
+          <div className="font-serif font-bold text-4xl mb-1 text-white">MSANTRI</div>
+          <div className="text-gold text-xs uppercase tracking-[0.2em] font-sans font-semibold">Sistem Informasi Manajemen</div>
         </div>
 
         <div className="relative z-10 mt-auto">
-          <h1 className="text-4xl lg:text-5xl font-bold font-serif leading-tight mb-6">
-            Kelola data pendidikan dengan lebih mudah dan cepat.
+          <h1 className="text-4xl lg:text-5xl font-bold font-serif leading-tight mb-6 text-white">
+            Kelola TPQ dengan <span className="text-gold italic">lebih mudah</span> dan cepat.
           </h1>
-          <p className="text-emerald-100 max-w-md text-lg">
-            Akses dashboard khusus pengajar dan staf untuk memantau progres, mengisi rapor, dan melihat absensi santri.
+          <p className="text-white/70 max-w-md text-sm leading-relaxed font-sans">
+            Akses Dasbor Admin khusus pengelola dan pengajar untuk memantau progres hafalan, mengisi rapor, dan mengatur jadwal kegiatan santri secara *real-time*.
           </p>
         </div>
         
-        {/* Decorative elements */}
-        <div className="absolute right-0 bottom-0 w-96 h-96 bg-emerald-600/30 rounded-tl-full blur-3xl"></div>
+        {/* Decorative elements (Cahaya emas di sudut bawah) */}
+        <div className="absolute -right-20 -bottom-20 w-96 h-96 bg-gold/20 rounded-full blur-[100px] pointer-events-none"></div>
       </div>
 
       {/* Right Side - Login Form */}
