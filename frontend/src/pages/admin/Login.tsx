@@ -114,14 +114,14 @@ const Login: React.FC = () => {
         <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl pointer-events-none"></div>
         
         <div className="max-w-md w-full card-marble p-6 sm:p-8 relative z-10 animate-fade-in-up">
-          <div className="text-center lg:text-left mb-10">
+          <div className="text-center lg:text-left mb-8">
             <div className="lg:hidden font-serif font-bold text-2xl text-primary mb-2">MSANTRI</div>
-            <p className="label-small text-gold mb-2">Login Pengelola</p>
-            <h2 className="text-3xl font-bold font-serif text-on-surface mb-3">Selamat Datang</h2>
+            <p className="label-small text-gold mb-1">Login Pengelola</p>
+            <h2 className="text-2xl sm:text-3xl font-bold font-serif text-on-surface mb-2">Selamat Datang</h2>
             <p className="text-on-surface-variant font-sans text-sm">Silakan masuk menggunakan akun admin Anda.</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-5">
             {errorMsg && (
               <div className="bg-red-50 text-red-600 p-4 rounded-xl text-sm border border-red-200">
                 {errorMsg}
