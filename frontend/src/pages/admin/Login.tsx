@@ -177,13 +177,13 @@ const Login: React.FC = () => {
               )}
             </button>
             
-            <div className="relative flex py-2 items-center">
-              <div className="flex-grow border-t border-slate-200"></div>
-              <span className="flex-shrink-0 mx-4 text-slate-400 text-sm">Atau masuk dengan</span>
-              <div className="flex-grow border-t border-slate-200"></div>
+            <div className="relative flex py-5 items-center">
+              <div className="flex-grow border-t border-outline-light"></div>
+              <span className="flex-shrink-0 mx-4 text-on-surface-variant text-xs font-sans">Atau masuk dengan</span>
+              <div className="flex-grow border-t border-outline-light"></div>
             </div>
 
-            <div className="flex justify-center">
+            <div className="flex justify-center pb-2">
               <GoogleLoginButton 
                 onSuccess={handleGoogleSuccess} 
                 onError={(err: any) => setErrorMsg(err || 'Gagal terhubung dengan akun Google.')}
@@ -191,7 +191,7 @@ const Login: React.FC = () => {
             </div>
           </form>
           
-          <div className="mt-12 text-center lg:text-left text-sm text-slate-500">
+          <div className="mt-8 text-center text-xs font-sans text-on-surface-variant">
             &copy; {new Date().getFullYear()} MSANTRI School Management System.
           </div>
         </div>
@@ -211,10 +211,10 @@ const GoogleLoginButton = ({ onSuccess, onError }: { onSuccess: Function, onErro
     <button 
       type="button"
       onClick={() => login()}
-      className="flex items-center justify-center gap-3 bg-white border border-slate-300 text-slate-700 font-medium py-2.5 px-4 rounded-xl w-full hover:bg-slate-50 transition-colors"
+      className="flex items-center justify-center gap-3 bg-surface-low border border-outline-light text-on-surface font-sans font-medium text-sm py-3 px-4 rounded-sm w-full hover:border-gold/40 hover:bg-gold/5 transition-colors group"
     >
-      <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="w-5 h-5" />
-      Sign in with Google
+      <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="w-5 h-5 group-hover:scale-110 transition-transform" />
+      Lanjutkan dengan Google
     </button>
   );
 };
