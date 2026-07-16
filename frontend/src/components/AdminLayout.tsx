@@ -1,5 +1,5 @@
 import React from 'react';
-import { Users, BookOpen, MapPin, Search, Bell, Settings, LogOut, FileText, CheckSquare, Home } from 'lucide-react';
+import { Users, BookOpen, MapPin, Search, Bell, Settings, LogOut, FileText, CheckSquare, Home, Globe } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
 const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -30,13 +30,19 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           </Link>
         </nav>
         
-        <div className="p-4 mt-auto">
+        <div className="p-4 mt-auto space-y-2">
+          <Link 
+            to="/" 
+            className="flex items-center justify-center gap-2 w-full bg-emerald-800 text-white hover:bg-emerald-700 px-4 py-2.5 rounded-xl font-medium transition-colors text-sm"
+          >
+            <Globe size={16} /> Halaman User
+          </Link>
           <button 
             onClick={() => {
               localStorage.removeItem('admin_token');
               window.location.href = '/admin/login';
             }} 
-            className="flex items-center justify-center gap-2 w-full bg-emerald-800 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl font-medium transition-colors text-sm"
+            className="flex items-center justify-center gap-2 w-full bg-red-700  text-white hover:bg-red-800 hover:text-black  px-4 py-2.5 rounded-xl font-medium transition-colors text-sm"
           >
             <LogOut size={16} /> Keluar
           </button>
