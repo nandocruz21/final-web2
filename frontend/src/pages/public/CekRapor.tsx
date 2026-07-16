@@ -82,7 +82,7 @@ const CekRapor: React.FC = () => {
             ) : (
               <div className="grid gap-4">
                 {results.map((santri) => (
-                  <div key={santri.id_santri} className="bg-white p-6 rounded-2xl border border-slate-200 hover:shadow-md hover:border-emerald-200 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 group cursor-pointer">
+                  <div key={santri.id} className="bg-white p-6 rounded-2xl border border-slate-200 hover:shadow-md hover:border-emerald-200 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 group cursor-pointer">
                     <div className="flex items-center gap-4">
                       <div className="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center font-bold text-lg">
                         {santri.nama_lengkap.charAt(0)}
