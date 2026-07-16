@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class AuthApiController extends Controller
 {
@@ -15,12 +16,25 @@ class AuthApiController extends Controller
             'password' => 'required'
         ]);
 
-        if ($request->username === 'admin' && $request->password === 'pw') {
-            session(['isLoggin' => 'login']);
+        // Support both old hardcoded logic for fallback, and new db logic
+        $credentials = [
+            'email' => $request->username === 'admin' ? 'admin@msantri.com' : $request->username,
+            'password' => $request->password
+        ];
+
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+            // Issue token
+            $token = $user->createToken('admin-token')->plainTextToken;
+
             return response()->json([
                 'success' => true,
                 'message' => 'Login berhasil',
-                'user' => ['name' => 'Administrator']
+                'user' => [
+                    'name' => $user->name,
+                    'email' => $user->email
+                ],
+                'token' => $token
             ]);
         }
 
@@ -30,17 +44,27 @@ class AuthApiController extends Controller
         ], 401);
     }
 
-    public function check()
+    public function check(Request $request)
     {
-        if (session('isLoggin') === 'login') {
-            return response()->json(['authenticated' => true, 'user' => ['name' => 'Administrator']]);
-        }
-        return response()->json(['authenticated' => false], 401);
+        // Protected by auth:sanctum middleware, so if it reaches here, it's valid.
+        $user = $request->user();
+        return response()->json([
+            'authenticated' => true, 
+            'user' => [
+                'name' => $user->name,
+                'email' => $user->email
+            ]
+        ]);
     }
 
     public function logout(Request $request)
     {
-        $request->session()->forget('isLoggin');
-        return response()->json(['success' => true, 'message' => 'Logout berhasil']);
+        // Revoke the token that was used to authenticate the current request
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json([
+            'success' => true, 
+            'message' => 'Logout berhasil'
+        ]);
     }
 }
