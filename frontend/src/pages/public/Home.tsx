@@ -124,6 +124,89 @@ const Home: React.FC = () => {
           </div>
         </section>
 
+        {/* Galeri Kegiatan Section */}
+        <section className="py-8">
+          <div className="text-center mb-10">
+            <h3 className="text-2xl font-bold font-serif text-slate-900 mb-3">Galeri Kegiatan Santri</h3>
+            <p className="text-slate-500 max-w-2xl mx-auto">Sekilas potret keaktifan dan keceriaan santri saat belajar di TPQ kami.</p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {data?.galeri && data.galeri.length > 0 ? (
+              data.galeri.slice(0, 4).map((item: any, index: number) => (
+                <div key={index} className="group relative overflow-hidden rounded-xl aspect-square shadow-sm cursor-pointer">
+                  <img src={`http://localhost:8000/storage/galeri/${item.nama_file}`} alt={item.keterangan || 'Galeri'} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
+                    <p className="text-white text-sm font-medium">{item.keterangan}</p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              // Fallback jika API kosong
+              ['/WhatsApp Image 2026-03-16 at 23.15.08.jpeg', '/WhatsApp Image 2026-03-16 at 23.17.16.jpeg', '/WhatsApp Image 2026-03-16 at 23.28.55.jpeg', '/WhatsApp Image 2026-03-16 at 23.29.16.jpeg'].map((src, idx) => (
+                <div key={idx} className="group relative overflow-hidden rounded-xl aspect-square shadow-sm cursor-pointer">
+                  <img src={src} alt={`Galeri ${idx + 1}`} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                </div>
+              ))
+            )}
+          </div>
+        </section>
+
+        {/* Testimoni Section */}
+        <section className="py-8">
+          <div className="text-center mb-10">
+            <h3 className="text-2xl font-bold font-serif text-slate-900 mb-3">Kata Wali Santri</h3>
+            <p className="text-slate-500 max-w-2xl mx-auto">Apa pendapat mereka tentang pengalaman belajar di MSANTRI?</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {data?.testimoni && data.testimoni.length > 0 ? (
+              data.testimoni.slice(0, 3).map((item: any, index: number) => (
+                <div key={index} className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col">
+                  <div className="flex text-amber-400 mb-4">
+                    {Array.from({ length: item.rating || 5 }).map((_, i) => (
+                      <svg key={i} viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                    ))}
+                  </div>
+                  <p className="text-slate-600 italic text-sm flex-grow mb-6">"{item.isi_testimoni}"</p>
+                  <div className="flex items-center gap-3 mt-auto">
+                    <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm">
+                      {item.inisial || item.nama_wali?.charAt(0) || 'W'}
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-slate-900 text-sm">{item.nama_wali}</h4>
+                      <p className="text-xs text-slate-500">Wali Santri</p>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              // Fallback Testimoni
+              [
+                { nama: "Bpk. Ahmad", isi: "Alhamdulillah sejak menggunakan aplikasi ini, saya jadi lebih mudah memantau setoran hafalan anak saya meskipun sedang bekerja.", inisial: "A" },
+                { nama: "Ibu Siti", isi: "Fiturnya sangat membantu. Jadwal mengaji anak selalu up-to-date dan pengajarnya sangat profesional. Pertahankan!", inisial: "S" },
+                { nama: "Bpk. Budi", isi: "Sangat inovatif! Dulu susah tau anak sudah sampai surat apa, sekarang tinggal buka HP semua kelihatan jelas.", inisial: "B" }
+              ].map((item, idx) => (
+                <div key={idx} className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col">
+                  <div className="flex text-amber-400 mb-4">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <svg key={i} viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                    ))}
+                  </div>
+                  <p className="text-slate-600 italic text-sm flex-grow mb-6">"{item.isi}"</p>
+                  <div className="flex items-center gap-3 mt-auto">
+                    <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm">
+                      {item.inisial}
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-slate-900 text-sm">{item.nama}</h4>
+                      <p className="text-xs text-slate-500">Wali Santri</p>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </section>
+
         {/* Optional Events Section (Kept for feature parity) */}
         {data?.info && (
           <section className="pt-4">
@@ -153,12 +236,12 @@ const Home: React.FC = () => {
               <span>{data?.pengaturan?.alamat_tpq || 'Jl. Pendidikan No. 1, Kota Santri'}</span>
             </div>
           </div>
-          <div className="md:w-1/3 flex justify-end w-full">
-            <a href={`https://wa.me/${data?.pengaturan?.nomor_telepon || '6281234567890'}`} target="_blank" rel="noopener noreferrer" className="bg-white text-[#104b3a] hover:bg-emerald-50 px-6 py-4 rounded-xl font-bold flex items-center justify-center gap-3 w-full md:w-auto transition-colors shadow-lg">
-              <PhoneCall size={20} />
-              Hubungi Pengurus
-            </a>
-          </div>
+            <div className="md:w-1/3 flex justify-end w-full">
+              <a href={`https://wa.me/${data?.pengaturan?.nomor_telepon || '6281234567890'}`} target="_blank" rel="noopener noreferrer" className="bg-white text-[#104b3a] hover:bg-emerald-50 px-6 py-4 rounded-xl font-bold flex items-center justify-center gap-3 w-full md:w-auto transition-colors shadow-lg">
+                <PhoneCall size={20} />
+                Hubungi Pengurus
+              </a>
+            </div>
         </section>
 
       </main>
