@@ -28,19 +28,34 @@
 
   /* Tombol Utama (Hijau Zamrud) */
   .btn-primary {
-    @apply inline-flex items-center justify-center px-6 py-3 bg-primary text-white font-semibold rounded-md shadow-sm hover:bg-primary-dark transition-all duration-300 hover:shadow-lg;
+    @apply inline-flex items-center justify-center px-6 py-3 text-white font-semibold rounded-md shadow-sm transition-all duration-300;
+    background-color: #006747;
     font-family: 'Manrope', sans-serif;
+  }
+  .btn-primary:hover {
+    background-color: #004d34;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.15);
   }
 
   /* Tombol Kedua (Outline Emas) */
   .btn-gold {
-    @apply inline-flex items-center justify-center px-6 py-3 border-2 border-gold text-gold font-semibold rounded-md bg-transparent hover:bg-gold hover:text-white transition-all duration-300;
+    @apply inline-flex items-center justify-center px-6 py-3 border-2 font-semibold rounded-md bg-transparent transition-all duration-300;
+    border-color: #a37c35;
+    color: #a37c35;
     font-family: 'Manrope', sans-serif;
+  }
+  .btn-gold:hover {
+    background-color: #a37c35;
+    color: #ffffff;
   }
 
   /* Kartu (Putih bersih di atas marmer) */
   .card-marble {
-    @apply bg-white rounded-md border border-outline-light shadow-sm hover:shadow-md transition-shadow duration-300;
+    @apply bg-white rounded-md shadow-sm transition-shadow duration-300;
+    border: 1px solid #d7c2be;
+  }
+  .card-marble:hover {
+    box-shadow: 0 4px 12px -2px rgb(0 0 0 / 0.08);
   }
 
   /* Label kecil bergaya butik */

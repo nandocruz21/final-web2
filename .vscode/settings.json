@@ -1,0 +1,6 @@
+{
+  // Matikan validasi CSS bawaan VS Code
+  // supaya tidak menampilkan garis kuning pada @tailwind, @apply, @layer
+  "css.validate": false,
+  "scss.validate": false
+}

@@ -3,6 +3,7 @@ import { Users, BookOpen, CheckCircle2, Clock, ChevronRight } from 'lucide-react
 import { Link } from 'react-router-dom';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import QuranScene from '../../components/QuranScene';
 import api from '../../services/api';
 
 const Home: React.FC = () => {
@@ -102,103 +103,24 @@ const Home: React.FC = () => {
               )}
             </div>
 
-            {/* --- KANAN: Al-Quran 3D Melayang --- */}
-            <div className="relative flex items-center justify-center h-[420px]">
-
+            {/* --- KANAN: Al-Quran 3D Melayang (Three.js) --- */}
+            <div className="relative flex items-center justify-center h-[480px] w-full">
               {/* Cahaya ambient di bawah buku */}
-              <div
-                className="absolute bottom-12 left-1/2 -translate-x-1/2 w-48 h-8 bg-primary/20 rounded-full blur-xl animate-floatShadow"
-              />
+              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-40 h-6 bg-gold/20 rounded-full blur-2xl animate-floatShadow" />
 
-              {/* Buku Al-Quran melayang */}
-              <div className="animate-float relative z-10">
+              {/* Komponen Three.js 3D */}
+              <QuranScene />
 
-                {/* Efek cahaya keemasan mengelilingi buku */}
-                <div className="absolute -inset-6 bg-gradient-radial from-gold/10 via-transparent to-transparent rounded-full blur-xl" />
-
-                {/* === BUKU QURAN 3D menggunakan CSS murni === */}
-                <div
-                  className="relative"
-                  style={{
-                    width: 220,
-                    height: 290,
-                    perspective: '800px',
-                  }}
-                >
-                  {/* Bagian depan buku */}
-                  <div
-                    className="absolute inset-0 rounded-sm overflow-hidden"
-                    style={{
-                      background: 'linear-gradient(160deg, #b8960c 0%, #a37c35 30%, #8b6914 60%, #c9a227 100%)',
-                      boxShadow: '8px 12px 40px rgba(0,0,0,0.35), inset -3px 0 8px rgba(0,0,0,0.2), 0 0 30px rgba(163,124,53,0.3)',
-                      transform: 'rotateY(-8deg) rotateX(3deg)',
-                    }}
-                  >
-                    {/* Ornamen bingkai emas di cover */}
-                    <div className="absolute inset-3 border border-yellow-200/30 rounded-sm" />
-                    <div className="absolute inset-5 border border-yellow-100/20 rounded-sm" />
-
-                    {/* Teks judul buku */}
-                    <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-                      {/* Tulisan Arab */}
-                      <p className="text-yellow-100 text-2xl font-bold mb-2" style={{ fontFamily: 'serif', textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>
-                        ﷻ
-                      </p>
-                      <p className="text-yellow-100/90 text-base font-bold tracking-widest mb-1" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}>
-                        القرآن الكريم
-                      </p>
-                      <div className="w-16 h-px bg-yellow-200/50 my-2" />
-                      <p className="text-yellow-200/70 text-xs tracking-[0.2em] uppercase">AL-QUR'AN</p>
-                      <p className="text-yellow-200/70 text-xs tracking-[0.15em]">AL-KARIIM</p>
-
-                      {/* Ornamen geometri kecil */}
-                      <div className="mt-4">
-                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-                          <polygon points="20,2 38,20 20,38 2,20" stroke="rgba(255,235,150,0.4)" strokeWidth="1" fill="none"/>
-                          <polygon points="20,8 32,20 20,32 8,20" stroke="rgba(255,235,150,0.3)" strokeWidth="1" fill="none"/>
-                          <circle cx="20" cy="20" r="4" fill="rgba(255,235,150,0.3)"/>
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Sisi samping buku (efek tebal/3D) */}
-                  <div
-                    className="absolute top-2 right-0 h-full"
-                    style={{
-                      width: 18,
-                      background: 'linear-gradient(to bottom, #6b4e0a, #8b6914, #5a4008)',
-                      transform: 'translateX(14px) rotateY(85deg)',
-                      transformOrigin: 'left center',
-                      boxShadow: 'inset -2px 0 5px rgba(0,0,0,0.4)',
-                    }}
-                  />
-
-                  {/* Halaman-halaman buku (efek kertas) */}
-                  <div
-                    className="absolute right-0 bottom-0"
-                    style={{
-                      width: 12,
-                      height: '95%',
-                      background: 'linear-gradient(to right, #f5e6c8, #fffdf5, #f0d9aa)',
-                      transform: 'translateX(10px) rotateY(85deg) skewY(-1deg)',
-                      transformOrigin: 'left bottom',
-                      boxShadow: '2px 0 4px rgba(0,0,0,0.15)',
-                    }}
-                  />
-                </div>
-              </div>
-
-              {/* Partikel cahaya kecil melayang di sekitar buku */}
+              {/* Partikel bintang emas di sekitar buku */}
               {[
-                { top: '20%', left: '15%', delay: '0s', dur: '3s' },
-                { top: '60%', left: '80%', delay: '1s', dur: '2.5s' },
-                { top: '15%', left: '75%', delay: '0.5s', dur: '3.5s' },
-                { top: '75%', left: '25%', delay: '1.5s', dur: '2.8s' },
+                { top: '12%', left: '8%', delay: '0s', dur: '3s' },
+                { top: '65%', left: '82%', delay: '1s', dur: '2.5s' },
+                { top: '10%', left: '78%', delay: '0.5s', dur: '3.5s' },
+                { top: '78%', left: '18%', delay: '1.5s', dur: '2.8s' },
               ].map((p, i) => (
                 <div
                   key={i}
-                  className="absolute w-1.5 h-1.5 rounded-full bg-gold/60 animate-shimmer"
+                  className="absolute w-2 h-2 rounded-full bg-gold/50 animate-shimmer pointer-events-none"
                   style={{ top: p.top, left: p.left, animationDelay: p.delay, animationDuration: p.dur }}
                 />
               ))}
