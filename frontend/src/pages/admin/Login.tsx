@@ -75,9 +75,9 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex font-sans">
+    <div className="min-h-screen bg-surface flex font-sans text-on-surface">
       {/* Left Side - Image/Illustration (hidden on mobile) */}
-      <div className="hidden lg:flex w-1/2 bg-emerald-800 text-white p-12 flex-col justify-between relative overflow-hidden">
+      <div className="hidden lg:flex w-1/2 bg-[#004d34] text-white p-12 flex-col justify-between relative overflow-hidden">
         <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(circle at 20% 50%, rgba(255,255,255,0.8) 0%, transparent 50%)" }}></div>
         <div className="relative z-10">
           <Link to="/" className="inline-flex items-center gap-2 text-emerald-200 hover:text-white transition-colors mb-12">
