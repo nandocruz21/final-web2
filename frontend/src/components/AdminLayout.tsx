@@ -49,6 +49,7 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         </div>
       </aside>
 
+
       {/* Main Content */}
       <main className="flex-1 md:ml-64 flex flex-col min-h-screen">
         {/* Top Navbar */}

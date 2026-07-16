@@ -3,6 +3,9 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { useTexture, Float, Environment } from '@react-three/drei';
 import * as THREE from 'three';
 
+
+//membuat kotak 3D-nya menggunakan pustaka (library) Three.js dan React Three Fiber. Di file inilah logika putarannya, warnanya (emas), efek bayangannya, dan animasinya diatur.
+
 // ================================================
 // Komponen buku 3D Al-Quran
 // ================================================

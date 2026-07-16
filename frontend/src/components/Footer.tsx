@@ -65,6 +65,7 @@ const Footer: React.FC = () => {
           <p className="text-white/70 text-sm leading-relaxed font-sans mb-6">
             Hubungi kami via WhatsApp untuk pendaftaran santri baru atau pertanyaan seputar kegiatan TPQ.
           </p>
+
           {/* Ikon Sosial Media dengan border emas */}
           <div className="flex items-center gap-3">
             <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer"
