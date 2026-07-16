@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/public/Home';
 import Pengumuman from './pages/public/Pengumuman';
 import CekRapor from './pages/public/CekRapor';
@@ -17,6 +18,7 @@ import Kehadiran from './pages/admin/Kehadiran';
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
