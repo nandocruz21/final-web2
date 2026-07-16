@@ -138,7 +138,7 @@ const Login: React.FC = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="admin@msantri.com"
-                  className="w-full bg-transparent border-0 border-b-2 border-outline-light py-2.5 pl-10 pr-4 font-sans text-sm text-on-surface focus:outline-none focus:border-gold transition-colors placeholder:text-on-surface-variant/40"
+                  className="w-full bg-transparent border-0 border-b-2 border-outline-light py-2.5 pl-10 pr-4 font-sans text-sm text-on-surface focus:outline-none focus:border-gold transition-colors placeholder:text-on-surface-variant/40 [color-scheme:light] [&:-webkit-autofill]:bg-transparent [&:-webkit-autofill]:[-webkit-box-shadow:0_0_0_1000px_white_inset]"
                   required
                 />
               </div>
@@ -158,7 +158,7 @@ const Login: React.FC = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full bg-transparent border-0 border-b-2 border-outline-light py-2.5 pl-10 pr-4 font-sans text-sm text-on-surface focus:outline-none focus:border-gold transition-colors placeholder:text-on-surface-variant/40"
+                  className="w-full bg-transparent border-0 border-b-2 border-outline-light py-2.5 pl-10 pr-4 font-sans text-sm text-on-surface focus:outline-none focus:border-gold transition-colors placeholder:text-on-surface-variant/40 [color-scheme:light] [&:-webkit-autofill]:bg-transparent [&:-webkit-autofill]:[-webkit-box-shadow:0_0_0_1000px_white_inset]"
                   required
                 />
               </div>
