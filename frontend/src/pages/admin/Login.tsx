@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import { Lock, Mail, ArrowRight, ArrowLeft } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
-
+/**
+ * Halaman Login Pengelola (Admin)
+ * Memungkinkan pengajar dan staf MSANTRI untuk masuk ke Dasbor 
+ * menggunakan kredensial standar atau melalui akun Google (OAuth).
+ */
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
