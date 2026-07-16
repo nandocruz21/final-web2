@@ -85,19 +85,19 @@ const Home: React.FC = () => {
               </div>
 
               {/* Statistik kecil di bawah tombol */}
-              {data?.statistik && (
+              {data && (
                 <div className="flex gap-8 pt-4 border-t border-outline-light">
                   <div>
-                    <p className="font-serif text-2xl font-bold text-primary">{data.statistik.total_santri ?? 0}+</p>
+                    <p className="font-serif text-2xl font-bold text-primary">{data.totalSantri ?? 0}+</p>
                     <p className="text-xs text-on-surface-variant font-sans">Santri Aktif</p>
                   </div>
                   <div>
-                    <p className="font-serif text-2xl font-bold text-primary">{data.statistik.total_hafiz ?? 0}+</p>
-                    <p className="text-xs text-on-surface-variant font-sans">Hafiz Lahir</p>
+                    <p className="font-serif text-2xl font-bold text-primary">{data.totalPengajar ?? 0}+</p>
+                    <p className="text-xs text-on-surface-variant font-sans">Pengajar</p>
                   </div>
                   <div>
-                    <p className="font-serif text-2xl font-bold text-primary">5+</p>
-                    <p className="text-xs text-on-surface-variant font-sans">Tahun Berdiri</p>
+                    <p className="font-serif text-2xl font-bold text-primary">{data.totalPembaruanRapor ?? 0}+</p>
+                    <p className="text-xs text-on-surface-variant font-sans">Rapor Diperbarui</p>
                   </div>
                 </div>
               )}
@@ -142,9 +142,9 @@ const Home: React.FC = () => {
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {[
-                { icon: <Users size={22} className="text-primary" />, label: 'Total Santri', value: data?.statistik?.total_santri ?? '—' },
-                { icon: <BookOpen size={22} className="text-primary" />, label: 'Total Hafiz', value: data?.statistik?.total_hafiz ?? '—' },
-                { icon: <CheckCircle2 size={22} className="text-primary" />, label: 'Kehadiran', value: `${data?.statistik?.rata_kehadiran ?? '—'}%` },
+                { icon: <Users size={22} className="text-primary" />, label: 'Total Santri', value: data?.totalSantri ?? '—' },
+                { icon: <BookOpen size={22} className="text-primary" />, label: 'Pengajar', value: data?.totalPengajar ?? '—' },
+                { icon: <CheckCircle2 size={22} className="text-primary" />, label: 'Pembaruan Rapor', value: data?.totalPembaruanRapor ?? '—' },
                 { icon: <Clock size={22} className="text-primary" />, label: 'Jam Belajar/Minggu', value: '12 Jam' },
               ].map((stat, i) => (
                 <div key={i} className="card-marble p-6 text-center hover:scale-105 transition-transform duration-300">
