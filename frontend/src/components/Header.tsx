@@ -37,7 +37,7 @@ const Header: React.FC = () => {
       className={`sticky top-0 z-50 py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300 ${
         isScrolled
           ? 'bg-white/80 backdrop-blur-md shadow-sm border-b border-outline-light'
-          : 'bg-surface border-b border-outline-light'
+          : 'bg-transparent border-b border-transparent'
       }`}
     >
       {/* Logo & Nama TPQ */}
