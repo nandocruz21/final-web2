@@ -55,10 +55,16 @@ export default {
 
       // ====== ANIMASI KUSTOM ======
       keyframes: {
-        // Efek melayang (floating) untuk Quran 3D
+        // Efek melayang (floating) standar
         float: {
           '0%, 100%': { transform: 'translateY(0px) rotate(-2deg)' },
           '50%': { transform: 'translateY(-18px) rotate(2deg)' },
+        },
+        // Efek melayang + putar 3D (Y-axis)
+        floatSpin: {
+          '0%': { transform: 'translateY(0px) rotateY(0deg)' },
+          '50%': { transform: 'translateY(-18px) rotateY(180deg)' },
+          '100%': { transform: 'translateY(0px) rotateY(360deg)' },
         },
         // Bayangan bergerak di bawah objek melayang
         floatShadow: {
@@ -89,6 +95,7 @@ export default {
       },
       animation: {
         float: 'float 4s ease-in-out infinite',
+        floatSpin: 'floatSpin 8s linear infinite',
         floatShadow: 'floatShadow 4s ease-in-out infinite',
         shimmer: 'shimmer 2.5s ease-in-out infinite',
         rise: 'rise 3s ease-in forwards',

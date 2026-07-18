@@ -150,7 +150,7 @@ const Home: React.FC = () => {
             </div>
 
             {/* --- KANAN: Gambar Al-Quran 3D Melayang --- */}
-            <div className="relative flex items-center justify-center h-[480px] w-full">
+            <div className="relative flex items-center justify-center h-[480px] w-full" style={{ perspective: '1000px' }}>
               {/* Bayangan realistis di lantai bawah buku */}
               <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-56 h-8 bg-black/25 rounded-[100%] blur-md animate-floatShadow" />
 
@@ -158,7 +158,8 @@ const Home: React.FC = () => {
               <img 
                 src="/quran-3d.png" 
                 alt="Al-Quran 3D" 
-                className="w-full max-w-[280px] md:max-w-[340px] h-auto object-contain animate-float drop-shadow-2xl relative z-10"
+                className="w-full max-w-[280px] md:max-w-[340px] h-auto object-contain animate-floatSpin drop-shadow-2xl relative z-10"
+                style={{ transformStyle: 'preserve-3d' }}
               />
 
               {/* Partikel bintang emas di sekitar buku */}
