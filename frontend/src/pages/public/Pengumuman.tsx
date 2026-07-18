@@ -153,43 +153,9 @@ const Pengumuman: React.FC = () => {
             <p className="text-on-surface-variant font-sans text-sm">Coba gunakan kata kunci atau kategori yang berbeda.</p>
           </div>
         ) : (
-          <>
-            {/* Banner Pengumuman Darurat */}
-            {pengumuman.filter(p => p.is_urgent === 1 || p.is_urgent === true).length > 0 && (
-              <div className="mb-10 flex flex-col gap-4">
-                {pengumuman.filter(p => p.is_urgent === 1 || p.is_urgent === true).map(item => (
-                  <div key={item.id} className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-red-600 to-red-800 text-white shadow-xl shadow-red-900/20 border border-red-500 p-6 md:p-8 cursor-pointer group animate-fadeUp" onClick={() => setSelectedPengumuman(item)}>
-                    <div className="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
-                    <div className="relative z-10 flex flex-col md:flex-row gap-6 items-start md:items-center">
-                      <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-white/20 flex items-center justify-center shrink-0 border border-white/30 animate-pulse">
-                        <AlertTriangle size={32} className="text-white" />
-                      </div>
-                      <div className="flex-grow">
-                        <div className="flex items-center gap-3 mb-2">
-                          <span className="bg-red-900/50 text-white px-3 py-1 rounded-full text-[10px] font-bold font-sans uppercase tracking-widest border border-red-400/30">
-                            🚨 Info Darurat
-                          </span>
-                          <span className="text-red-100 text-xs font-sans font-medium flex items-center gap-1.5">
-                            <Calendar size={12} /> {formatDate(item.tanggal_posting || item.created_at)}
-                          </span>
-                        </div>
-                        <h2 className="font-serif text-2xl md:text-3xl font-bold mb-2 group-hover:text-gold transition-colors">{item.judul_info}</h2>
-                        <p className="font-sans text-red-100 text-sm md:text-base line-clamp-2">{item.isi_info}</p>
-                      </div>
-                      <div className="shrink-0 mt-4 md:mt-0">
-                        <button className="bg-white text-red-700 group-hover:bg-gold group-hover:text-white px-6 py-2.5 md:py-3 rounded-full font-sans font-bold text-sm shadow-lg transition-colors flex items-center gap-2">
-                          Baca Detail <ChevronRight size={16} />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {pengumuman.filter(p => p.is_urgent !== 1 && p.is_urgent !== true).map((item) => (
-                <div 
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {pengumuman.map((item) => (
+              <div 
                 key={item.id} 
                 className="card-marble p-6 flex flex-col group hover:shadow-xl hover:-translate-y-1 hover:border-gold/50 transition-all duration-300 cursor-pointer min-h-[240px]"
                 onClick={() => setSelectedPengumuman(item)}
@@ -219,8 +185,6 @@ const Pengumuman: React.FC = () => {
               </div>
             ))}
           </div>
-            )}
-          </>
         )}
 
         {/* Pagination Controls */}

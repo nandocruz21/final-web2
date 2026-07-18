@@ -19,6 +19,7 @@ class PublicApiController extends Controller
         $totalSantri = Student::count();
         $totalPengajar = User::count(); // Dinamis: Dihitung dari jumlah akun pengelola
         $totalPembaruanRapor = ProgressHistory::count();
+        $urgentInfo  = Information::where('is_urgent', true)->orderByDesc('id')->get();
         $info        = Information::orderByDesc('tanggal_posting')->orderByDesc('id')->first();
         $pengaturan  = Setting::first();
         $galeri      = Gallery::orderByDesc('id')->get();
@@ -28,6 +29,7 @@ class PublicApiController extends Controller
             'totalSantri' => $totalSantri,
             'totalPengajar' => $totalPengajar,
             'totalPembaruanRapor' => $totalPembaruanRapor,
+            'urgentInfo' => $urgentInfo,
             'info' => $info,
             'pengaturan' => $pengaturan,
             'galeri' => $galeri,
