@@ -9,6 +9,7 @@ use App\Models\Setting;
 use App\Models\Gallery;
 use App\Models\Testimonial;
 use App\Models\ProgressHistory;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PublicApiController extends Controller
@@ -16,7 +17,7 @@ class PublicApiController extends Controller
     public function home()
     {
         $totalSantri = Student::count();
-        $totalPengajar = 12; // Static for now
+        $totalPengajar = User::count(); // Dinamis: Dihitung dari jumlah akun pengelola
         $totalPembaruanRapor = ProgressHistory::count();
         $info        = Information::orderByDesc('tanggal_posting')->orderByDesc('id')->first();
         $pengaturan  = Setting::first();
