@@ -271,17 +271,6 @@ const CekRapor: React.FC = () => {
         </div>
       )}
 
-        {/* Panduan jika belum search */}
-        {!searched && (
-          <div className="text-center py-16">
-            <div className="w-20 h-20 bg-primary/5 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Search size={36} className="text-primary/30" />
-            </div>
-            <p className="font-serif text-xl text-on-surface mb-2">Cari Santri Anda</p>
-            <p className="text-on-surface-variant font-sans text-sm">Masukkan nama lengkap atau NIS santri di kolom pencarian di atas.</p>
-          </div>
-        )}
-      </main>
 
       <Footer />
     </div>
