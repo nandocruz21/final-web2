@@ -92,16 +92,16 @@ const Home: React.FC = () => {
               {loading ? (
                 <div className="flex gap-8 pt-4 border-t border-outline-light animate-pulse">
                   <div>
-                    <div className="h-8 w-16 bg-surface-low rounded mb-2"></div>
-                    <div className="h-4 w-24 bg-surface-low rounded"></div>
+                    <div className="h-8 w-16 bg-slate-200/50 rounded mb-2"></div>
+                    <div className="h-4 w-24 bg-slate-200/50 rounded"></div>
                   </div>
                   <div>
-                    <div className="h-8 w-16 bg-surface-low rounded mb-2"></div>
-                    <div className="h-4 w-24 bg-surface-low rounded"></div>
+                    <div className="h-8 w-16 bg-slate-200/50 rounded mb-2"></div>
+                    <div className="h-4 w-24 bg-slate-200/50 rounded"></div>
                   </div>
                   <div>
-                    <div className="h-8 w-16 bg-surface-low rounded mb-2"></div>
-                    <div className="h-4 w-24 bg-surface-low rounded"></div>
+                    <div className="h-8 w-16 bg-slate-200/50 rounded mb-2"></div>
+                    <div className="h-4 w-24 bg-slate-200/50 rounded"></div>
                   </div>
                 </div>
               ) : (
@@ -247,7 +247,7 @@ const Home: React.FC = () => {
                 <React.Fragment key={loopIdx}>
                   {loading ? (
                     [0, 1, 2, 3, 4].map((idx) => (
-                      <div key={`skel-${loopIdx}-${idx}`} className="group relative overflow-hidden rounded-md w-64 md:w-80 aspect-[4/3] flex-shrink-0 border border-outline-light bg-surface-low animate-pulse">
+                      <div key={`skel-${loopIdx}-${idx}`} className="group relative overflow-hidden rounded-md w-64 md:w-80 aspect-[4/3] flex-shrink-0 border border-outline-light bg-slate-200/60 animate-pulse">
                       </div>
                     ))
                   ) : data?.galeri && data.galeri.length > 0 ? (
@@ -299,19 +299,19 @@ const Home: React.FC = () => {
                   <div key={`skel-testimoni-${idx}`} className="card-marble p-7 flex flex-col animate-pulse">
                     <div className="flex gap-1 mb-6">
                       {[1, 2, 3, 4, 5].map((i) => (
-                        <div key={i} className="w-4 h-4 bg-surface-low rounded-full"></div>
+                        <div key={i} className="w-4 h-4 bg-slate-200/60 rounded-full"></div>
                       ))}
                     </div>
                     <div className="space-y-3 flex-grow mb-8">
-                      <div className="h-3 w-full bg-surface-low rounded"></div>
-                      <div className="h-3 w-5/6 bg-surface-low rounded"></div>
-                      <div className="h-3 w-4/6 bg-surface-low rounded"></div>
+                      <div className="h-3 w-full bg-slate-200/60 rounded"></div>
+                      <div className="h-3 w-5/6 bg-slate-200/60 rounded"></div>
+                      <div className="h-3 w-4/6 bg-slate-200/60 rounded"></div>
                     </div>
                     <div className="flex items-center gap-3 pt-4 border-t border-outline-light">
-                      <div className="w-10 h-10 rounded-full bg-surface-low"></div>
+                      <div className="w-10 h-10 rounded-full bg-slate-200/60"></div>
                       <div className="space-y-2">
-                        <div className="h-3 w-24 bg-surface-low rounded"></div>
-                        <div className="h-2 w-16 bg-surface-low rounded"></div>
+                        <div className="h-3 w-24 bg-slate-200/60 rounded"></div>
+                        <div className="h-2 w-16 bg-slate-200/60 rounded"></div>
                       </div>
                     </div>
                   </div>
