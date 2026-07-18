@@ -14,6 +14,7 @@ const Pengumuman: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedKategori, setSelectedKategori] = useState('Semua Kategori');
+  const [selectedPengumuman, setSelectedPengumuman] = useState<any | null>(null);
 
   const fetchPengumuman = () => {
     setLoading(true);
@@ -140,7 +141,10 @@ const Pengumuman: React.FC = () => {
                   {item.isi_info?.length > 120 ? item.isi_info.substring(0, 120) + '...' : item.isi_info}
                 </p>
                 <div className="mt-auto">
-                  <button className="text-gold font-sans font-semibold text-sm flex items-center gap-2 group-hover:gap-3 transition-all">
+                  <button 
+                    onClick={() => setSelectedPengumuman(item)}
+                    className="text-gold font-sans font-semibold text-sm flex items-center gap-2 group-hover:gap-3 transition-all"
+                  >
                     Baca Selengkapnya <ChevronRight size={16} />
                   </button>
                 </div>
@@ -150,6 +154,50 @@ const Pengumuman: React.FC = () => {
         )}
 
       </main>
+
+      {/* Modal Detail Pengumuman */}
+      {selectedPengumuman && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fadeUp">
+          <div className="bg-surface rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="px-8 py-6 border-b border-outline-light flex justify-between items-start bg-surface-mid">
+              <div>
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-semibold font-sans flex items-center gap-1.5 uppercase">
+                    {getKategoriIcon(selectedPengumuman.kategori)} {selectedPengumuman.kategori || 'Info'}
+                  </span>
+                  <span className="text-on-surface-variant text-sm font-sans flex items-center gap-1.5">
+                    <Calendar size={14} /> {formatDate(selectedPengumuman.tanggal_posting || selectedPengumuman.created_at)}
+                  </span>
+                </div>
+                <h2 className="font-serif font-bold text-2xl md:text-3xl text-on-surface leading-tight pr-8">
+                  {selectedPengumuman.judul_info}
+                </h2>
+              </div>
+              <button 
+                onClick={() => setSelectedPengumuman(null)} 
+                className="text-on-surface-variant hover:text-on-surface bg-surface hover:bg-outline-light w-8 h-8 rounded-full flex items-center justify-center transition-colors shrink-0"
+              >
+                &times;
+              </button>
+            </div>
+            
+            <div className="p-8 overflow-y-auto custom-scrollbar">
+              <div className="prose prose-slate max-w-none text-on-surface-variant font-sans leading-relaxed whitespace-pre-wrap">
+                {selectedPengumuman.isi_info}
+              </div>
+            </div>
+
+            <div className="px-8 py-5 border-t border-outline-light bg-surface-mid flex justify-end">
+              <button 
+                onClick={() => setSelectedPengumuman(null)}
+                className="btn-primary"
+              >
+                Tutup
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <Footer />
     </div>
