@@ -76,13 +76,13 @@ const CekRapor: React.FC = () => {
         </div>
       </div>
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-grow w-full relative z-10 -mt-8">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-grow w-full relative z-10 -mt-16">
 
         {/* Kotak Pencarian */}
-        <div className="bg-white rounded-2xl shadow-xl shadow-slate-200/40 p-2 flex items-center mb-12 border border-slate-100">
-          <form onSubmit={handleSearch} className="flex w-full items-center gap-2">
-            <div className="pl-4 text-slate-400">
-              <Search size={22} />
+        <div className="bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] p-2.5 flex items-center mb-12 border border-slate-200 ring-4 ring-white/50 backdrop-blur-md">
+          <form onSubmit={handleSearch} className="flex w-full items-center gap-3">
+            <div className="pl-4 text-emerald-600">
+              <Search size={24} strokeWidth={2.5} />
             </div>
             <input
               type="text"
