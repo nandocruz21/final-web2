@@ -158,8 +158,7 @@ const Home: React.FC = () => {
               <img 
                 src="/quran-3d.png" 
                 alt="Al-Quran 3D" 
-                className="w-full max-w-[280px] md:max-w-[340px] h-auto object-contain animate-floatSpin drop-shadow-2xl relative z-10"
-                style={{ transformStyle: 'preserve-3d' }}
+                className="w-full max-w-[280px] md:max-w-[340px] h-auto object-contain animate-float drop-shadow-2xl relative z-10"
               />
 
               {/* Partikel bintang emas di sekitar buku */}
