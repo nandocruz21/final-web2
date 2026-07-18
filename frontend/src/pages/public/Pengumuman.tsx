@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Volume2, Users, CreditCard, Award, Calendar, ChevronRight, ChevronLeft, Search, Filter } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Volume2, Users, CreditCard, Award, Calendar, ChevronRight, Search, Filter, Book, Info } from 'lucide-react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import api from '../../services/api';
@@ -10,18 +10,47 @@ import api from '../../services/api';
  * Dilengkapi dengan fitur filter kategori dan pencarian.
  */
 const Pengumuman: React.FC = () => {
+  const [pengumuman, setPengumuman] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedKategori, setSelectedKategori] = useState('Semua Kategori');
+
+  const fetchPengumuman = () => {
+    setLoading(true);
+    let url = `/pengumuman?kategori=${selectedKategori}`;
+    if (searchQuery) url += `&q=${searchQuery}`;
+
+    api.get(url)
+      .then(res => {
+        setPengumuman(res.data);
+      })
+      .catch(err => console.error("Error fetching pengumuman:", err))
+      .finally(() => setLoading(false));
+  };
+
   useEffect(() => {
-    api.get('/home').then(() => {}).catch(() => {});
-  }, []);
+    fetchPengumuman();
+  }, [selectedKategori]);
 
-  // Data pengumuman contoh (statis)
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    fetchPengumuman();
+  };
 
-  const standardCards = [
-    { icon: null, img: '/event_photo.png', badge: 'Akademik', date: '12 Nov 2024', title: 'Penambahan Koleksi Kitab di Perpustakaan Utama', desc: 'Perpustakaan MSANTRI telah menambahkan lebih dari 500 judul kitab baru untuk mendukung pembelajaran...' },
-    { icon: <Users size={18} />, img: null, badge: 'Kegiatan', date: '10 Nov 2024', title: 'Pendaftaran Ekstrakurikuler Semester Genap Dibuka', desc: 'Santri dipersilakan mendaftar kegiatan ekstrakurikuler pilihan melalui portal siswa sebelum batas waktu 25 November.' },
-    { icon: <CreditCard size={18} />, img: null, badge: 'Administrasi', date: '08 Nov 2024', title: 'Informasi Pembayaran SPP Bulan Depan', desc: 'Terdapat pembaruan nomor rekening virtual account untuk pembayaran SPP. Mohon periksa panduan terbaru di sistem.' },
-    { icon: <Award size={18} />, img: null, badge: 'Prestasi', date: '05 Nov 2024', title: "Juara Umum Musabaqah Hifdzil Qur'an Tingkat Provinsi", desc: "Selamat kepada kontingen MSANTRI yang telah berhasil meraih juara umum pada kompetisi bergengsi ini..." },
-  ];
+  const getKategoriIcon = (kategori: string) => {
+    switch (kategori?.toUpperCase()) {
+      case 'AKADEMIK': return <Book size={18} />;
+      case 'ADMINISTRASI': return <CreditCard size={18} />;
+      case 'KEGIATAN': return <Users size={18} />;
+      case 'PRESTASI': return <Award size={18} />;
+      default: return <Info size={18} />;
+    }
+  };
+
+  const formatDate = (dateString: string) => {
+    const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short', year: 'numeric' };
+    return new Date(dateString).toLocaleDateString('id-ID', options);
+  };
 
   return (
     <div className="min-h-screen bg-surface font-sans text-on-surface flex flex-col">
@@ -41,98 +70,85 @@ const Pengumuman: React.FC = () => {
 
         {/* Filter Bar */}
         <div className="flex flex-col md:flex-row gap-4 mb-10">
-          <div className="relative flex-grow">
+          <form onSubmit={handleSearch} className="relative flex-grow">
             <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant" />
             <input
               type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Cari pengumuman..."
               className="w-full bg-white border border-outline-light rounded-sm py-3 pl-10 pr-4 text-sm font-sans focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
             />
-          </div>
+            <button type="submit" className="hidden">Cari</button>
+          </form>
           <div className="flex gap-3">
-            <select className="bg-white border border-outline-light rounded-sm py-3 px-4 text-sm font-sans text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20">
+            <select 
+              value={selectedKategori}
+              onChange={(e) => setSelectedKategori(e.target.value)}
+              className="bg-white border border-outline-light rounded-sm py-3 px-4 text-sm font-sans text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20"
+            >
               <option>Semua Kategori</option>
-              <option>Akademik</option>
-              <option>Administrasi</option>
-              <option>Kegiatan</option>
-              <option>Prestasi</option>
+              <option value="PENGUMUMAN">Pengumuman Umum</option>
+              <option value="AKADEMIK">Akademik</option>
+              <option value="ADMINISTRASI">Administrasi</option>
+              <option value="KEGIATAN">Kegiatan</option>
+              <option value="PRESTASI">Prestasi</option>
             </select>
-            <button className="btn-primary flex items-center gap-2 text-sm">
+            <button onClick={fetchPengumuman} className="btn-primary flex items-center gap-2 text-sm">
               <Filter size={14} /> Filter
             </button>
           </div>
         </div>
 
-        {/* Grid Pengumuman */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-          {/* Kartu Utama (Featured) */}
-          <div className="lg:col-span-2 card-marble p-8 relative overflow-hidden flex flex-col justify-between group hover:border-gold/30 transition-all duration-300">
-            {/* Ornamen sudut */}
-            <div className="absolute top-0 right-0 w-48 h-48 bg-surface-high rounded-bl-full opacity-60 pointer-events-none" />
-            <div className="relative z-10">
-              <div className="flex items-center gap-3 mb-5">
-                <span className="bg-red-50 text-red-700 border border-red-200 px-3 py-1 rounded-full text-xs font-semibold font-sans flex items-center gap-1.5">
-                  <Volume2 size={12} /> Penting
-                </span>
-                <span className="text-on-surface-variant text-xs font-sans flex items-center gap-1">
-                  <Calendar size={12} /> 15 Nov 2024
-                </span>
+        {/* Loading State */}
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="card-marble p-6 animate-pulse min-h-[200px]">
+                <div className="flex gap-2 mb-4">
+                  <div className="h-6 w-20 bg-slate-300 rounded-full"></div>
+                  <div className="h-6 w-24 bg-slate-300 rounded-full"></div>
+                </div>
+                <div className="h-6 w-3/4 bg-slate-300 rounded mb-4"></div>
+                <div className="h-4 w-full bg-slate-300 rounded mb-2"></div>
+                <div className="h-4 w-2/3 bg-slate-300 rounded"></div>
               </div>
-              <h2 className="font-serif text-2xl lg:text-3xl text-on-surface mb-4 leading-tight">
-                Pembaruan Jadwal Ujian Akhir Semester Ganjil
-              </h2>
-              <p className="text-on-surface-variant font-sans text-sm leading-relaxed max-w-2xl mb-8">
-                Mohon perhatian seluruh santri dan wali santri, terdapat penyesuaian jadwal Ujian Akhir Semester (UAS) ganjil tahun ajaran ini untuk mengoptimalkan waktu belajar.
-              </p>
-            </div>
-            <button className="relative z-10 text-primary font-sans font-semibold text-sm flex items-center gap-2 group-hover:gap-3 transition-all">
-              Baca Selengkapnya <ChevronRight size={16} />
-            </button>
+            ))}
           </div>
-
-          {/* Kartu-kartu Standar */}
-          {standardCards.map((card, i) => (
-            <div key={i} className="card-marble overflow-hidden flex flex-col group hover:border-gold/30 hover:-translate-y-1 transition-all duration-300">
-              {card.img ? (
-                <div className="h-44 overflow-hidden">
-                  <img src={card.img} alt={card.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+        ) : pengumuman.length === 0 ? (
+          <div className="text-center py-16 card-marble border-dashed">
+            <Info size={48} className="mx-auto text-outline-light mb-4" />
+            <p className="font-serif text-lg text-on-surface mb-1">Tidak Ada Pengumuman</p>
+            <p className="text-on-surface-variant font-sans text-sm">Belum ada informasi yang dipublikasikan saat ini.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {pengumuman.map((item) => (
+              <div key={item.id} className="card-marble p-6 flex flex-col group hover:border-gold/30 hover:-translate-y-1 transition-all duration-300 min-h-[220px]">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-semibold font-sans flex items-center gap-1.5 uppercase">
+                    {getKategoriIcon(item.kategori)} {item.kategori || 'Info'}
+                  </span>
+                  <span className="text-on-surface-variant text-xs font-sans flex items-center gap-1">
+                    <Calendar size={12} /> {formatDate(item.tanggal_posting || item.created_at)}
+                  </span>
                 </div>
-              ) : (
-                <div className="h-20 bg-surface-mid flex items-center justify-center text-on-surface-variant">
-                  {card.icon}
+                <h3 className="font-serif text-xl text-on-surface mb-3 leading-tight group-hover:text-primary transition-colors">
+                  {item.judul_info}
+                </h3>
+                <p className="text-on-surface-variant font-sans text-sm leading-relaxed mb-6 flex-grow">
+                  {item.isi_info?.length > 120 ? item.isi_info.substring(0, 120) + '...' : item.isi_info}
+                </p>
+                <div className="mt-auto">
+                  <button className="text-gold font-sans font-semibold text-sm flex items-center gap-2 group-hover:gap-3 transition-all">
+                    Baca Selengkapnya <ChevronRight size={16} />
+                  </button>
                 </div>
-              )}
-              <div className="p-5 flex flex-col flex-grow">
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="bg-primary/10 text-primary px-2.5 py-0.5 rounded-full text-xs font-sans font-semibold">{card.badge}</span>
-                  <span className="text-on-surface-variant text-xs font-sans">{card.date}</span>
-                </div>
-                <h3 className="font-serif text-base text-on-surface mb-2 leading-snug">{card.title}</h3>
-                <p className="text-on-surface-variant text-xs font-sans leading-relaxed flex-grow line-clamp-3 mb-4">{card.desc}</p>
-                <button className="text-primary hover:text-primary-dark text-xs font-sans font-semibold flex items-center gap-1 mt-auto group-hover:gap-2 transition-all">
-                  Detail <ChevronRight size={12} />
-                </button>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
-        {/* Pagination */}
-        <div className="flex justify-center items-center gap-2 mt-12">
-          <button className="w-9 h-9 flex items-center justify-center rounded-sm border border-outline-light text-on-surface-variant hover:bg-surface-mid transition-colors">
-            <ChevronLeft size={16} />
-          </button>
-          {[1, 2, 3].map(n => (
-            <button key={n} className={`w-9 h-9 flex items-center justify-center rounded-sm font-sans font-medium text-sm transition-colors ${n === 1 ? 'bg-primary text-white' : 'border border-outline-light text-on-surface hover:bg-surface-mid'}`}>
-              {n}
-            </button>
-          ))}
-          <span className="text-on-surface-variant px-1 font-sans">...</span>
-          <button className="w-9 h-9 flex items-center justify-center rounded-sm border border-outline-light text-on-surface-variant hover:bg-surface-mid transition-colors">
-            <ChevronRight size={16} />
-          </button>
-        </div>
       </main>
 
       <Footer />
