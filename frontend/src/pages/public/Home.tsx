@@ -389,6 +389,16 @@ const Home: React.FC = () => {
                 ))
               )}
             </div>
+
+            {/* Tombol Tambah Testimoni */}
+            <div className="text-center mt-12">
+              <button 
+                onClick={() => setIsModalOpen(true)}
+                className="bg-gold hover:bg-[#8a682c] text-white px-8 py-3 rounded-full font-sans font-semibold transition-colors duration-300 shadow-lg shadow-gold/30 hover:shadow-gold/50 flex items-center gap-2 mx-auto"
+              >
+                Tulis Pengalaman Anda
+              </button>
+            </div>
           </div>
         </section>
 
@@ -424,6 +434,87 @@ const Home: React.FC = () => {
       </main>
 
       <Footer />
+
+      {/* MODAL FORM TESTIMONI */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-slide-up relative">
+            <button 
+              onClick={() => setIsModalOpen(false)}
+              className="absolute top-4 right-4 text-on-surface-variant hover:text-error transition-colors"
+            >
+              <X size={24} />
+            </button>
+            
+            <div className="p-8">
+              <div className="text-center mb-6">
+                <h3 className="font-serif text-2xl text-primary font-bold mb-2">Bagikan Pengalaman Anda</h3>
+                <p className="text-sm text-on-surface-variant font-sans">Ulasan Anda sangat berarti bagi perkembangan MSANTRI.</p>
+              </div>
+
+              {submitSuccess ? (
+                <div className="bg-primary/10 text-primary p-6 rounded-lg text-center font-sans">
+                  <div className="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center mx-auto mb-4">
+                    <CheckCircle2 size={32} />
+                  </div>
+                  <h4 className="font-bold text-lg mb-2">Terima Kasih!</h4>
+                  <p className="text-sm">Ulasan Anda berhasil dikirim dan sudah tampil di halaman utama.</p>
+                </div>
+              ) : (
+                <form onSubmit={handleTestimoniSubmit} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-on-surface mb-1 font-sans">Nama Wali Santri</label>
+                    <input 
+                      type="text" 
+                      required
+                      className="w-full border border-outline-light rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-gold focus:border-gold outline-none transition-all font-sans"
+                      placeholder="Masukkan nama Anda"
+                      value={formTestimoni.nama_wali}
+                      onChange={e => setFormTestimoni({...formTestimoni, nama_wali: e.target.value})}
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-semibold text-on-surface mb-2 font-sans">Penilaian Anda</label>
+                    <div className="flex gap-2 justify-center">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <button
+                          key={star}
+                          type="button"
+                          onClick={() => setFormTestimoni({...formTestimoni, rating: star})}
+                          className={`transition-colors ${star <= formTestimoni.rating ? 'text-gold' : 'text-outline-light hover:text-gold/50'}`}
+                        >
+                          <Star size={32} fill={star <= formTestimoni.rating ? 'currentColor' : 'none'} />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-on-surface mb-1 font-sans">Isi Ulasan</label>
+                    <textarea 
+                      required
+                      rows={4}
+                      className="w-full border border-outline-light rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-gold focus:border-gold outline-none transition-all font-sans resize-none"
+                      placeholder="Ceritakan pengalaman Anda menggunakan MSANTRI..."
+                      value={formTestimoni.isi_testimoni}
+                      onChange={e => setFormTestimoni({...formTestimoni, isi_testimoni: e.target.value})}
+                    ></textarea>
+                  </div>
+
+                  <button 
+                    type="submit" 
+                    disabled={isSubmitting}
+                    className="w-full bg-primary hover:bg-[#003d29] text-white rounded-lg py-3 font-semibold font-sans transition-colors disabled:opacity-70 disabled:cursor-not-allowed mt-4"
+                  >
+                    {isSubmitting ? 'Mengirim...' : 'Kirim Ulasan'}
+                  </button>
+                </form>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
