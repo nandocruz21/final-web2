@@ -31,4 +31,78 @@ class RaporApiController extends Controller
             'data' => $histories
         ]);
     }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'student_id' => 'required|exists:students,id',
+            'capaian_hafalan' => 'required|string',
+            'catatan_pengajar' => 'nullable|string',
+            'kehadiran' => 'required|in:hadir,izin,sakit,alpha'
+        ]);
+
+        // Buat riwayat rapor baru
+        $history = ProgressHistory::create([
+            'student_id' => $request->student_id,
+            'capaian_hafalan' => $request->capaian_hafalan,
+            'catatan_pengajar' => $request->catatan_pengajar,
+            'kehadiran' => $request->kehadiran,
+            'tanggal_riwayat' => now()->toDateString()
+        ]);
+
+        // Update data santri terakhir
+        $student = \App\Models\Student::find($request->student_id);
+        $student->update([
+            'capaian_hafalan' => $request->capaian_hafalan,
+            'catatan_pengajar' => $request->catatan_pengajar,
+            'kehadiran' => $request->kehadiran,
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Rapor berhasil ditambahkan',
+            'data' => $history
+        ], 201);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'capaian_hafalan' => 'required|string',
+            'catatan_pengajar' => 'nullable|string',
+            'kehadiran' => 'required|in:hadir,izin,sakit,alpha'
+        ]);
+
+        $history = ProgressHistory::findOrFail($id);
+        $history->update([
+            'capaian_hafalan' => $request->capaian_hafalan,
+            'catatan_pengajar' => $request->catatan_pengajar,
+            'kehadiran' => $request->kehadiran,
+        ]);
+
+        // Opsional: Update data santri juga
+        $student = \App\Models\Student::find($history->student_id);
+        $student->update([
+            'capaian_hafalan' => $request->capaian_hafalan,
+            'catatan_pengajar' => $request->catatan_pengajar,
+            'kehadiran' => $request->kehadiran,
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Rapor berhasil diperbarui',
+            'data' => $history
+        ]);
+    }
+
+    public function destroy($id)
+    {
+        $history = ProgressHistory::findOrFail($id);
+        $history->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Rapor berhasil dihapus'
+        ]);
+    }
 }
