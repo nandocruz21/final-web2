@@ -126,8 +126,8 @@ const Home: React.FC = () => {
 
             {/* --- KANAN: Al-Quran 3D Melayang (Three.js) --- */}
             <div className="relative flex items-center justify-center h-[480px] w-full">
-              {/* Cahaya ambient di bawah buku */}
-              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-40 h-6 bg-gold/20 rounded-full blur-2xl animate-floatShadow" />
+              {/* Bayangan realistis di lantai bawah buku */}
+              <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-56 h-8 bg-black/25 rounded-[100%] blur-md animate-floatShadow" />
 
               {/* Komponen Three.js 3D */}
               <QuranScene />
