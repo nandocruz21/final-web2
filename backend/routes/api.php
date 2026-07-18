@@ -23,23 +23,14 @@ Route::middleware('auth:sanctum')->group(function () {
     // Admin Routes
     Route::prefix('admin')->group(function () {
         Route::get('/dashboard', [\App\Http\Controllers\Api\DashboardApiController::class, 'index']);
-        Route::get('/rapor', [\App\Http\Controllers\Api\RaporApiController::class, 'index']);
-        Route::post('/rapor', [\App\Http\Controllers\Api\RaporApiController::class, 'store']);
-        Route::put('/rapor/{id}', [\App\Http\Controllers\Api\RaporApiController::class, 'update']);
-        Route::delete('/rapor/{id}', [\App\Http\Controllers\Api\RaporApiController::class, 'destroy']);
         
-        Route::get('/santri', [\App\Http\Controllers\Api\StudentApiController::class, 'index']);
-        Route::post('/santri', [\App\Http\Controllers\Api\StudentApiController::class, 'store']);
-        Route::get('/santri/{id}', [\App\Http\Controllers\Api\StudentApiController::class, 'show']);
-        Route::put('/santri/{id}', [\App\Http\Controllers\Api\StudentApiController::class, 'update']);
-        Route::delete('/santri/{id}', [\App\Http\Controllers\Api\StudentApiController::class, 'destroy']);
+        // Standar CRUD menggunakan apiResource
+        Route::apiResource('rapor', \App\Http\Controllers\Api\RaporApiController::class);
+        Route::apiResource('santri', \App\Http\Controllers\Api\StudentApiController::class);
+        Route::apiResource('informasi', \App\Http\Controllers\Api\InformationApiController::class);
+
+        // Route Khusus (Custom)
         Route::post('/santri/{id}/foto', [\App\Http\Controllers\Api\StudentApiController::class, 'updateFoto']);
         Route::post('/santri/{id}/status', [\App\Http\Controllers\Api\StudentApiController::class, 'updateStatus']);
-
-        // Informasi / Pengumuman
-        Route::get('/informasi', [\App\Http\Controllers\Api\InformationApiController::class, 'index']);
-        Route::post('/informasi', [\App\Http\Controllers\Api\InformationApiController::class, 'store']);
-        Route::put('/informasi/{id}', [\App\Http\Controllers\Api\InformationApiController::class, 'update']);
-        Route::delete('/informasi/{id}', [\App\Http\Controllers\Api\InformationApiController::class, 'destroy']);
     });
 });

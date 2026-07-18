@@ -16,6 +16,14 @@ import RaporList from './pages/admin/RaporList';
 import Kehadiran from './pages/admin/Kehadiran';
 import InformationList from './pages/admin/InformationList';
 
+const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+  const token = localStorage.getItem('admin_token');
+  if (!token) {
+    return <Navigate to="/admin/login" replace />;
+  }
+  return children;
+};
+
 function App() {
   return (
     <BrowserRouter>
@@ -34,13 +42,13 @@ function App() {
         <Route path="/admin/login" element={<AdminLogin />} />
 
         {/* Admin Protected Routes */}
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/santri" element={<SantriList />} />
-        <Route path="/admin/santri/tambah" element={<SantriForm />} />
-        <Route path="/admin/santri/edit/:id" element={<SantriForm />} />
-        <Route path="/admin/rapor" element={<RaporList />} />
-        <Route path="/admin/kehadiran" element={<Kehadiran />} />
-        <Route path="/admin/pengumuman" element={<InformationList />} />
+        <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+        <Route path="/admin/santri" element={<ProtectedRoute><SantriList /></ProtectedRoute>} />
+        <Route path="/admin/santri/tambah" element={<ProtectedRoute><SantriForm /></ProtectedRoute>} />
+        <Route path="/admin/santri/edit/:id" element={<ProtectedRoute><SantriForm /></ProtectedRoute>} />
+        <Route path="/admin/rapor" element={<ProtectedRoute><RaporList /></ProtectedRoute>} />
+        <Route path="/admin/kehadiran" element={<ProtectedRoute><Kehadiran /></ProtectedRoute>} />
+        <Route path="/admin/pengumuman" element={<ProtectedRoute><InformationList /></ProtectedRoute>} />
         
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />
