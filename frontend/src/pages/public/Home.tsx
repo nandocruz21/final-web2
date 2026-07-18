@@ -162,20 +162,30 @@ const Home: React.FC = () => {
         <section className="bg-surface-low py-16 px-6 md:px-12">
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {[
-                { icon: <Users size={22} className="text-primary" />, label: 'Total Santri', value: data?.totalSantri ?? '—' },
-                { icon: <BookOpen size={22} className="text-primary" />, label: 'Pengajar', value: data?.totalPengajar ?? '—' },
-                { icon: <CheckCircle2 size={22} className="text-primary" />, label: 'Pembaruan Rapor', value: data?.totalPembaruanRapor ?? '—' },
-                { icon: <Clock size={22} className="text-primary" />, label: 'Jam Belajar/Minggu', value: '12 Jam' },
-              ].map((stat, i) => (
-                <div key={i} className="card-marble p-6 text-center hover:scale-105 transition-transform duration-300">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
-                    {stat.icon}
+              {loading ? (
+                [0, 1, 2, 3].map((idx) => (
+                  <div key={`skel-stat-${idx}`} className="card-marble p-6 text-center animate-pulse">
+                    <div className="w-12 h-12 rounded-full bg-slate-200/60 mx-auto mb-3"></div>
+                    <div className="h-8 w-16 bg-slate-200/60 rounded mx-auto mb-2"></div>
+                    <div className="h-3 w-24 bg-slate-200/60 rounded mx-auto"></div>
                   </div>
-                  <p className="font-serif text-3xl font-bold text-on-surface mb-1">{stat.value}</p>
-                  <p className="text-xs text-on-surface-variant font-sans uppercase tracking-widest">{stat.label}</p>
-                </div>
-              ))}
+                ))
+              ) : (
+                [
+                  { icon: <Users size={22} className="text-primary" />, label: 'Total Santri', value: data?.totalSantri ?? '—' },
+                  { icon: <BookOpen size={22} className="text-primary" />, label: 'Pengajar', value: data?.totalPengajar ?? '—' },
+                  { icon: <CheckCircle2 size={22} className="text-primary" />, label: 'Pembaruan Rapor', value: data?.totalPembaruanRapor ?? '—' },
+                  { icon: <Clock size={22} className="text-primary" />, label: 'Jam Belajar/Minggu', value: '12 Jam' },
+                ].map((stat, i) => (
+                  <div key={i} className="card-marble p-6 text-center hover:scale-105 transition-transform duration-300">
+                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
+                      {stat.icon}
+                    </div>
+                    <p className="font-serif text-3xl font-bold text-on-surface mb-1">{stat.value}</p>
+                    <p className="text-xs text-on-surface-variant font-sans uppercase tracking-widest">{stat.label}</p>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </section>
