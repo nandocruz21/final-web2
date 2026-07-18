@@ -294,41 +294,65 @@ const Home: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {(data?.testimoni && data.testimoni.length > 0
-                ? data.testimoni.slice(0, 3)
-                : [
-                    { nama_wali: 'Bpk. Ahmad', isi_testimoni: 'Alhamdulillah sejak menggunakan MSANTRI, saya jadi lebih mudah memantau hafalan anak meskipun sedang bekerja.', inisial: 'A', rating: 5 },
-                    { nama_wali: 'Ibu Siti', isi_testimoni: 'Fiturnya sangat membantu. Jadwal mengaji anak selalu up-to-date dan pengajarnya sangat profesional!', inisial: 'S', rating: 5 },
-                    { nama_wali: 'Bpk. Budi', isi_testimoni: 'Sangat inovatif! Dulu susah tau anak sudah sampai surat apa, sekarang tinggal buka HP semua kelihatan jelas.', inisial: 'B', rating: 5 },
-                  ]
-              ).map((item: any, idx: number) => (
-                <div key={idx} className="card-marble p-7 flex flex-col hover:border-gold/40 transition-all duration-300 hover:-translate-y-1">
-                  {/* Tanda kutip pembuka */}
-                  <div className="text-gold font-serif text-5xl leading-none mb-2 opacity-40">"</div>
-                  {/* Bintang rating */}
-                  <div className="flex gap-1 mb-4">
-                    {Array.from({ length: item.rating || 5 }).map((_, i) => (
-                      <svg key={i} viewBox="0 0 24 24" fill="#a37c35" className="w-4 h-4">
-                        <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
-                      </svg>
-                    ))}
-                  </div>
-                  {/* Isi testimoni */}
-                  <p className="text-on-surface-variant font-sans text-sm leading-relaxed italic flex-grow mb-6">
-                    {item.isi_testimoni}
-                  </p>
-                  {/* Profil pengirim */}
-                  <div className="flex items-center gap-3 pt-4 border-t border-outline-light">
-                    <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm font-sans">
-                      {item.inisial || item.nama_wali?.charAt(0) || 'W'}
+              {loading ? (
+                [0, 1, 2].map((idx) => (
+                  <div key={`skel-testimoni-${idx}`} className="card-marble p-7 flex flex-col animate-pulse">
+                    <div className="flex gap-1 mb-6">
+                      {[1, 2, 3, 4, 5].map((i) => (
+                        <div key={i} className="w-4 h-4 bg-surface-low rounded-full"></div>
+                      ))}
                     </div>
-                    <div>
-                      <h4 className="font-sans font-semibold text-on-surface text-sm">{item.nama_wali}</h4>
-                      <p className="text-xs text-gold font-sans">Wali Santri</p>
+                    <div className="space-y-3 flex-grow mb-8">
+                      <div className="h-3 w-full bg-surface-low rounded"></div>
+                      <div className="h-3 w-5/6 bg-surface-low rounded"></div>
+                      <div className="h-3 w-4/6 bg-surface-low rounded"></div>
+                    </div>
+                    <div className="flex items-center gap-3 pt-4 border-t border-outline-light">
+                      <div className="w-10 h-10 rounded-full bg-surface-low"></div>
+                      <div className="space-y-2">
+                        <div className="h-3 w-24 bg-surface-low rounded"></div>
+                        <div className="h-2 w-16 bg-surface-low rounded"></div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))
+              ) : (
+                (data?.testimoni && data.testimoni.length > 0
+                  ? data.testimoni.slice(0, 3)
+                  : [
+                      { nama_wali: 'Bpk. Ahmad', isi_testimoni: 'Alhamdulillah sejak menggunakan MSANTRI, saya jadi lebih mudah memantau hafalan anak meskipun sedang bekerja.', inisial: 'A', rating: 5 },
+                      { nama_wali: 'Ibu Siti', isi_testimoni: 'Fiturnya sangat membantu. Jadwal mengaji anak selalu up-to-date dan pengajarnya sangat profesional!', inisial: 'S', rating: 5 },
+                      { nama_wali: 'Bpk. Budi', isi_testimoni: 'Sangat inovatif! Dulu susah tau anak sudah sampai surat apa, sekarang tinggal buka HP semua kelihatan jelas.', inisial: 'B', rating: 5 },
+                    ]
+                ).map((item: any, idx: number) => (
+                  <div key={idx} className="card-marble p-7 flex flex-col hover:border-gold/40 transition-all duration-300 hover:-translate-y-1">
+                    {/* Tanda kutip pembuka */}
+                    <div className="text-gold font-serif text-5xl leading-none mb-2 opacity-40">"</div>
+                    {/* Bintang rating */}
+                    <div className="flex gap-1 mb-4">
+                      {Array.from({ length: item.rating || 5 }).map((_, i) => (
+                        <svg key={i} viewBox="0 0 24 24" fill="#a37c35" className="w-4 h-4">
+                          <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
+                        </svg>
+                      ))}
+                    </div>
+                    {/* Isi testimoni */}
+                    <p className="text-on-surface-variant font-sans text-sm leading-relaxed italic flex-grow mb-6">
+                      {item.isi_testimoni}
+                    </p>
+                    {/* Profil pengirim */}
+                    <div className="flex items-center gap-3 pt-4 border-t border-outline-light">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm font-sans">
+                        {item.inisial || item.nama_wali?.charAt(0) || 'W'}
+                      </div>
+                      <div>
+                        <h4 className="font-sans font-semibold text-on-surface text-sm">{item.nama_wali}</h4>
+                        <p className="text-xs text-gold font-sans">Wali Santri</p>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </section>
