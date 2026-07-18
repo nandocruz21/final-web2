@@ -48,9 +48,6 @@ const Header: React.FC = () => {
           <h1 className="font-serif font-bold text-primary uppercase text-sm md:text-base tracking-wider">
             {namaTpq}
           </h1>
-          <span className="text-[10px] text-gold uppercase tracking-widest font-sans hidden sm:block">
-            Sistem Informasi
-          </span>
         </div>
       </Link>
 
@@ -59,7 +56,7 @@ const Header: React.FC = () => {
         <Link to="/" className={getLinkClass('/')}>Beranda</Link>
         <Link to="/pengumuman" className={getLinkClass('/pengumuman')}>Pengumuman</Link>
         <Link to="/cek-rapor" className={getLinkClass('/cek-rapor')}>Cek Rapor</Link>
-        <Link to="/jadwal" className={getLinkClass('/jadwal')}>Jadwal Belajar</Link>
+        <a href="/#jadwal" className="text-on-surface-variant hover:text-primary transition-colors duration-200">Jadwal Belajar</a>
         <Link to="/statistik" className={getLinkClass('/statistik')}>Statistik</Link>
         <Link to="/profil" className={getLinkClass('/profil')}>Profil TPQ</Link>
         <Link to="/hubungi" className={getLinkClass('/hubungi')}>Hubungi Kami</Link>

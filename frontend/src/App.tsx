@@ -7,7 +7,6 @@ import AdminLogin from './pages/admin/Login';
 import AdminDashboard from './pages/admin/Dashboard';
 import SantriList from './pages/admin/SantriList';
 import SantriForm from './pages/admin/SantriForm';
-import JadwalBelajar from './pages/public/JadwalBelajar';
 import Statistik from './pages/public/Statistik';
 import ProfilTpq from './pages/public/ProfilTpq';
 import HubungiKami from './pages/public/HubungiKami';
@@ -33,7 +32,6 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/pengumuman" element={<Pengumuman />} />
         <Route path="/cek-rapor" element={<CekRapor />} />
-        <Route path="/jadwal" element={<JadwalBelajar />} />
         <Route path="/statistik" element={<Statistik />} />
         <Route path="/profil" element={<ProfilTpq />} />
         <Route path="/hubungi" element={<HubungiKami />} />
