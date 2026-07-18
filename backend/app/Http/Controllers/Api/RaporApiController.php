@@ -8,27 +8,41 @@ use Illuminate\Http\Request;
 
 class RaporApiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Ambil semua riwayat hafalan beserta data santri terkait, urutkan dari yang terbaru
-        $histories = ProgressHistory::with('santri')
-            ->orderByDesc('created_at')
-            ->get()
-            ->map(function ($history) {
-                return [
-                    'id' => $history->id,
-                    'student_id' => $history->student_id,
-                    'nama_santri' => $history->santri ? $history->santri->nama_lengkap : 'Unknown',
-                    'capaian_hafalan' => $history->capaian_hafalan,
-                    'catatan_pengajar' => $history->catatan_pengajar,
-                    'kehadiran' => $history->kehadiran,
-                    'tanggal' => $history->created_at->format('d M Y H:i'),
-                ];
+        $query = ProgressHistory::with('santri')->orderByDesc('created_at');
+
+        if ($request->has('date') && $request->date != '') {
+            $query->whereDate('created_at', $request->date);
+        }
+
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('capaian_hafalan', 'like', "%{$search}%")
+                  ->orWhereHas('santri', function($sq) use ($search) {
+                      $sq->where('nama_lengkap', 'like', "%{$search}%");
+                  });
             });
+        }
+
+        $paginator = $query->paginate(10);
+
+        $paginator->getCollection()->transform(function ($history) {
+            return [
+                'id' => $history->id,
+                'student_id' => $history->student_id,
+                'nama_santri' => $history->santri ? $history->santri->nama_lengkap : 'Unknown',
+                'capaian_hafalan' => $history->capaian_hafalan,
+                'catatan_pengajar' => $history->catatan_pengajar,
+                'kehadiran' => $history->kehadiran,
+                'tanggal' => $history->created_at->format('d M Y H:i'),
+            ];
+        });
 
         return response()->json([
             'status' => 'success',
-            'data' => $histories
+            'data' => $paginator
         ]);
     }
 
