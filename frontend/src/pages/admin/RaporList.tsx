@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import AdminLayout from '../../components/AdminLayout';
 import api from '../../services/api';
-import { Search, Plus, Trash2, Edit } from 'lucide-react';
+import { Search, Plus, Trash2, Edit, ChevronLeft, ChevronRight, Calendar } from 'lucide-react';
 
 interface RaporItem {
   id: number;
@@ -17,7 +17,12 @@ const RaporList: React.FC = () => {
   const [rapor, setRapor] = useState<RaporItem[]>([]);
   const [santriList, setSantriList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  // Filter & Pagination State
   const [search, setSearch] = useState('');
+  const [dateFilter, setDateFilter] = useState('');
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -32,14 +37,19 @@ const RaporList: React.FC = () => {
 
   useEffect(() => {
     fetchRapor();
+  }, [page, dateFilter, search]);
+
+  useEffect(() => {
     fetchSantri();
   }, []);
 
   const fetchRapor = async () => {
+    setLoading(true);
     try {
-      const res = await api.get('/admin/rapor');
+      const res = await api.get(`/admin/rapor?page=${page}&date=${dateFilter}&search=${search}`);
       if (res.data.status === 'success') {
-        setRapor(res.data.data);
+        setRapor(res.data.data.data);
+        setTotalPages(res.data.data.last_page);
       }
     } catch (error) {
       console.error("Gagal mengambil data rapor", error);
@@ -103,10 +113,16 @@ const RaporList: React.FC = () => {
     }
   };
 
-  const filteredRapor = rapor.filter(r => 
-    r.nama_santri.toLowerCase().includes(search.toLowerCase()) || 
-    r.capaian_hafalan.toLowerCase().includes(search.toLowerCase())
-  );
+  // Function to handle search change with debouncing (optional) or just reset page
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+    setPage(1); // Reset to first page when searching
+  };
+
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDateFilter(e.target.value);
+    setPage(1); // Reset to first page when date changes
+  };
 
   return (
     <AdminLayout>
@@ -115,13 +131,25 @@ const RaporList: React.FC = () => {
           <h1 className="text-2xl font-bold font-serif text-slate-900">Riwayat Rapor Hafalan</h1>
           
           <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
+            {/* Date Filter */}
+            <div className="relative w-full md:w-48">
+              <Calendar size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" />
+              <input 
+                type="date" 
+                value={dateFilter}
+                onChange={handleDateChange}
+                className="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-slate-600"
+              />
+            </div>
+
+            {/* Search Input */}
             <div className="relative w-full md:w-72">
               <Search size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" />
               <input 
                 type="text" 
                 placeholder="Cari santri atau surah..." 
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={handleSearchChange}
                 className="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
               />
             </div>
@@ -140,7 +168,7 @@ const RaporList: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+        <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden flex flex-col">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm text-slate-600">
               <thead className="bg-slate-50 text-slate-500 font-medium">
@@ -156,8 +184,8 @@ const RaporList: React.FC = () => {
               <tbody className="divide-y divide-slate-100">
                 {loading ? (
                   <tr><td colSpan={6} className="text-center py-10">Memuat data...</td></tr>
-                ) : filteredRapor.length > 0 ? (
-                  filteredRapor.map((item) => (
+                ) : rapor.length > 0 ? (
+                  rapor.map((item) => (
                     <tr key={item.id} className="hover:bg-slate-50 transition-colors">
                       <td className="px-6 py-4 whitespace-nowrap text-slate-500">{item.tanggal}</td>
                       <td className="px-6 py-4 font-bold text-slate-800">{item.nama_santri}</td>
@@ -198,13 +226,38 @@ const RaporList: React.FC = () => {
                 ) : (
                   <tr>
                     <td colSpan={6} className="text-center py-10 text-slate-500">
-                      {search ? 'Tidak ada riwayat yang cocok dengan pencarian.' : 'Belum ada riwayat pembaruan rapor.'}
+                      {search || dateFilter ? 'Tidak ada riwayat yang cocok dengan pencarian.' : 'Belum ada riwayat pembaruan rapor.'}
                     </td>
                   </tr>
                 )}
               </tbody>
             </table>
           </div>
+          
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="px-6 py-4 border-t border-slate-100 flex items-center justify-between bg-slate-50/50">
+              <span className="text-sm text-slate-500">
+                Halaman {page} dari {totalPages}
+              </span>
+              <div className="flex gap-2">
+                <button 
+                  onClick={() => setPage(p => Math.max(1, p - 1))}
+                  disabled={page === 1}
+                  className="p-2 rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  <ChevronLeft size={18} />
+                </button>
+                <button 
+                  onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                  disabled={page === totalPages}
+                  className="p-2 rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  <ChevronRight size={18} />
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
