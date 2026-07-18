@@ -86,12 +86,22 @@ const CekRapor: React.FC = () => {
         {/* Hasil Pencarian */}
         {searched && (
           <div>
-            <p className="font-sans text-sm text-on-surface-variant mb-5">
-              Ditemukan:{' '}
-              <span className="font-semibold text-primary">{results.length} Santri</span>
-            </p>
+            <div className="flex items-center justify-between mb-5">
+              <p className="font-sans text-sm text-on-surface-variant">
+                {loading ? 'Mencari data...' : 'Ditemukan:'}
+                {!loading && <span className="font-semibold text-primary ml-1">{results.length} Santri</span>}
+              </p>
+              {loading && (
+                <div className="w-5 h-5 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
+              )}
+            </div>
 
-            {results.length === 0 && !loading ? (
+            {loading ? (
+              <div className="text-center py-16 card-marble border-dashed flex flex-col items-center justify-center">
+                <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin mb-4" />
+                <p className="font-serif text-lg text-on-surface animate-pulse">Menelusuri Data Santri...</p>
+              </div>
+            ) : results.length === 0 ? (
               <div className="text-center py-16 card-marble border-dashed">
                 <User size={48} className="mx-auto text-outline-light mb-4" />
                 <p className="font-serif text-lg text-on-surface mb-1">Santri Tidak Ditemukan</p>
