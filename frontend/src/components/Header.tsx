@@ -56,7 +56,6 @@ const Header: React.FC = () => {
         <Link to="/" className={getLinkClass('/')}>Beranda</Link>
         <Link to="/pengumuman" className={getLinkClass('/pengumuman')}>Pengumuman</Link>
         <Link to="/cek-rapor" className={getLinkClass('/cek-rapor')}>Cek Rapor</Link>
-        <a href="/#jadwal" className="text-on-surface-variant hover:text-primary transition-colors duration-200">Jadwal Belajar</a>
         <Link to="/statistik" className={getLinkClass('/statistik')}>Statistik</Link>
         <Link to="/profil" className={getLinkClass('/profil')}>Profil TPQ</Link>
         <Link to="/hubungi" className={getLinkClass('/hubungi')}>Hubungi Kami</Link>

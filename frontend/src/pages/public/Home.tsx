@@ -16,33 +16,6 @@ const Home: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
-  const jadwal = [
-    {
-      hari: 'Senin – Kamis',
-      waktu: '15:30 – 17:30',
-      status: 'Reguler',
-      kegiatan: ['Pembukaan & Doa Bersama', "Tahsin Al-Qur'an", 'Hafalan Surat Pendek', 'Doa Penutup'],
-    },
-    {
-      hari: "Jum'at",
-      waktu: '15:30 – 17:00',
-      status: 'Keagamaan',
-      kegiatan: ['Ekstrakurikuler Keagamaan', 'Praktek Ibadah', 'Kisah Nabi & Rasul'],
-    },
-    {
-      hari: 'Sabtu',
-      waktu: '08:00 – 10:00',
-      status: 'Evaluasi',
-      kegiatan: ["Muraja'ah Gabungan", 'Evaluasi Hafalan', 'Kuis & Games Islami'],
-    },
-    {
-      hari: 'Ahad (Minggu)',
-      waktu: 'Libur',
-      status: 'Libur',
-      kegiatan: ['Waktu Luang Bersama Keluarga'],
-    },
-  ];
-
   const fetchHomeData = () => {
     setLoading(true);
     api.get('/home').then(res => {
@@ -289,75 +262,7 @@ const Home: React.FC = () => {
           </div>
         </section>
 
-        {/* ================================================ */}
-        {/* SECTION JADWAL BELAJAR                           */}
-        {/* ================================================ */}
-        <section id="jadwal" className="py-20 px-6 md:px-12 bg-surface-low border-y border-outline-light/30">
-          <div className="max-w-5xl mx-auto">
-            {/* Judul section */}
-            <div className="text-center mb-14">
-              <p className="label-small text-gold mb-3">Rutinitas Harian</p>
-              <h3 className="font-serif text-4xl text-on-surface mb-4">Jadwal Belajar Santri</h3>
-              <div className="divider-gold max-w-xs mx-auto">
-                <svg width="10" height="10" viewBox="0 0 10 10" fill="#a37c35" className="flex-shrink-0">
-                  <polygon points="5,0 10,5 5,10 0,5" />
-                </svg>
-              </div>
-            </div>
 
-            <div className="grid md:grid-cols-2 gap-6">
-              {jadwal.map((item, index) => (
-                <div key={index} className="card-marble p-7 relative overflow-hidden group hover:border-gold/40 transition-all duration-300 hover:-translate-y-1 bg-white">
-                  {/* Garis aksen di sisi kiri */}
-                  <div className="absolute top-0 left-0 w-1 h-full bg-gold group-hover:h-full transition-all" />
-                  
-                  {/* Header kartu */}
-                  <div className="pl-4">
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="font-serif text-xl text-on-surface">{item.hari}</h3>
-                      <span className={`label-small px-2.5 py-1 rounded-full text-xs ${
-                        item.status === 'Libur'
-                          ? 'bg-surface-high text-on-surface-variant'
-                          : 'bg-primary/10 text-primary'
-                      }`}>
-                        {item.status}
-                      </span>
-                    </div>
-
-                    {/* Waktu */}
-                    <div className="flex items-center gap-2 text-gold font-sans font-medium text-sm mb-5 bg-gold/5 border border-gold/20 w-fit px-3 py-1.5 rounded-full">
-                      <Clock size={14} />
-                      {item.waktu}
-                    </div>
-
-                    {/* Daftar kegiatan */}
-                    <ul className="space-y-3">
-                      {item.kegiatan.map((kegiatan, idx) => (
-                        <li key={idx} className="flex items-start gap-3 text-on-surface-variant font-sans text-sm">
-                          <BookOpen size={16} className="text-primary mt-0.5 shrink-0" />
-                          <span>{kegiatan}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Catatan tambahan */}
-            <div className="mt-10 card-marble p-6 border-gold/20 bg-gold/5">
-              <div className="flex items-start gap-3">
-                <Calendar size={20} className="text-gold shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="font-sans font-semibold text-on-surface text-sm mb-1">Catatan Penting</h4>
-                  <p className="font-sans text-xs text-on-surface-variant leading-relaxed">
-                    Jadwal dapat berubah sewaktu-waktu menyesuaikan hari besar atau kegiatan khusus. Perubahan jadwal akan diinformasikan melalui papan Pengumuman.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
 
         {/* ================================================ */}
         {/* SECTION GALERI KEGIATAN (Marquee)                */}
