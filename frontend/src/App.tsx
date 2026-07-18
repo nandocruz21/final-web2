@@ -14,6 +14,7 @@ import HubungiKami from './pages/public/HubungiKami';
 
 import RaporList from './pages/admin/RaporList';
 import Kehadiran from './pages/admin/Kehadiran';
+import InformationList from './pages/admin/InformationList';
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
         <Route path="/admin/santri/edit/:id" element={<SantriForm />} />
         <Route path="/admin/rapor" element={<RaporList />} />
         <Route path="/admin/kehadiran" element={<Kehadiran />} />
+        <Route path="/admin/pengumuman" element={<InformationList />} />
         
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />
