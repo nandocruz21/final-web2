@@ -245,7 +245,12 @@ const Home: React.FC = () => {
             <div className="flex animate-marquee gap-4 w-max">
               {[0, 1].map((loopIdx) => (
                 <React.Fragment key={loopIdx}>
-                  {data?.galeri && data.galeri.length > 0 ? (
+                  {loading ? (
+                    [0, 1, 2, 3, 4].map((idx) => (
+                      <div key={`skel-${loopIdx}-${idx}`} className="group relative overflow-hidden rounded-md w-64 md:w-80 aspect-[4/3] flex-shrink-0 border border-outline-light bg-surface-low animate-pulse">
+                      </div>
+                    ))
+                  ) : data?.galeri && data.galeri.length > 0 ? (
                     data.galeri.map((item: any, index: number) => (
                       <div key={`${loopIdx}-${index}`} className="group relative overflow-hidden rounded-md w-64 md:w-80 aspect-[4/3] flex-shrink-0 border border-outline-light">
                         <img src={`http://localhost:8000/storage/galeri/${item.nama_file}`} alt={item.keterangan || 'Galeri'} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
