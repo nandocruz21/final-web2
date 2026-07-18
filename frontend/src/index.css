@@ -51,11 +51,13 @@
 
   /* Kartu (Putih bersih di atas marmer) */
   .card-marble {
-    @apply bg-white rounded-md shadow-sm transition-shadow duration-300;
+    @apply bg-white rounded-md transition-all duration-300;
     border: 1px solid #d7c2be;
+    box-shadow: 4px 4px 0px 0px rgba(163, 124, 53, 0.15); /* Bayangan solid emas (3D) */
   }
   .card-marble:hover {
-    box-shadow: 0 4px 12px -2px rgb(0 0 0 / 0.08);
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px 0px rgba(163, 124, 53, 0.3); /* Bayangan lebih tebal saat dihover */
   }
 
   /* Label kecil bergaya butik */
