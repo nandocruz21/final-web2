@@ -32,6 +32,24 @@ class InformationApiController extends Controller
         return response()->json(['success' => true, 'data' => $info]);
     }
 
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'kategori' => 'required|string',
+            'judul_info' => 'required|string|max:255',
+            'isi_info' => 'required|string',
+        ]);
+
+        $info = Information::findOrFail($id);
+        $info->update([
+            'kategori' => $request->kategori,
+            'judul_info' => $request->judul_info,
+            'isi_info' => $request->isi_info,
+        ]);
+
+        return response()->json(['success' => true, 'data' => $info]);
+    }
+
     public function destroy($id)
     {
         $info = Information::findOrFail($id);

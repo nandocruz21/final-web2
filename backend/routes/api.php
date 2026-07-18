@@ -38,6 +38,7 @@ Route::middleware('auth:sanctum')->group(function () {
         // Informasi / Pengumuman
         Route::get('/informasi', [\App\Http\Controllers\Api\InformationApiController::class, 'index']);
         Route::post('/informasi', [\App\Http\Controllers\Api\InformationApiController::class, 'store']);
+        Route::put('/informasi/{id}', [\App\Http\Controllers\Api\InformationApiController::class, 'update']);
         Route::delete('/informasi/{id}', [\App\Http\Controllers\Api\InformationApiController::class, 'destroy']);
     });
 });

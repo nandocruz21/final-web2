@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Plus, Trash2, Calendar, LayoutGrid, Type, AlignLeft } from 'lucide-react';
+import { Plus, Trash2, Calendar, LayoutGrid, Type, AlignLeft, Edit } from 'lucide-react';
 import api from '../../services/api';
 import AdminLayout from '../../components/AdminLayout';
 
@@ -8,6 +8,7 @@ const InformationList: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [editId, setEditId] = useState<number | null>(null);
   const [formData, setFormData] = useState({
     kategori: 'PENGUMUMAN',
     judul_info: '',
@@ -29,17 +30,33 @@ const InformationList: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
-    api.post('/admin/informasi', formData)
+    
+    const request = editId 
+      ? api.put(`/admin/informasi/${editId}`, formData)
+      : api.post('/admin/informasi', formData);
+      
+    request
       .then(() => {
         setIsModalOpen(false);
+        setEditId(null);
         setFormData({ kategori: 'PENGUMUMAN', judul_info: '', isi_info: '' });
         fetchData();
       })
       .catch(err => {
-        console.error("Error creating information:", err);
-        alert("Gagal menambahkan pengumuman.");
+        console.error("Error saving information:", err);
+        alert("Gagal menyimpan pengumuman.");
       })
       .finally(() => setSubmitting(false));
+  };
+
+  const handleEdit = (item: any) => {
+    setFormData({
+      kategori: item.kategori,
+      judul_info: item.judul_info,
+      isi_info: item.isi_info
+    });
+    setEditId(item.id);
+    setIsModalOpen(true);
   };
 
   const handleDelete = (id: number) => {
@@ -123,13 +140,22 @@ const InformationList: React.FC = () => {
                       </div>
                     </td>
                     <td className="px-6 py-4 text-center">
-                      <button 
-                        onClick={() => handleDelete(item.id)}
-                        className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg transition-colors"
-                        title="Hapus Pengumuman"
-                      >
-                        <Trash2 size={18} />
-                      </button>
+                      <div className="flex items-center justify-center gap-2">
+                        <button 
+                          onClick={() => handleEdit(item)}
+                          className="text-emerald-500 hover:text-emerald-700 hover:bg-emerald-50 p-2 rounded-lg transition-colors"
+                          title="Edit Pengumuman"
+                        >
+                          <Edit size={18} />
+                        </button>
+                        <button 
+                          onClick={() => handleDelete(item.id)}
+                          className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg transition-colors"
+                          title="Hapus Pengumuman"
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -139,13 +165,20 @@ const InformationList: React.FC = () => {
         </div>
       </div>
 
-      {/* Modal Form Tambah Pengumuman */}
+      {/* Modal Form Tambah/Edit Pengumuman */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
           <div className="bg-white rounded-2xl w-full max-w-xl shadow-2xl animate-fadeUp overflow-hidden">
             <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-              <h2 className="font-serif font-bold text-xl text-slate-800">Tambah Pengumuman</h2>
-              <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-slate-600 text-2xl leading-none">&times;</button>
+              <h2 className="font-serif font-bold text-xl text-slate-800">
+                {editId ? 'Edit Pengumuman' : 'Tambah Pengumuman'}
+              </h2>
+              <button onClick={() => {
+                  setIsModalOpen(false);
+                  setEditId(null);
+                  setFormData({ kategori: 'PENGUMUMAN', judul_info: '', isi_info: '' });
+                }} 
+                className="text-slate-400 hover:text-slate-600 text-2xl leading-none">&times;</button>
             </div>
             
             <form onSubmit={handleSubmit} className="p-6">
@@ -213,7 +246,11 @@ const InformationList: React.FC = () => {
               <div className="mt-8 flex justify-end gap-3">
                 <button 
                   type="button" 
-                  onClick={() => setIsModalOpen(false)}
+                  onClick={() => {
+                    setIsModalOpen(false);
+                    setEditId(null);
+                    setFormData({ kategori: 'PENGUMUMAN', judul_info: '', isi_info: '' });
+                  }}
                   className="px-5 py-2.5 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100 transition-colors"
                 >
                   Batal
