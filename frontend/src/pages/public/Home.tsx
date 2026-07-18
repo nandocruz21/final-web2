@@ -394,7 +394,7 @@ const Home: React.FC = () => {
             <div className="text-center mt-12">
               <button 
                 onClick={() => setIsModalOpen(true)}
-                className="bg-gold hover:bg-[#8a682c] text-white px-8 py-3 rounded-full font-sans font-semibold transition-colors duration-300 shadow-lg shadow-gold/30 hover:shadow-gold/50 flex items-center gap-2 mx-auto"
+                className="bg-[#a37c35] hover:bg-[#8a682c] text-white px-8 py-3 rounded-full font-sans font-semibold transition-all duration-300 shadow-lg shadow-[#a37c35]/40 hover:shadow-[#a37c35]/60 hover:-translate-y-1 flex items-center gap-2 mx-auto"
               >
                 Tulis Pengalaman Anda
               </button>
