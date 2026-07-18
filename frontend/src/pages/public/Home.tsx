@@ -56,15 +56,11 @@ const Home: React.FC = () => {
             </div>
           ))}
 
-          <div className="max-w-7xl mx-auto px-6 md:px-12 py-20 grid grid-cols-1 md:grid-cols-2 gap-12 items-center w-full">
+          <div className="max-w-7xl mx-auto px-6 md:px-12 pt-0 pb-20 grid grid-cols-1 md:grid-cols-2 gap-12 items-center w-full">
 
             {/* --- KIRI: Teks Hero --- */}
             <div className="space-y-6" style={{ animation: 'fadeUp 0.8s ease-out forwards' }}>
               {/* Label kecil bergaya butik */}
-              <div className="label-small text-gold flex items-center gap-2">
-                <div className="w-8 h-px bg-gold" />
-                Sistem Informasi Manajemen
-              </div>
 
               {/* Judul utama — Playfair Display */}
               <h2 className="font-serif text-5xl md:text-6xl leading-tight text-on-surface">
@@ -303,10 +299,10 @@ const Home: React.FC = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="flex flex-wrap justify-center gap-6">
               {loading ? (
                 [0, 1, 2].map((idx) => (
-                  <div key={`skel-testimoni-${idx}`} className="card-marble p-7 flex flex-col animate-pulse">
+                  <div key={`skel-testimoni-${idx}`} className="card-marble w-full md:w-[350px] p-7 flex flex-col animate-pulse">
                     <div className="flex gap-1 mb-6">
                       {[1, 2, 3, 4, 5].map((i) => (
                         <div key={i} className="w-4 h-4 bg-slate-300 rounded-full"></div>
@@ -335,7 +331,7 @@ const Home: React.FC = () => {
                       { nama_wali: 'Bpk. Budi', isi_testimoni: 'Sangat inovatif! Dulu susah tau anak sudah sampai surat apa, sekarang tinggal buka HP semua kelihatan jelas.', inisial: 'B', rating: 5 },
                     ]
                 ).map((item: any, idx: number) => (
-                  <div key={idx} className="card-marble p-7 flex flex-col hover:border-gold/40 transition-all duration-300 hover:-translate-y-1">
+                  <div key={idx} className="card-marble w-full md:w-[350px] p-7 flex flex-col hover:border-gold/40 transition-all duration-300 hover:-translate-y-1">
                     {/* Tanda kutip pembuka */}
                     <div className="text-gold font-serif text-5xl leading-none mb-2 opacity-40">"</div>
                     {/* Bintang rating */}
