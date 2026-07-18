@@ -8,12 +8,16 @@ import api from '../../services/api';
 
 const Home: React.FC = () => {
   const [data, setData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     api.get('/home').then(res => {
       setData(res.data);
     }).catch(err => {
       console.error("Error fetching home data:", err);
+    }).finally(() => {
+      setLoading(false);
     });
   }, []);
 
@@ -85,21 +89,38 @@ const Home: React.FC = () => {
               </div>
 
               {/* Statistik kecil di bawah tombol */}
-              {data && (
-                <div className="flex gap-8 pt-4 border-t border-outline-light">
+              {loading ? (
+                <div className="flex gap-8 pt-4 border-t border-outline-light animate-pulse">
                   <div>
-                    <p className="font-serif text-2xl font-bold text-primary">{data.totalSantri ?? 0}+</p>
-                    <p className="text-xs text-on-surface-variant font-sans">Santri Aktif</p>
+                    <div className="h-8 w-16 bg-surface-low rounded mb-2"></div>
+                    <div className="h-4 w-24 bg-surface-low rounded"></div>
                   </div>
                   <div>
-                    <p className="font-serif text-2xl font-bold text-primary">{data.totalPengajar ?? 0}+</p>
-                    <p className="text-xs text-on-surface-variant font-sans">Pengajar</p>
+                    <div className="h-8 w-16 bg-surface-low rounded mb-2"></div>
+                    <div className="h-4 w-24 bg-surface-low rounded"></div>
                   </div>
                   <div>
-                    <p className="font-serif text-2xl font-bold text-primary">{data.totalPembaruanRapor ?? 0}+</p>
-                    <p className="text-xs text-on-surface-variant font-sans">Rapor Diperbarui</p>
+                    <div className="h-8 w-16 bg-surface-low rounded mb-2"></div>
+                    <div className="h-4 w-24 bg-surface-low rounded"></div>
                   </div>
                 </div>
+              ) : (
+                data && (
+                  <div className="flex gap-8 pt-4 border-t border-outline-light">
+                    <div>
+                      <p className="font-serif text-2xl font-bold text-primary">{data.totalSantri ?? 0}+</p>
+                      <p className="text-xs text-on-surface-variant font-sans">Santri Aktif</p>
+                    </div>
+                    <div>
+                      <p className="font-serif text-2xl font-bold text-primary">{data.totalPengajar ?? 0}+</p>
+                      <p className="text-xs text-on-surface-variant font-sans">Pengajar</p>
+                    </div>
+                    <div>
+                      <p className="font-serif text-2xl font-bold text-primary">{data.totalPembaruanRapor ?? 0}+</p>
+                      <p className="text-xs text-on-surface-variant font-sans">Rapor Diperbarui</p>
+                    </div>
+                  </div>
+                )
               )}
             </div>
 
