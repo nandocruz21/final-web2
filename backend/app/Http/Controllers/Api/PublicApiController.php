@@ -90,4 +90,25 @@ class PublicApiController extends Controller
         $testimoni = Testimonial::orderByDesc('id')->get();
         return response()->json($testimoni);
     }
+
+    public function pengumuman(Request $request)
+    {
+        $search = $request->query('q');
+        $kategori = $request->query('kategori');
+
+        $query = Information::orderByDesc('tanggal_posting')->orderByDesc('id');
+
+        if ($search) {
+            $query->where('judul_info', 'like', "%{$search}%")
+                  ->orWhere('isi_info', 'like', "%{$search}%");
+        }
+
+        if ($kategori && $kategori !== 'Semua Kategori') {
+            $query->where('kategori', $kategori);
+        }
+
+        $pengumuman = $query->paginate(9);
+
+        return response()->json($pengumuman);
+    }
 }

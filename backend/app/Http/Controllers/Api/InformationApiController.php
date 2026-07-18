@@ -10,7 +10,7 @@ class InformationApiController extends Controller
 {
     public function index()
     {
-        $info = Information::orderByDesc('id')->get();
+        $info = Information::orderByDesc('id')->paginate(10);
         return response()->json($info);
     }
 

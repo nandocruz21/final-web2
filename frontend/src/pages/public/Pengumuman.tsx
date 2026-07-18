@@ -15,15 +15,21 @@ const Pengumuman: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedKategori, setSelectedKategori] = useState('Semua Kategori');
   const [selectedPengumuman, setSelectedPengumuman] = useState<any | null>(null);
+  const [page, setPage] = useState(1);
+  const [pagination, setPagination] = useState({ current_page: 1, last_page: 1 });
 
   const fetchPengumuman = () => {
     setLoading(true);
-    let url = `/pengumuman?kategori=${selectedKategori}`;
+    let url = `/pengumuman?kategori=${selectedKategori}&page=${page}`;
     if (searchQuery) url += `&q=${searchQuery}`;
 
     api.get(url)
       .then(res => {
-        setPengumuman(res.data);
+        setPengumuman(res.data.data);
+        setPagination({
+          current_page: res.data.current_page,
+          last_page: res.data.last_page
+        });
       })
       .catch(err => console.error("Error fetching pengumuman:", err))
       .finally(() => setLoading(false));
@@ -31,7 +37,7 @@ const Pengumuman: React.FC = () => {
 
   useEffect(() => {
     fetchPengumuman();
-  }, [selectedKategori]);
+  }, [selectedKategori, page]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -150,6 +156,29 @@ const Pengumuman: React.FC = () => {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {/* Pagination Controls */}
+        {!loading && pagination.last_page > 1 && (
+          <div className="flex justify-center items-center gap-4 mt-12">
+            <button
+              onClick={() => setPage(Math.max(1, page - 1))}
+              disabled={page === 1}
+              className="w-10 h-10 flex items-center justify-center rounded-sm border border-outline-light text-on-surface-variant hover:bg-surface-mid transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              &lt;
+            </button>
+            <span className="text-sm font-sans text-on-surface-variant">
+              Halaman {pagination.current_page} dari {pagination.last_page}
+            </span>
+            <button
+              onClick={() => setPage(Math.min(pagination.last_page, page + 1))}
+              disabled={page === pagination.last_page}
+              className="w-10 h-10 flex items-center justify-center rounded-sm border border-outline-light text-on-surface-variant hover:bg-surface-mid transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              &gt;
+            </button>
           </div>
         )}
 

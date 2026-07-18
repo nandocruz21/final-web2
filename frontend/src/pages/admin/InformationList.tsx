@@ -9,6 +9,8 @@ const InformationList: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [editId, setEditId] = useState<number | null>(null);
+  const [page, setPage] = useState(1);
+  const [pagination, setPagination] = useState({ current_page: 1, last_page: 1 });
   const [formData, setFormData] = useState({
     kategori: 'PENGUMUMAN',
     judul_info: '',
@@ -17,15 +19,21 @@ const InformationList: React.FC = () => {
 
   const fetchData = () => {
     setLoading(true);
-    api.get('/admin/informasi')
-      .then(res => setInformasi(res.data))
+    api.get(`/admin/informasi?page=${page}`)
+      .then(res => {
+        setInformasi(res.data.data);
+        setPagination({
+          current_page: res.data.current_page,
+          last_page: res.data.last_page
+        });
+      })
       .catch(err => console.error("Error fetching information:", err))
       .finally(() => setLoading(false));
   };
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [page]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -164,6 +172,31 @@ const InformationList: React.FC = () => {
           </table>
         </div>
       </div>
+
+      {/* Pagination Controls */}
+      {pagination.last_page > 1 && (
+        <div className="flex justify-between items-center mt-6">
+          <div className="text-sm text-slate-500 font-sans">
+            Halaman {pagination.current_page} dari {pagination.last_page}
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setPage(Math.max(1, page - 1))}
+              disabled={page === 1}
+              className="px-4 py-2 border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              Sebelumnya
+            </button>
+            <button
+              onClick={() => setPage(Math.min(pagination.last_page, page + 1))}
+              disabled={page === pagination.last_page}
+              className="px-4 py-2 border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              Selanjutnya
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Modal Form Tambah/Edit Pengumuman */}
       {isModalOpen && (
