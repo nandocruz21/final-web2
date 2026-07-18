@@ -34,6 +34,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/santri/{id}', [\App\Http\Controllers\Api\StudentApiController::class, 'update']);
         Route::delete('/santri/{id}', [\App\Http\Controllers\Api\StudentApiController::class, 'destroy']);
         Route::post('/santri/{id}/foto', [\App\Http\Controllers\Api\StudentApiController::class, 'updateFoto']);
+        Route::post('/santri/{id}/status', [\App\Http\Controllers\Api\StudentApiController::class, 'updateStatus']);
 
         // Informasi / Pengumuman
         Route::get('/informasi', [\App\Http\Controllers\Api\InformationApiController::class, 'index']);
