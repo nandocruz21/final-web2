@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Users, BookOpen, CheckCircle2, Clock, ChevronRight } from 'lucide-react';
+import { Users, BookOpen, CheckCircle2, Clock, ChevronRight, Star, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
@@ -10,7 +10,13 @@ const Home: React.FC = () => {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  // State untuk form testimoni
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [formTestimoni, setFormTestimoni] = useState({ nama_wali: '', rating: 5, isi_testimoni: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+
+  const fetchHomeData = () => {
     setLoading(true);
     api.get('/home').then(res => {
       setData(res.data);
@@ -19,7 +25,30 @@ const Home: React.FC = () => {
     }).finally(() => {
       setLoading(false);
     });
+  };
+
+  useEffect(() => {
+    fetchHomeData();
   }, []);
+
+  const handleTestimoniSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    api.post('/testimoni', formTestimoni).then(() => {
+      setSubmitSuccess(true);
+      fetchHomeData(); // Refresh data
+      setTimeout(() => {
+        setIsModalOpen(false);
+        setSubmitSuccess(false);
+        setFormTestimoni({ nama_wali: '', rating: 5, isi_testimoni: '' });
+      }, 2000);
+    }).catch(err => {
+      console.error("Error submitting testimoni", err);
+      alert("Terjadi kesalahan saat mengirim testimoni.");
+    }).finally(() => {
+      setIsSubmitting(false);
+    });
+  };
 
   return (
     <div className="min-h-screen bg-surface font-sans text-on-surface flex flex-col">
