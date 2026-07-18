@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, User, FileText, ChevronRight } from 'lucide-react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
@@ -15,21 +15,33 @@ const CekRapor: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
 
+  // Live Search Effect (mencari saat user mengetik)
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setResults([]);
+      setSearched(false);
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setLoading(true);
+      setSearched(true);
+      api.get(`/cek-rapor?q=${searchQuery}`)
+        .then(res => {
+          setResults(res.data.santri || []);
+          setLoading(false);
+        })
+        .catch(() => setLoading(false));
+    }, 400); // 400ms delay agar tidak spam API
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
   /**
-   * Menangani pengiriman form pencarian santri
-   * Akan memanggil API backend untuk mencari data santri
+   * Menangani pengiriman form (ketika di-enter atau klik tombol)
    */
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!searchQuery.trim()) return;
-    setLoading(true);
-    setSearched(true);
-    api.get(`/cek-rapor?q=${searchQuery}`)
-      .then(res => {
-        setResults(res.data.santri || []);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
   };
 
   return (
