@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Plus, Trash2, Calendar, LayoutGrid, Type, AlignLeft, Edit } from 'lucide-react';
+import { Plus, Trash2, Calendar, LayoutGrid, Type, AlignLeft, Edit, AlertTriangle } from 'lucide-react';
 import api from '../../services/api';
 import AdminLayout from '../../components/AdminLayout';
 
@@ -14,7 +14,8 @@ const InformationList: React.FC = () => {
   const [formData, setFormData] = useState({
     kategori: 'PENGUMUMAN',
     judul_info: '',
-    isi_info: ''
+    isi_info: '',
+    is_urgent: false
   });
 
   const fetchData = () => {
@@ -47,7 +48,7 @@ const InformationList: React.FC = () => {
       .then(() => {
         setIsModalOpen(false);
         setEditId(null);
-        setFormData({ kategori: 'PENGUMUMAN', judul_info: '', isi_info: '' });
+        setFormData({ kategori: 'PENGUMUMAN', judul_info: '', isi_info: '', is_urgent: false });
         fetchData();
       })
       .catch(err => {
@@ -61,7 +62,8 @@ const InformationList: React.FC = () => {
     setFormData({
       kategori: item.kategori,
       judul_info: item.judul_info,
-      isi_info: item.isi_info
+      isi_info: item.isi_info,
+      is_urgent: item.is_urgent === 1 || item.is_urgent === true
     });
     setEditId(item.id);
     setIsModalOpen(true);
@@ -142,7 +144,14 @@ const InformationList: React.FC = () => {
                       </span>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="font-medium text-slate-800">{item.judul_info}</div>
+                      <div className="font-medium text-slate-800 flex items-center gap-2">
+                        {item.judul_info}
+                        {item.is_urgent ? (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-red-100 text-red-700 uppercase tracking-wider">
+                            <AlertTriangle size={10} /> Darurat
+                          </span>
+                        ) : null}
+                      </div>
                       <div className="text-slate-500 text-xs mt-1 truncate max-w-xs md:max-w-md">
                         {item.isi_info}
                       </div>
@@ -209,7 +218,7 @@ const InformationList: React.FC = () => {
               <button onClick={() => {
                   setIsModalOpen(false);
                   setEditId(null);
-                  setFormData({ kategori: 'PENGUMUMAN', judul_info: '', isi_info: '' });
+                  setFormData({ kategori: 'PENGUMUMAN', judul_info: '', isi_info: '', is_urgent: false });
                 }} 
                 className="text-slate-400 hover:text-slate-600 text-2xl leading-none">&times;</button>
             </div>
@@ -274,6 +283,21 @@ const InformationList: React.FC = () => {
                     ></textarea>
                   </div>
                 </div>
+
+                {/* Checkbox Darurat */}
+                <div className="flex items-center gap-3 p-4 bg-red-50/50 border border-red-100 rounded-lg">
+                  <input
+                    type="checkbox"
+                    id="is_urgent"
+                    checked={formData.is_urgent}
+                    onChange={(e) => setFormData({...formData, is_urgent: e.target.checked})}
+                    className="w-5 h-5 text-red-600 rounded border-red-300 focus:ring-red-500 cursor-pointer"
+                  />
+                  <label htmlFor="is_urgent" className="text-sm font-medium text-red-900 cursor-pointer select-none flex items-center gap-2 w-full">
+                    <AlertTriangle size={16} className="text-red-600" />
+                    Tandai sebagai Pengumuman Darurat (Penting)
+                  </label>
+                </div>
               </div>
 
               <div className="mt-8 flex justify-end gap-3">
@@ -282,7 +306,7 @@ const InformationList: React.FC = () => {
                   onClick={() => {
                     setIsModalOpen(false);
                     setEditId(null);
-                    setFormData({ kategori: 'PENGUMUMAN', judul_info: '', isi_info: '' });
+                    setFormData({ kategori: 'PENGUMUMAN', judul_info: '', isi_info: '', is_urgent: false });
                   }}
                   className="px-5 py-2.5 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100 transition-colors"
                 >

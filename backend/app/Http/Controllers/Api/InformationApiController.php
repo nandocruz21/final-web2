@@ -20,12 +20,14 @@ class InformationApiController extends Controller
             'kategori' => 'required|string',
             'judul_info' => 'required|string|max:255',
             'isi_info' => 'required|string',
+            'is_urgent' => 'nullable|boolean',
         ]);
 
         $info = Information::create([
             'kategori' => $request->kategori,
             'judul_info' => $request->judul_info,
             'isi_info' => $request->isi_info,
+            'is_urgent' => $request->is_urgent ?? false,
             'tanggal_posting' => now()->toDateString(),
         ]);
 
@@ -38,6 +40,7 @@ class InformationApiController extends Controller
             'kategori' => 'required|string',
             'judul_info' => 'required|string|max:255',
             'isi_info' => 'required|string',
+            'is_urgent' => 'nullable|boolean',
         ]);
 
         $info = Information::findOrFail($id);
@@ -45,6 +48,7 @@ class InformationApiController extends Controller
             'kategori' => $request->kategori,
             'judul_info' => $request->judul_info,
             'isi_info' => $request->isi_info,
+            'is_urgent' => $request->is_urgent ?? false,
         ]);
 
         return response()->json(['success' => true, 'data' => $info]);

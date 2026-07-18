@@ -10,7 +10,7 @@ class Information extends Model
     use HasFactory;
 
     protected $fillable = [
-        'kategori', 'judul_info', 'isi_info', 'tanggal_posting',
+        'kategori', 'judul_info', 'isi_info', 'tanggal_posting', 'is_urgent',
     ];
 
     protected $attributes = [
