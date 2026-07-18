@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, User, FileText, ChevronRight } from 'lucide-react';
+import { Search, User, FileText, ChevronRight, X, Calendar, BookOpen, AlertCircle } from 'lucide-react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import api from '../../services/api';
@@ -14,6 +14,12 @@ const CekRapor: React.FC = () => {
   const [results, setResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
+
+  // Modal State
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedSantri, setSelectedSantri] = useState<any>(null);
+  const [riwayatRapor, setRiwayatRapor] = useState<any[]>([]);
+  const [loadingRiwayat, setLoadingRiwayat] = useState(false);
 
   // Live Search Effect (mencari saat user mengetik)
   useEffect(() => {
@@ -42,6 +48,27 @@ const CekRapor: React.FC = () => {
    */
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
+  };
+
+  /**
+   * Mengambil riwayat rapor untuk santri yang dipilih dan membuka modal
+   */
+  const handleLihatRapor = (santri: any) => {
+    setSelectedSantri(santri);
+    setIsModalOpen(true);
+    setLoadingRiwayat(true);
+    
+    api.get(`/riwayat/${santri.id}`)
+      .then(res => {
+        setRiwayatRapor(res.data || []);
+      })
+      .catch(err => {
+        console.error("Gagal mengambil riwayat", err);
+        setRiwayatRapor([]);
+      })
+      .finally(() => {
+        setLoadingRiwayat(false);
+      });
   };
 
   return (
@@ -110,7 +137,7 @@ const CekRapor: React.FC = () => {
             ) : (
               <div className="grid gap-4">
                 {results.map((santri) => (
-                  <div key={santri.id} className="card-marble p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 group cursor-pointer hover:border-gold/40 transition-all">
+                  <div key={santri.id} onClick={() => handleLihatRapor(santri)} className="card-marble p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 group cursor-pointer hover:border-gold/40 transition-all">
                     <div className="flex items-center gap-4">
                       {/* Avatar inisial */}
                       <div className="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center font-serif font-bold text-lg">
@@ -135,6 +162,114 @@ const CekRapor: React.FC = () => {
             )}
           </div>
         )}
+
+        {/* Panduan jika belum search */}
+        {!searched && (
+          <div className="text-center py-16">
+            <div className="w-20 h-20 bg-primary/5 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Search size={36} className="text-primary/30" />
+            </div>
+            <p className="font-serif text-xl text-on-surface mb-2">Cari Santri Anda</p>
+            <p className="text-on-surface-variant font-sans text-sm">Masukkan nama lengkap atau NIS santri di kolom pencarian di atas.</p>
+          </div>
+        )}
+      </main>
+
+      {/* ================================================ */}
+      {/* MODAL RIWAYAT RAPOR (Glassmorphism)              */}
+      {/* ================================================ */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
+          {/* Backdrop Blur */}
+          <div 
+            className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity cursor-pointer"
+            onClick={() => setIsModalOpen(false)}
+          />
+          
+          {/* Modal Content */}
+          <div className="bg-white rounded-3xl w-full max-w-2xl max-h-[85vh] overflow-hidden flex flex-col relative z-10 shadow-2xl animate-fadeUp border border-slate-100">
+            
+            {/* Header Modal */}
+            <div className="p-6 border-b border-slate-100 flex items-start justify-between bg-slate-50">
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 bg-primary/10 text-primary rounded-full flex items-center justify-center font-serif font-bold text-2xl shadow-inner">
+                  {selectedSantri?.nama_lengkap?.charAt(0)}
+                </div>
+                <div>
+                  <h2 className="font-serif font-bold text-2xl text-slate-800 leading-tight">
+                    {selectedSantri?.nama_lengkap}
+                  </h2>
+                  <p className="text-slate-500 text-sm flex items-center gap-2 mt-1">
+                    <span className="bg-white px-2 py-0.5 rounded-md border border-slate-200">
+                      NIS: {selectedSantri?.nis || '-'}
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <button 
+                onClick={() => setIsModalOpen(false)}
+                className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-200 text-slate-500 hover:bg-red-100 hover:text-red-500 transition-colors"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Body Modal (Daftar Riwayat) */}
+            <div className="p-6 overflow-y-auto bg-slate-50/50 flex-grow">
+              {loadingRiwayat ? (
+                <div className="flex flex-col items-center justify-center py-12">
+                  <div className="w-10 h-10 border-4 border-primary/20 border-t-primary rounded-full animate-spin mb-4" />
+                  <p className="text-slate-500 text-sm font-medium animate-pulse">Mengambil data rapor...</p>
+                </div>
+              ) : riwayatRapor.length > 0 ? (
+                <div className="space-y-4 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-200 before:to-transparent">
+                  {riwayatRapor.map((item, index) => (
+                    <div key={item.id} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                      {/* Timeline Icon */}
+                      <div className="flex items-center justify-center w-10 h-10 rounded-full border-4 border-white bg-primary/10 text-primary shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 relative z-10">
+                        <BookOpen size={16} />
+                      </div>
+                      
+                      {/* Card Content */}
+                      <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-shadow group-hover:border-primary/30">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-xs font-bold text-primary bg-primary/10 px-2.5 py-1 rounded-md flex items-center gap-1">
+                            <Calendar size={12} />
+                            {item.tanggal_riwayat || item.created_at?.substring(0, 10)}
+                          </span>
+                          <span className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded-full ${
+                            item.kehadiran === 'hadir' ? 'bg-emerald-100 text-emerald-700' :
+                            item.kehadiran === 'sakit' ? 'bg-blue-100 text-blue-700' :
+                            item.kehadiran === 'izin' ? 'bg-amber-100 text-amber-700' :
+                            'bg-red-100 text-red-700'
+                          }`}>
+                            {item.kehadiran || 'hadir'}
+                          </span>
+                        </div>
+                        <h4 className="font-bold text-slate-800 text-sm mb-1">{item.capaian_hafalan}</h4>
+                        {item.catatan_pengajar && (
+                          <div className="mt-2 text-xs text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-100 flex items-start gap-2">
+                            <AlertCircle size={14} className="text-slate-400 shrink-0 mt-0.5" />
+                            <p className="leading-relaxed">{item.catatan_pengajar}</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-16">
+                  <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <FileText size={24} className="text-slate-400" />
+                  </div>
+                  <p className="font-serif text-lg text-slate-700 mb-1">Belum Ada Riwayat</p>
+                  <p className="text-slate-500 font-sans text-sm">Santri ini belum memiliki catatan penyetoran hafalan.</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
         {/* Panduan jika belum search */}
         {!searched && (
