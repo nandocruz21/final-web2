@@ -151,10 +151,12 @@ const Home: React.FC = () => {
               {/* Bayangan realistis di lantai bawah buku */}
               <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-56 h-8 bg-black/25 rounded-[100%] blur-md animate-floatShadow" />
 
-              {/* Animasi 3D QuranScene menggunakan Three.js */}
-              <div className="w-full h-full relative z-10 flex items-center justify-center">
-                <QuranScene />
-              </div>
+              {/* Gambar 3D (Pastikan file disimpan di folder public/quran-3d.png) */}
+              <img 
+                src="/quran-3d.png" 
+                alt="Al-Quran 3D" 
+                className="w-full max-w-[280px] md:max-w-[340px] h-auto object-contain animate-float drop-shadow-2xl relative z-10"
+              />
 
               {/* Partikel bintang emas di sekitar buku */}
               {[
