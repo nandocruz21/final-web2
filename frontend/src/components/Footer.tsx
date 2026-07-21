@@ -72,13 +72,13 @@ const Footer: React.FC = () => {
               className="w-10 h-10 rounded-full border border-gold/40 flex items-center justify-center hover:bg-gold/20 hover:border-gold transition-all duration-300">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="white"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
             </a>
-            <a href="#" className="w-10 h-10 rounded-full border border-gold/40 flex items-center justify-center hover:bg-gold/20 hover:border-gold transition-all duration-300">
+            <a href="https://www.instagram.com/syahrularsydd._/" className="w-10 h-10 rounded-full border border-gold/40 flex items-center justify-center hover:bg-gold/20 hover:border-gold transition-all duration-300">
               <svg viewBox="0 0 24 24" width="16" height="16" stroke="white" strokeWidth="2" fill="none"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="white"/></svg>
             </a>
-            <a href="#" className="w-10 h-10 rounded-full border border-gold/40 flex items-center justify-center hover:bg-gold/20 hover:border-gold transition-all duration-300">
+            <a href="https://www.facebook.com/jonk.ambonk" className="w-10 h-10 rounded-full border border-gold/40 flex items-center justify-center hover:bg-gold/20 hover:border-gold transition-all duration-300">
               <svg viewBox="0 0 24 24" width="16" height="16" stroke="white" strokeWidth="2" fill="none"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
             </a>
-            <a href="#" className="w-10 h-10 rounded-full border border-gold/40 flex items-center justify-center hover:bg-gold/20 hover:border-gold transition-all duration-300">
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=syahruddin.arsyad21@gmail.com" target="_blank"className="w-10 h-10 rounded-full border border-gold/40 flex items-center justify-center hover:bg-gold/20 hover:border-gold transition-all duration-300">
               <Mail size={16} />
             </a>
           </div>

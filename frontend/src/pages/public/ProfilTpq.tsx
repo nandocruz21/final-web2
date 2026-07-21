@@ -20,7 +20,7 @@ const ProfilTpq: React.FC = () => {
             backgroundSize: '60px 60px',
           }}
         />
-        <div className="relative z-10">
+        <div className="relative z-10 animate-fadeUp">
           <p className="label-small mb-4" style={{ color: '#a37c35' }}>Tentang Kami</p>
           <h1 className="font-serif text-5xl md:text-6xl font-bold mb-5" style={{ color: '#ffffff' }}>Profil TPQ MSANTRI</h1>
           <p className="font-sans max-w-2xl mx-auto text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.65)' }}>
@@ -33,7 +33,7 @@ const ProfilTpq: React.FC = () => {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
 
           {/* Bagian Sejarah */}
-          <div className="flex flex-col md:flex-row gap-14 items-center mb-24">
+          <div className="flex flex-col md:flex-row gap-14 items-center mb-24 animate-fadeUp" style={{ animationDelay: '100ms' }}>
             <div className="w-full md:w-1/2">
               <div className="aspect-video rounded-md overflow-hidden border border-outline-light shadow-md">
                 <img
@@ -62,7 +62,7 @@ const ProfilTpq: React.FC = () => {
           </div>
 
           {/* Visi & Misi */}
-          <div className="grid md:grid-cols-2 gap-6 mb-16">
+          <div className="grid md:grid-cols-2 gap-6 mb-16 animate-fadeUp" style={{ animationDelay: '200ms' }}>
 
             {/* Visi */}
             <div className="card-marble p-10 border-l-4 border-l-gold">
