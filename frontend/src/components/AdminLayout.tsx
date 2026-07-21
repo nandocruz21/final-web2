@@ -61,7 +61,7 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 md:ml-64 flex flex-col min-h-screen bg-surface">
+      <main className="flex-1 md:ml-64 flex flex-col min-h-screen bg-surface min-w-0 overflow-x-hidden">
         {/* Top Navbar */}
         <header className="bg-white border-b border-outline-light h-16 flex items-center justify-between px-6 sticky top-0 z-10 shadow-sm">
           <div className="font-serif font-bold text-lg md:hidden text-primary">MSANTRI</div>
