@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, User, FileText, ChevronRight, X, Calendar, BookOpen, AlertCircle } from 'lucide-react';
+import { Search, User, FileText, ChevronRight, X, Calendar, BookOpen, AlertCircle, Download } from 'lucide-react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import api from '../../services/api';
@@ -24,8 +24,16 @@ const CekRapor: React.FC = () => {
   // Live Search Effect (mencari saat user mengetik)
   useEffect(() => {
     if (!searchQuery.trim()) {
-      setResults([]);
-      setSearched(false);
+      setLoading(true);
+      api.get('/cek-rapor')
+        .then(res => {
+          const semuaSantri = res.data.santri || [];
+          setResults(semuaSantri.slice(0, 5));
+          setSearched(true);
+          setLoading(false);
+        })
+        .catch(() => setLoading(false)); 
+      
       return;
     }
 
@@ -38,8 +46,7 @@ const CekRapor: React.FC = () => {
           setLoading(false);
         })
         .catch(() => setLoading(false));
-    }, 400); // 400ms delay agar tidak spam API
-
+    }, 400);
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
@@ -68,6 +75,23 @@ const CekRapor: React.FC = () => {
       })
       .finally(() => {
         setLoadingRiwayat(false);
+      });
+  };
+
+  const handleDownloadPdf = (id: number, nama: string) => {
+    api.get(`/cetak-rapor/${id}`, { responseType: 'blob' })
+      .then(response => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `laporan_santri_${nama}.pdf`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      })
+      .catch(error => {
+        console.error("Gagal mengunduh PDF", error);
+        alert("Gagal mengunduh rapor. Silakan coba lagi.");
       });
   };
 
@@ -148,8 +172,7 @@ const CekRapor: React.FC = () => {
                           {santri.nama_lengkap}
                         </h4>
                         <div className="flex items-center gap-4 text-xs text-on-surface-variant font-sans mt-0.5">
-                          <span className="flex items-center gap-1"><FileText size={12} /> NIS: {santri.nis || '-'}</span>
-                          <span>{santri.alamat || 'Tidak ada data'}</span>
+                          <span className="flex items-center gap-1"><FileText size={12} /> {santri.alamat || 'Tidak ada data alamat'}</span>
                         </div>
                       </div>
                     </div>
@@ -170,7 +193,7 @@ const CekRapor: React.FC = () => {
               <Search size={36} className="text-primary/30" />
             </div>
             <p className="font-serif text-xl text-on-surface mb-2">Cari Santri Anda</p>
-            <p className="text-on-surface-variant font-sans text-sm">Masukkan nama lengkap atau NIS santri di kolom pencarian di atas.</p>
+            <p className="text-on-surface-variant font-sans text-sm">Masukkan nama lengkap santri di kolom pencarian di atas.</p>
           </div>
         )}
       </main>
@@ -199,19 +222,22 @@ const CekRapor: React.FC = () => {
                   <h2 className="font-serif font-bold text-2xl text-slate-800 leading-tight">
                     {selectedSantri?.nama_lengkap}
                   </h2>
-                  <p className="text-slate-500 text-sm flex items-center gap-2 mt-1">
-                    <span className="bg-white px-2 py-0.5 rounded-md border border-slate-200">
-                      NIS: {selectedSantri?.nis || '-'}
-                    </span>
-                  </p>
                 </div>
               </div>
-              <button 
-                onClick={() => setIsModalOpen(false)}
-                className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-200 text-slate-500 hover:bg-red-100 hover:text-red-500 transition-colors"
-              >
-                <X size={18} />
-              </button>
+              <div className="flex items-center gap-2">
+                <button 
+                  onClick={() => handleDownloadPdf(selectedSantri.id, selectedSantri.nama_lengkap)}
+                  className="px-3 py-1.5 flex items-center gap-1.5 rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors text-sm font-semibold"
+                >
+                  <Download size={14} /> Unduh PDF
+                </button>
+                <button 
+                  onClick={() => setIsModalOpen(false)}
+                  className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-200 text-slate-500 hover:bg-red-100 hover:text-red-500 transition-colors"
+                >
+                  <X size={18} />
+                </button>
+              </div>
             </div>
 
             {/* Body Modal (Daftar Riwayat) */}

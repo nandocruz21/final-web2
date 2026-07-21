@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\PublicApiController;
 Route::get('/home', [PublicApiController::class, 'home']);
 Route::get('/cek-rapor', [PublicApiController::class, 'cekRapor']);
 Route::get('/riwayat/{id}', [PublicApiController::class, 'riwayat']);
+Route::get('/cetak-rapor/{id}', [\App\Http\Controllers\Api\StudentApiController::class, 'downloadPdf']);
 Route::post('/testimoni', [PublicApiController::class, 'submitTestimoni']);
 Route::get('/testimoni', [PublicApiController::class, 'allTestimoni']);
 Route::get('/pengumuman', [PublicApiController::class, 'pengumuman']);
@@ -33,6 +34,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/pesan/{id}/baca', [\App\Http\Controllers\Api\MessageApiController::class, 'markAsRead']);
 
         // Route Khusus (Custom)
+        Route::get('/santri/{id}/report-pdf', [\App\Http\Controllers\Api\StudentApiController::class, 'downloadPdf']);
         Route::post('/santri/{id}/foto', [\App\Http\Controllers\Api\StudentApiController::class, 'updateFoto']);
         Route::post('/santri/{id}/status', [\App\Http\Controllers\Api\StudentApiController::class, 'updateStatus']);
     });
