@@ -77,7 +77,7 @@ const Pengumuman: React.FC = () => {
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-gold/10 rounded-full blur-2xl translate-y-1/3 -translate-x-1/4"></div>
         
-        <div className="max-w-7xl mx-auto relative z-10">
+        <div className="max-w-7xl mx-auto relative z-10 animate-fadeUp">
           <p className="label-small mb-3 text-gold tracking-widest uppercase">Informasi &amp; Berita</p>
           <h1 className="font-serif text-4xl md:text-5xl font-bold mb-4 text-white">Papan Pengumuman</h1>
           <p className="font-sans text-sm md:text-base max-w-xl text-white/70 leading-relaxed">
@@ -89,7 +89,7 @@ const Pengumuman: React.FC = () => {
       <main className="max-w-7xl mx-auto px-6 md:px-12 py-12 flex-grow w-full">
 
         {/* Filter Bar & Search */}
-        <div className="flex flex-col md:flex-row gap-4 mb-10 items-center">
+        <div className="flex flex-col md:flex-row gap-4 mb-10 items-center animate-fadeUp" style={{ animationDelay: '100ms' }}>
           <form onSubmit={handleSearch} className="relative flex-grow w-full card-marble border-outline-light group focus-within:border-primary/50 transition-colors">
             <Search size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors" />
             <input
@@ -129,7 +129,7 @@ const Pengumuman: React.FC = () => {
 
         {/* Loading State */}
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fadeUp" style={{ animationDelay: '200ms' }}>
             {[1, 2, 3, 4, 5, 6].map((i) => (
               <div key={i} className="card-marble p-6 min-h-[220px] flex flex-col justify-between">
                 <div className="animate-pulse">
@@ -145,7 +145,7 @@ const Pengumuman: React.FC = () => {
             ))}
           </div>
         ) : pengumuman.length === 0 ? (
-          <div className="text-center py-20 card-marble border-dashed flex flex-col items-center justify-center">
+          <div className="text-center py-20 card-marble border-dashed flex flex-col items-center justify-center animate-fadeUp" style={{ animationDelay: '200ms' }}>
             <div className="w-20 h-20 bg-primary/5 rounded-full flex items-center justify-center mb-5">
               <Info size={36} className="text-primary/40" />
             </div>

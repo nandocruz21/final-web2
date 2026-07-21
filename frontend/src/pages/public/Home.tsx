@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Users, BookOpen, CheckCircle2, Clock, ChevronRight, Star, X, Calendar, AlertTriangle } from 'lucide-react';
+import { Users, BookOpen, CheckCircle2, Clock, ChevronRight, Star, X, Calendar, AlertTriangle, Volume2, CreditCard, Award } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
@@ -15,6 +15,25 @@ const Home: React.FC = () => {
   const [formTestimoni, setFormTestimoni] = useState({ nama_wali: '', rating: 5, isi_testimoni: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+
+  // State untuk detail pengumuman
+  const [selectedPengumuman, setSelectedPengumuman] = useState<any | null>(null);
+
+  const getKategoriIcon = (kategori: string) => {
+    switch (kategori?.toUpperCase()) {
+      case 'AKADEMIK': return <BookOpen size={18} />;
+      case 'ADMINISTRASI': return <CreditCard size={18} />;
+      case 'KEGIATAN': return <Users size={18} />;
+      case 'PRESTASI': return <Award size={18} />;
+      default: return <Volume2 size={18} />;
+    }
+  };
+
+  const formatDate = (dateString: string) => {
+    if (!dateString) return '';
+    const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short', year: 'numeric' };
+    return new Date(dateString).toLocaleDateString('id-ID', options);
+  };
 
   const fetchHomeData = () => {
     setLoading(true);
@@ -425,7 +444,7 @@ const Home: React.FC = () => {
               {data?.urgentInfo && data.urgentInfo.length > 0 && (
                 <div className="mb-6 flex flex-col gap-4">
                   {data.urgentInfo.map((item: any) => (
-                    <Link to="/pengumuman" key={item.id} className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-red-600 to-red-800 text-white shadow-xl shadow-red-900/20 border border-red-500 p-6 md:p-8 cursor-pointer group animate-fadeUp block">
+                    <div onClick={() => setSelectedPengumuman(item)} key={item.id} className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-red-600 to-red-800 text-white shadow-xl shadow-red-900/20 border border-red-500 p-6 md:p-8 cursor-pointer group animate-fadeUp block">
                       <div className="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
                       <div className="relative z-10 flex flex-col md:flex-row gap-6 items-start md:items-center">
                         <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-white/20 flex items-center justify-center shrink-0 border border-white/30 animate-pulse">
@@ -446,22 +465,22 @@ const Home: React.FC = () => {
                           </span>
                         </div>
                       </div>
-                    </Link>
+                    </div>
                   ))}
                 </div>
               )}
 
               {/* Pengumuman Biasa */}
               {data?.info && (
-                <div className="card-marble p-6 flex flex-col md:flex-row items-start md:items-center gap-6 hover:border-gold/30 transition-all">
+                <div onClick={() => setSelectedPengumuman(data.info)} className="card-marble p-6 flex flex-col md:flex-row items-start md:items-center gap-6 hover:border-gold/30 transition-all cursor-pointer">
                   <div className="flex-1">
                     <span className="label-small text-gold mb-2 block">{data.info.kategori || 'Umum'}</span>
                     <h4 className="font-serif text-xl text-on-surface mb-2">{data.info.judul_info}</h4>
                     <p className="text-on-surface-variant font-sans text-sm line-clamp-2">{data.info.isi_info}</p>
                   </div>
-                  <Link to="/pengumuman" className="btn-primary text-sm whitespace-nowrap">
+                  <span className="btn-primary text-sm whitespace-nowrap">
                     Baca Selengkapnya
-                  </Link>
+                  </span>
                 </div>
               )}
             </div>
@@ -548,6 +567,63 @@ const Home: React.FC = () => {
                   </button>
                 </form>
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ================================================ */}
+      {/* MODAL PENGUMUMAN (Glassmorphism)                 */}
+      {/* ================================================ */}
+      {selectedPengumuman && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-12">
+          {/* Backdrop Blur */}
+          <div 
+            className="absolute inset-0 bg-slate-900/60 backdrop-blur-md transition-opacity cursor-pointer"
+            onClick={() => setSelectedPengumuman(null)}
+          />
+          
+          {/* Modal Content */}
+          <div className="bg-white/95 backdrop-blur-xl rounded-3xl w-full max-w-3xl max-h-[85vh] overflow-hidden flex flex-col relative z-10 shadow-2xl animate-fadeUp border border-white/50">
+            
+            {/* Header Modal */}
+            <div className="px-8 py-7 border-b border-slate-100 flex items-start justify-between bg-gradient-to-br from-slate-50 to-white">
+              <div className="pr-8">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="bg-primary/10 text-primary px-3 py-1.5 rounded-full text-xs font-bold font-sans flex items-center gap-1.5 uppercase tracking-wider">
+                    {getKategoriIcon(selectedPengumuman.kategori)} {selectedPengumuman.kategori || 'Info'}
+                  </span>
+                  <span className="text-slate-500 text-sm font-sans flex items-center gap-1.5 font-medium">
+                    <Calendar size={14} /> {formatDate(selectedPengumuman.tanggal_posting || selectedPengumuman.created_at)}
+                  </span>
+                </div>
+                <h2 className="font-serif font-bold text-2xl md:text-3xl text-slate-800 leading-tight">
+                  {selectedPengumuman.judul_info}
+                </h2>
+              </div>
+              <button 
+                onClick={() => setSelectedPengumuman(null)}
+                className="w-10 h-10 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-red-100 hover:text-red-500 transition-colors shrink-0 shadow-sm"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            
+            {/* Body Modal */}
+            <div className="p-8 overflow-y-auto custom-scrollbar bg-white flex-grow">
+              <div className="prose prose-slate prose-lg max-w-none text-slate-600 font-sans leading-relaxed whitespace-pre-wrap">
+                {selectedPengumuman.isi_info}
+              </div>
+            </div>
+
+            {/* Footer Modal */}
+            <div className="px-8 py-5 border-t border-slate-100 bg-slate-50 flex justify-end">
+              <button 
+                onClick={() => setSelectedPengumuman(null)}
+                className="btn-primary shadow-md hover:shadow-lg transition-all"
+              >
+                Tutup Pengumuman
+              </button>
             </div>
           </div>
         </div>

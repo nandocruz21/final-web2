@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/public/Home';
@@ -7,15 +8,15 @@ import AdminLogin from './pages/admin/Login';
 import AdminDashboard from './pages/admin/Dashboard';
 import SantriList from './pages/admin/SantriList';
 import SantriForm from './pages/admin/SantriForm';
-import Statistik from './pages/public/Statistik';
 import ProfilTpq from './pages/public/ProfilTpq';
 import HubungiKami from './pages/public/HubungiKami';
 
 import RaporList from './pages/admin/RaporList';
 import Kehadiran from './pages/admin/Kehadiran';
 import InformationList from './pages/admin/InformationList';
+import MessageList from './pages/admin/MessageList';
 
-const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const token = localStorage.getItem('admin_token');
   if (!token) {
     return <Navigate to="/admin/login" replace />;
@@ -32,7 +33,6 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/pengumuman" element={<Pengumuman />} />
         <Route path="/cek-rapor" element={<CekRapor />} />
-        <Route path="/statistik" element={<Statistik />} />
         <Route path="/profil" element={<ProfilTpq />} />
         <Route path="/hubungi" element={<HubungiKami />} />
 
@@ -47,6 +47,7 @@ function App() {
         <Route path="/admin/rapor" element={<ProtectedRoute><RaporList /></ProtectedRoute>} />
         <Route path="/admin/kehadiran" element={<ProtectedRoute><Kehadiran /></ProtectedRoute>} />
         <Route path="/admin/pengumuman" element={<ProtectedRoute><InformationList /></ProtectedRoute>} />
+        <Route path="/admin/pesan" element={<ProtectedRoute><MessageList /></ProtectedRoute>} />
         
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />
