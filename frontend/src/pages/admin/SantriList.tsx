@@ -84,6 +84,7 @@ const SantriList: React.FC = () => {
               <Search size={16} className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-on-surface-variant/60" />
               <input 
                 type="text" 
+                spellCheck={false}
                 placeholder="Cari nama santri..." 
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}

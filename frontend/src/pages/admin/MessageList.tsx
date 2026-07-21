@@ -63,6 +63,7 @@ const MessageList: React.FC = () => {
             <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant/60" />
             <input 
               type="text" 
+              spellCheck={false}
               placeholder="Cari pengirim atau subjek..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}

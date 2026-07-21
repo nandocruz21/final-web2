@@ -11,9 +11,9 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       {/* Sidebar Emerald & Gold */}
       <aside className="w-64 bg-primary text-white hidden md:flex flex-col fixed inset-y-0 left-0 z-20 shadow-xl border-r border-gold/20">
         <div className="p-6 border-b border-primary-dark/60 bg-primary-dark/40">
-          <div className="flex items-center gap-3 mb-1">
-            <div className="bg-white p-1.5 rounded-lg shadow-sm">
-              <img src="/logo.png" alt="Logo MSANTRI" className="w-7 h-7 object-contain" />
+          <div className="flex items-center gap-2 mb-1">
+            <div className="bg-white w-9 h-9 rounded-full flex items-center justify-center shrink-0 shadow-sm overflow-hidden p-1">
+              <img src="/logo.png" alt="Logo MSANTRI" className="w-full h-full object-contain" />
             </div>
             <div className="font-serif font-bold text-2xl text-white tracking-wide flex-1">MSANTRI</div>
             <span className="text-white text-[10px] px-2 py-0.5 rounded-full bg-white/20 border border-white/30 font-sans font-bold uppercase tracking-wider shadow-sm">Admin</span>
@@ -66,31 +66,14 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       {/* Main Content */}
       <main className="flex-1 md:ml-64 flex flex-col min-h-screen bg-surface min-w-0 overflow-x-hidden">
         {/* Top Navbar */}
-        <header className="bg-white border-b border-outline-light h-16 flex items-center justify-between px-6 sticky top-0 z-10 shadow-sm">
-          <div className="font-serif font-bold text-lg md:hidden text-primary">MSANTRI</div>
-          <div className="hidden md:flex relative w-96">
-            <Search size={16} className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-on-surface-variant/50" />
-            <input 
-              type="text" 
-              placeholder="Cari data di panel..." 
-              className="bg-surface-low border border-outline-light rounded-full py-2 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-gold/40 focus:border-gold w-full transition-all"
-            />
-          </div>
-          <div className="flex items-center gap-4">
-            <button className="w-9 h-9 flex items-center justify-center rounded-full text-on-surface-variant hover:text-gold hover:bg-surface-low transition-all">
-              <Bell size={18} />
-            </button>
-            <button className="w-9 h-9 flex items-center justify-center rounded-full text-on-surface-variant hover:text-gold hover:bg-surface-low transition-all">
-              <Settings size={18} />
-            </button>
-            <div className="flex items-center gap-2 pl-2 border-l border-outline-light">
-              <div className="w-9 h-9 bg-primary text-white rounded-full flex items-center justify-center font-bold text-sm shadow-sm border border-gold/30">
-                A
-              </div>
-              <div className="hidden sm:block text-left text-xs font-sans">
-                <p className="font-semibold text-on-surface">Administrator</p>
-                <p className="text-gold font-medium">Admin TPQ</p>
-              </div>
+        <header className="bg-white border-b border-outline-light h-16 flex items-center justify-end px-6 sticky top-0 z-10 shadow-sm">
+          <div className="flex items-center gap-2">
+            <div className="w-9 h-9 bg-primary text-white rounded-full flex items-center justify-center font-bold text-sm shadow-sm border border-gold/30">
+              A
+            </div>
+            <div className="hidden sm:block text-left text-xs font-sans">
+              <p className="font-semibold text-on-surface">Administrator</p>
+              <p className="text-gold font-medium">Admin TPQ</p>
             </div>
           </div>
         </header>
