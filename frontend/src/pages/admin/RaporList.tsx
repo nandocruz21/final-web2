@@ -113,44 +113,46 @@ const RaporList: React.FC = () => {
     }
   };
 
-  // Function to handle search change with debouncing (optional) or just reset page
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
-    setPage(1); // Reset to first page when searching
+    setPage(1);
   };
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDateFilter(e.target.value);
-    setPage(1); // Reset to first page when date changes
+    setPage(1);
   };
 
   return (
     <AdminLayout>
-      <div className="p-6 md:p-8 flex-1">
+      <div className="p-6 md:p-8 flex-1 animate-fadeUp">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-          <h1 className="text-2xl font-bold font-serif text-slate-900">Riwayat Rapor Hafalan</h1>
+          <div>
+            <p className="label-small text-gold mb-1">Capaian & Evaluasi</p>
+            <h1 className="text-3xl font-bold font-serif text-on-surface">Riwayat Rapor Hafalan</h1>
+          </div>
           
-          <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
-            {/* Date Filter */}
+          <div className="flex flex-col md:flex-row gap-3 w-full md:w-auto">
+            {/* Filter Tanggal */}
             <div className="relative w-full md:w-48">
-              <Calendar size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" />
+              <Calendar size={16} className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-on-surface-variant/60" />
               <input 
                 type="date" 
                 value={dateFilter}
                 onChange={handleDateChange}
-                className="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-slate-600"
+                className="w-full pl-10 pr-4 py-2.5 bg-white border border-outline-light rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold font-sans text-on-surface"
               />
             </div>
 
-            {/* Search Input */}
-            <div className="relative w-full md:w-72">
-              <Search size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" />
+            {/* Pencarian */}
+            <div className="relative w-full md:w-64">
+              <Search size={16} className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-on-surface-variant/60" />
               <input 
                 type="text" 
                 placeholder="Cari santri atau surah..." 
                 value={search}
                 onChange={handleSearchChange}
-                className="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                className="w-full pl-10 pr-4 py-2.5 bg-white border border-outline-light rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold font-sans"
               />
             </div>
             
@@ -160,18 +162,18 @@ const RaporList: React.FC = () => {
                 setFormData({ student_id: '', capaian_hafalan: '', catatan_pengajar: '', kehadiran: 'hadir' });
                 setIsModalOpen(true);
               }}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-xl font-medium font-sans flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50 hover:-translate-y-0.5 transition-all w-full md:w-auto shrink-0"
+              className="btn-primary flex items-center justify-center gap-2 shrink-0"
             >
-              <Plus size={20} />
+              <Plus size={18} />
               Tambah Rapor
             </button>
           </div>
         </div>
 
-        <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden flex flex-col">
+        <div className="card-marble overflow-hidden flex flex-col">
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-slate-600">
-              <thead className="bg-slate-50 text-slate-500 font-medium">
+            <table className="w-full text-left text-sm text-on-surface font-sans">
+              <thead className="bg-surface-low text-on-surface-variant font-semibold border-b border-outline-light">
                 <tr>
                   <th className="px-6 py-4">Tanggal</th>
                   <th className="px-6 py-4">Nama Santri</th>
@@ -181,43 +183,43 @@ const RaporList: React.FC = () => {
                   <th className="px-6 py-4 text-center">Aksi</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-outline-light/60">
                 {loading ? (
-                  <tr><td colSpan={6} className="text-center py-10">Memuat data...</td></tr>
+                  <tr><td colSpan={6} className="text-center py-12 text-on-surface-variant">Memuat data rapor...</td></tr>
                 ) : rapor.length > 0 ? (
                   rapor.map((item) => (
-                    <tr key={item.id} className="hover:bg-slate-50 transition-colors">
-                      <td className="px-6 py-4 whitespace-nowrap text-slate-500">{item.tanggal}</td>
-                      <td className="px-6 py-4 font-bold text-slate-800">{item.nama_santri}</td>
-                      <td className="px-6 py-4 uppercase text-xs font-semibold">
-                        <span className={`px-2 py-1 rounded-md ${
-                          item.kehadiran === 'hadir' ? 'bg-emerald-100 text-emerald-700' :
-                          item.kehadiran === 'sakit' ? 'bg-blue-100 text-blue-700' :
-                          item.kehadiran === 'izin' ? 'bg-amber-100 text-amber-700' :
-                          'bg-red-100 text-red-700'
+                    <tr key={item.id} className="hover:bg-surface-low/50 transition-colors">
+                      <td className="px-6 py-4 whitespace-nowrap text-on-surface-variant/80 font-medium">{item.tanggal}</td>
+                      <td className="px-6 py-4 font-bold text-on-surface">{item.nama_santri}</td>
+                      <td className="px-6 py-4 text-xs font-semibold">
+                        <span className={`px-3 py-1 rounded-full ${
+                          item.kehadiran === 'hadir' ? 'bg-primary/10 text-primary border border-primary/20' :
+                          item.kehadiran === 'sakit' ? 'bg-amber-100 text-amber-800 border border-amber-300' :
+                          item.kehadiran === 'izin' ? 'bg-blue-100 text-blue-800 border border-blue-300' :
+                          'bg-red-100 text-red-700 border border-red-200'
                         }`}>
-                          {item.kehadiran}
+                          {item.kehadiran ? item.kehadiran.charAt(0).toUpperCase() + item.kehadiran.slice(1) : 'Hadir'}
                         </span>
                       </td>
-                      <td className="px-6 py-4 font-medium text-emerald-700">{item.capaian_hafalan}</td>
-                      <td className="px-6 py-4 text-slate-500 italic max-w-xs truncate" title={item.catatan_pengajar}>
+                      <td className="px-6 py-4 font-semibold text-primary">{item.capaian_hafalan}</td>
+                      <td className="px-6 py-4 text-on-surface-variant italic max-w-xs truncate" title={item.catatan_pengajar}>
                         {item.catatan_pengajar || '-'}
                       </td>
                       <td className="px-6 py-4 text-center">
                         <div className="flex items-center justify-center gap-2">
                           <button 
                             onClick={() => handleEdit(item)}
-                            className="text-emerald-500 hover:text-emerald-700 hover:bg-emerald-50 p-2 rounded-lg transition-colors"
+                            className="w-8 h-8 flex items-center justify-center bg-blue-50 text-blue-700 rounded-md hover:bg-blue-100 border border-blue-200 transition-colors"
                             title="Edit Rapor"
                           >
-                            <Edit size={18} />
+                            <Edit size={16} />
                           </button>
                           <button 
                             onClick={() => handleDelete(item.id)}
-                            className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg transition-colors"
+                            className="w-8 h-8 flex items-center justify-center bg-red-50 text-red-700 rounded-md hover:bg-red-100 border border-red-200 transition-colors"
                             title="Hapus Rapor"
                           >
-                            <Trash2 size={18} />
+                            <Trash2 size={16} />
                           </button>
                         </div>
                       </td>
@@ -225,7 +227,7 @@ const RaporList: React.FC = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={6} className="text-center py-10 text-slate-500">
+                    <td colSpan={6} className="text-center py-10 text-on-surface-variant font-sans">
                       {search || dateFilter ? 'Tidak ada riwayat yang cocok dengan pencarian.' : 'Belum ada riwayat pembaruan rapor.'}
                     </td>
                   </tr>
@@ -236,24 +238,24 @@ const RaporList: React.FC = () => {
           
           {/* Pagination Controls */}
           {totalPages > 1 && (
-            <div className="px-6 py-4 border-t border-slate-100 flex items-center justify-between bg-slate-50/50">
-              <span className="text-sm text-slate-500">
-                Halaman {page} dari {totalPages}
+            <div className="px-6 py-4 border-t border-outline-light flex items-center justify-between bg-surface-low font-sans">
+              <span className="text-xs text-on-surface-variant">
+                Halaman <strong className="text-on-surface">{page}</strong> dari <strong className="text-on-surface">{totalPages}</strong>
               </span>
               <div className="flex gap-2">
                 <button 
                   onClick={() => setPage(p => Math.max(1, p - 1))}
                   disabled={page === 1}
-                  className="p-2 rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="p-2 rounded-lg border border-outline-light bg-white text-on-surface hover:bg-surface-low disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
-                  <ChevronLeft size={18} />
+                  <ChevronLeft size={16} />
                 </button>
                 <button 
                   onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                   disabled={page === totalPages}
-                  className="p-2 rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="p-2 rounded-lg border border-outline-light bg-white text-on-surface hover:bg-surface-low disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
-                  <ChevronRight size={18} />
+                  <ChevronRight size={16} />
                 </button>
               </div>
             </div>
@@ -263,30 +265,37 @@ const RaporList: React.FC = () => {
 
       {/* Modal Form Tambah/Edit Rapor */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-2xl w-full max-w-xl shadow-2xl animate-fadeUp overflow-hidden">
-            <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-              <h2 className="font-serif font-bold text-xl text-slate-800">
-                {editId ? 'Edit Rapor Santri' : 'Tambah Rapor Santri'}
-              </h2>
-              <button onClick={() => {
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fadeUp">
+          <div className="bg-white rounded-2xl w-full max-w-xl shadow-2xl border border-outline-light overflow-hidden">
+            <div className="px-6 py-5 border-b border-outline-light flex justify-between items-center bg-surface-low">
+              <div>
+                <p className="label-small text-gold">Input Nilai</p>
+                <h2 className="font-serif font-bold text-2xl text-on-surface">
+                  {editId ? 'Edit Rapor Santri' : 'Tambah Rapor Santri'}
+                </h2>
+              </div>
+              <button 
+                onClick={() => {
                   setIsModalOpen(false);
                   setEditId(null);
                 }} 
-                className="text-slate-400 hover:text-slate-600 text-2xl leading-none">&times;</button>
+                className="text-on-surface-variant hover:text-error text-2xl font-bold leading-none"
+              >
+                &times;
+              </button>
             </div>
             
-            <form onSubmit={handleSubmit} className="p-6">
-              <div className="space-y-5">
+            <form onSubmit={handleSubmit} className="p-6 font-sans">
+              <div className="space-y-4">
                 
                 {!editId && (
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Pilih Santri</label>
+                    <label className="block text-sm font-semibold text-on-surface mb-1">Pilih Santri *</label>
                     <select 
                       required
                       value={formData.student_id}
                       onChange={(e) => setFormData({...formData, student_id: e.target.value})}
-                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                      className="w-full px-4 py-2.5 bg-surface-low border border-outline-light rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-all"
                     >
                       <option value="" disabled>-- Pilih Nama Santri --</option>
                       {santriList.map(s => (
@@ -297,12 +306,12 @@ const RaporList: React.FC = () => {
                 )}
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Status Kehadiran</label>
+                  <label className="block text-sm font-semibold text-on-surface mb-1">Status Kehadiran *</label>
                   <select 
                     required
                     value={formData.kehadiran}
                     onChange={(e) => setFormData({...formData, kehadiran: e.target.value})}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                    className="w-full px-4 py-2.5 bg-surface-low border border-outline-light rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-all"
                   >
                     <option value="hadir">Hadir</option>
                     <option value="sakit">Sakit</option>
@@ -312,44 +321,44 @@ const RaporList: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Capaian Hafalan</label>
+                  <label className="block text-sm font-semibold text-on-surface mb-1">Capaian Hafalan *</label>
                   <input 
                     type="text" 
                     required
                     placeholder="Contoh: An-Naba ayat 1-15"
                     value={formData.capaian_hafalan}
                     onChange={(e) => setFormData({...formData, capaian_hafalan: e.target.value})}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                    className="w-full px-4 py-2.5 bg-surface-low border border-outline-light rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Catatan Pengajar (Opsional)</label>
+                  <label className="block text-sm font-semibold text-on-surface mb-1">Catatan Pengajar (Opsional)</label>
                   <textarea 
                     rows={3}
                     placeholder="Contoh: Tajwid perlu diperbaiki di huruf dho"
                     value={formData.catatan_pengajar}
                     onChange={(e) => setFormData({...formData, catatan_pengajar: e.target.value})}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                    className="w-full px-4 py-2.5 bg-surface-low border border-outline-light rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-all resize-none"
                   ></textarea>
                 </div>
               </div>
 
-              <div className="mt-8 flex justify-end gap-3">
+              <div className="mt-8 flex justify-end gap-3 pt-4 border-t border-outline-light">
                 <button 
                   type="button" 
                   onClick={() => {
                     setIsModalOpen(false);
                     setEditId(null);
                   }}
-                  className="px-5 py-2.5 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100 transition-colors"
+                  className="px-5 py-2.5 rounded-lg text-sm font-semibold text-on-surface-variant hover:bg-surface-low transition-colors"
                 >
                   Batal
                 </button>
                 <button 
                   type="submit" 
                   disabled={submitting}
-                  className="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors disabled:opacity-50"
+                  className="btn-primary text-sm py-2.5 px-6 disabled:opacity-50"
                 >
                   {submitting ? 'Menyimpan...' : 'Simpan Rapor'}
                 </button>
