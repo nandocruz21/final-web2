@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Users, BookOpen, CheckCircle2, Clock, ChevronRight, Star, X, Calendar, AlertTriangle, Volume2, CreditCard, Award } from 'lucide-react';
+import { Users, BookOpen, CheckCircle2, GraduationCap, ChevronRight, Star, X, Calendar, AlertTriangle, Volume2, CreditCard, Award } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
@@ -220,7 +220,7 @@ const Home: React.FC = () => {
                   { icon: <Users size={22} className="text-primary" />, label: 'Total Santri', value: data?.totalSantri ?? '—' },
                   { icon: <BookOpen size={22} className="text-primary" />, label: 'Pengajar', value: data?.totalPengajar ?? '—' },
                   { icon: <CheckCircle2 size={22} className="text-primary" />, label: 'Pembaruan Rapor', value: data?.totalPembaruanRapor ?? '—' },
-                  { icon: <Clock size={22} className="text-primary" />, label: 'Jam Belajar/Minggu', value: '12 Jam' },
+                  { icon: <GraduationCap size={22} className="text-primary" />, label: 'ALUMNI & LULUSAN', value: '150+' },
                 ].map((stat, i) => (
                   <div key={i} className="card-marble p-6 text-center hover:scale-105 transition-transform duration-300">
                     <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
