@@ -11,11 +11,12 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       {/* Sidebar Emerald & Gold */}
       <aside className="w-64 bg-primary text-white hidden md:flex flex-col fixed inset-y-0 left-0 z-20 shadow-xl border-r border-gold/20">
         <div className="p-6 border-b border-primary-dark/60 bg-primary-dark/40">
-          <div className="font-serif font-bold text-2xl text-white tracking-wide mb-1 flex items-center justify-between">
-            <span>MSANTRI</span>
-            <span className="text-gold text-[10px] px-2 py-0.5 rounded-full bg-gold/10 border border-gold/30 font-sans font-bold uppercase tracking-wider">Admin</span>
+          <div className="flex items-center gap-2 mb-1">
+            <img src="/logo.png" alt="Logo MSANTRI" className="w-8 h-8 object-contain drop-shadow-md" />
+            <div className="font-serif font-bold text-2xl text-white tracking-wide flex-1">MSANTRI</div>
+            <span className="text-white text-[10px] px-2 py-0.5 rounded-full bg-white/20 border border-white/30 font-sans font-bold uppercase tracking-wider shadow-sm">Admin</span>
           </div>
-          <div className="text-gold text-xs uppercase tracking-widest font-sans font-semibold">Panel Pengelola</div>
+          <div className="text-gold text-xs uppercase tracking-widest font-sans font-semibold pl-10">Panel Pengelola</div>
         </div>
         
         <nav className="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
@@ -53,7 +54,7 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
               localStorage.removeItem('admin_token');
               window.location.href = '/admin/login';
             }} 
-            className="flex items-center justify-center gap-2 w-full bg-red-600/20 text-red-200 hover:bg-red-600 hover:text-white px-4 py-2.5 rounded-lg font-medium transition-all text-sm border border-red-500/30"
+            className="flex items-center justify-center gap-2 w-full bg-red-600 text-white hover:bg-red-700 hover:text-white px-4 py-2.5 rounded-lg font-medium transition-all text-sm shadow-md"
           >
             <LogOut size={16} /> Keluar
           </button>
