@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TestimonialController;
-use App\Http\Controllers\ProgressHistoryController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\InformationController;
@@ -21,8 +20,6 @@ Route::get('/cek-rapor', [StudentController::class, 'cekRapor'])->name('cek.rapo
 Route::get('/testimoni', [TestimonialController::class, 'index'])->name('testimoni');
 Route::post('/ulasan/simpan', [TestimonialController::class, 'store'])->name('ulasan.store');
 
-// API endpoint riwayat (untuk AJAX di halaman cek rapor)
-Route::get('/api/riwayat/{id}', [ProgressHistoryController::class, 'show'])->name('api.riwayat');
 
 // ============================
 // ADMIN AUTH ROUTES

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Users, BookOpen, MapPin, Search, Bell, Settings, LogOut, FileText, CheckSquare, Home, Globe, Megaphone } from 'lucide-react';
+import { Users, BookOpen, MapPin, Search, Bell, Settings, LogOut, FileText, CheckSquare, Home, Globe, Megaphone, Mail } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
 const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -30,6 +30,9 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           </Link>
           <Link to="/admin/pengumuman" className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${path.startsWith('/admin/pengumuman') ? 'bg-emerald-800/50 text-white' : 'text-emerald-200 hover:bg-emerald-800/30 hover:text-white'}`}>
             <Megaphone size={20} /> Pengumuman
+          </Link>
+          <Link to="/admin/pesan" className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${path.startsWith('/admin/pesan') ? 'bg-emerald-800/50 text-white' : 'text-emerald-200 hover:bg-emerald-800/30 hover:text-white'}`}>
+            <Mail size={20} /> Pesan Masuk
           </Link>
         </nav>
         

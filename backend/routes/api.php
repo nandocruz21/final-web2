@@ -11,6 +11,7 @@ Route::get('/riwayat/{id}', [PublicApiController::class, 'riwayat']);
 Route::post('/testimoni', [PublicApiController::class, 'submitTestimoni']);
 Route::get('/testimoni', [PublicApiController::class, 'allTestimoni']);
 Route::get('/pengumuman', [PublicApiController::class, 'pengumuman']);
+Route::post('/hubungi', [PublicApiController::class, 'submitMessage']);
 
 Route::post('/login', [AuthApiController::class, 'login']);
 Route::post('/login/google', [\App\Http\Controllers\Api\GoogleAuthController::class, 'login']);
@@ -28,6 +29,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('rapor', \App\Http\Controllers\Api\RaporApiController::class);
         Route::apiResource('santri', \App\Http\Controllers\Api\StudentApiController::class);
         Route::apiResource('informasi', \App\Http\Controllers\Api\InformationApiController::class);
+        Route::apiResource('pesan', \App\Http\Controllers\Api\MessageApiController::class)->except(['store', 'update', 'show']);
+        Route::post('/pesan/{id}/baca', [\App\Http\Controllers\Api\MessageApiController::class, 'markAsRead']);
 
         // Route Khusus (Custom)
         Route::post('/santri/{id}/foto', [\App\Http\Controllers\Api\StudentApiController::class, 'updateFoto']);

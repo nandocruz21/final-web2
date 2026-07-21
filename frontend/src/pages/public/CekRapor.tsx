@@ -76,7 +76,7 @@ const CekRapor: React.FC = () => {
       <Header />
 
       <div style={{ backgroundColor: '#004d34' }} className="py-14 px-6 md:px-12">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto animate-fadeUp">
           <p className="label-small mb-3" style={{ color: '#a37c35' }}>Progres Belajar</p>
           <h1 className="font-serif text-5xl font-bold mb-3" style={{ color: '#ffffff' }}>Cek Rapor Santri</h1>
           <p className="font-sans text-sm" style={{ color: 'rgba(255,255,255,0.65)' }}>
@@ -88,7 +88,7 @@ const CekRapor: React.FC = () => {
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-grow w-full">
 
         {/* Kotak Pencarian */}
-        <div className="card-marble p-2 flex items-center mb-12 border-outline-light">
+        <div className="card-marble p-2 flex items-center mb-12 border-outline-light animate-fadeUp" style={{ animationDelay: '100ms' }}>
           <form onSubmit={handleSearch} className="flex w-full items-center gap-2">
             <div className="pl-4 text-on-surface-variant">
               <Search size={22} />
@@ -112,7 +112,7 @@ const CekRapor: React.FC = () => {
 
         {/* Hasil Pencarian */}
         {searched && (
-          <div>
+          <div className="animate-fadeUp" style={{ animationDelay: '200ms' }}>
             <div className="flex items-center justify-between mb-5">
               <p className="font-sans text-sm text-on-surface-variant">
                 {loading ? 'Mencari data...' : 'Ditemukan:'}

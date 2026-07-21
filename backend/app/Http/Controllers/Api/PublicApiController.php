@@ -10,10 +10,52 @@ use App\Models\Gallery;
 use App\Models\Testimonial;
 use App\Models\ProgressHistory;
 use App\Models\User;
+use App\Models\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class PublicApiController extends Controller
 {
+    public function submitMessage(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'subject' => 'required|string|max:255',
+            'content' => 'required|string',
+        ]);
+
+        $message = Message::create([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'subject' => $request->subject,
+            'content' => $request->content,
+            'is_read' => false,
+        ]);
+
+        // Send to Fonnte
+        $fonnteToken = env('FONNTE_TOKEN');
+        $adminPhone = env('ADMIN_WHATSAPP_NUMBER');
+
+        if ($fonnteToken && $adminPhone && $fonnteToken !== 'TOKEN_ANDA_DISINI') {
+            $waText = "Halo admin TPQ MSANTRI,\n\nAda pesan masuk baru:\nDari: *{$request->name}* ({$request->phone})\nTerkait: *{$request->subject}*\n\n{$request->content}";
+            
+            try {
+                Http::withHeaders([
+                    'Authorization' => $fonnteToken,
+                ])->post('https://api.fonnte.com/send', [
+                    'target' => $adminPhone,
+                    'message' => $waText,
+                    'countryCode' => '62',
+                ]);
+            } catch (\Exception $e) {
+                // Log the error but don't stop the request
+                \Log::error('Fonnte send error: ' . $e->getMessage());
+            }
+        }
+
+        return response()->json(['success' => true, 'data' => $message]);
+    }
     public function home()
     {
         $totalSantri = Student::count();
