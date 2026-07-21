@@ -171,9 +171,9 @@ const Home: React.FC = () => {
               <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-56 h-8 bg-black/25 rounded-[100%] blur-md animate-floatShadow" />
 
               {/* Gambar 3D (Pastikan file disimpan di folder public/quran-3d.png) */}
-              <img 
-                src="/quran-3d.png" 
-                alt="Al-Quran 3D" 
+              <img
+                src="/quran-3d.png"
+                alt="Al-Quran 3D"
                 className="w-full max-w-[280px] md:max-w-[340px] h-auto object-contain animate-float drop-shadow-2xl relative z-10"
               />
 
@@ -196,7 +196,7 @@ const Home: React.FC = () => {
           {/* Ornamen garis melengkung di bawah hero */}
           <div className="absolute bottom-0 left-0 right-0">
             <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M0,40 C360,0 1080,80 1440,40 L1440,60 L0,60 Z" fill="#f6f3f2"/>
+              <path d="M0,40 C360,0 1080,80 1440,40 L1440,60 L0,60 Z" fill="#f6f3f2" />
             </svg>
           </div>
         </section>
@@ -408,10 +408,10 @@ const Home: React.FC = () => {
                 (data?.testimoni && data.testimoni.length > 0
                   ? data.testimoni.slice(0, 3)
                   : [
-                      { nama_wali: 'Bpk. Ahmad', isi_testimoni: 'Alhamdulillah sejak menggunakan MSANTRI, saya jadi lebih mudah memantau hafalan anak meskipun sedang bekerja.', inisial: 'A', rating: 5 },
-                      { nama_wali: 'Ibu Siti', isi_testimoni: 'Fiturnya sangat membantu. Jadwal mengaji anak selalu up-to-date dan pengajarnya sangat profesional!', inisial: 'S', rating: 5 },
-                      { nama_wali: 'Bpk. Budi', isi_testimoni: 'Sangat inovatif! Dulu susah tau anak sudah sampai surat apa, sekarang tinggal buka HP semua kelihatan jelas.', inisial: 'B', rating: 5 },
-                    ]
+                    { nama_wali: 'Bpk. Ahmad', isi_testimoni: 'Alhamdulillah sejak menggunakan MSANTRI, saya jadi lebih mudah memantau hafalan anak meskipun sedang bekerja.', inisial: 'A', rating: 5 },
+                    { nama_wali: 'Ibu Siti', isi_testimoni: 'Fiturnya sangat membantu. Jadwal mengaji anak selalu up-to-date dan pengajarnya sangat profesional!', inisial: 'S', rating: 5 },
+                    { nama_wali: 'Bpk. Budi', isi_testimoni: 'Sangat inovatif! Dulu susah tau anak sudah sampai surat apa, sekarang tinggal buka HP semua kelihatan jelas.', inisial: 'B', rating: 5 },
+                  ]
                 ).map((item: any, idx: number) => (
                   <div key={idx} className="card-marble w-full md:w-[350px] p-7 flex flex-col hover:border-gold/40 transition-all duration-300 hover:-translate-y-1">
                     {/* Tanda kutip pembuka */}
@@ -420,7 +420,7 @@ const Home: React.FC = () => {
                     <div className="flex gap-1 mb-4">
                       {Array.from({ length: item.rating || 5 }).map((_, i) => (
                         <svg key={i} viewBox="0 0 24 24" fill="#a37c35" className="w-4 h-4">
-                          <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
+                          <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z" />
                         </svg>
                       ))}
                     </div>
@@ -445,7 +445,7 @@ const Home: React.FC = () => {
 
             {/* Tombol Tambah Testimoni */}
             <div className="text-center mt-12">
-              <button 
+              <button
                 onClick={() => setIsModalOpen(true)}
                 className="bg-[#a37c35] hover:bg-[#8a682c] text-white px-8 py-3 rounded-full font-sans font-semibold transition-all duration-300 shadow-lg shadow-[#a37c35]/40 hover:shadow-[#a37c35]/60 hover:-translate-y-1 flex items-center gap-2 mx-auto"
               >
@@ -465,13 +465,13 @@ const Home: React.FC = () => {
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-slide-up relative">
-            <button 
+            <button
               onClick={() => setIsModalOpen(false)}
               className="absolute top-4 right-4 text-on-surface-variant hover:text-error transition-colors"
             >
               <X size={24} />
             </button>
-            
+
             <div className="p-8">
               <div className="text-center mb-6">
                 <h3 className="font-serif text-2xl text-primary font-bold mb-2">Bagikan Pengalaman Anda</h3>
@@ -490,16 +490,16 @@ const Home: React.FC = () => {
                 <form onSubmit={handleTestimoniSubmit} className="space-y-4">
                   <div>
                     <label className="block text-sm font-semibold text-on-surface mb-1 font-sans">Nama Wali Santri</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       required
                       className="w-full border border-outline-light rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-gold focus:border-gold outline-none transition-all font-sans"
                       placeholder="Masukkan nama Anda"
                       value={formTestimoni.nama_wali}
-                      onChange={e => setFormTestimoni({...formTestimoni, nama_wali: e.target.value})}
+                      onChange={e => setFormTestimoni({ ...formTestimoni, nama_wali: e.target.value })}
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-semibold text-on-surface mb-2 font-sans">Penilaian Anda</label>
                     <div className="flex gap-2 justify-center">
@@ -507,7 +507,7 @@ const Home: React.FC = () => {
                         <button
                           key={star}
                           type="button"
-                          onClick={() => setFormTestimoni({...formTestimoni, rating: star})}
+                          onClick={() => setFormTestimoni({ ...formTestimoni, rating: star })}
                           className={`transition-colors ${star <= formTestimoni.rating ? 'text-gold' : 'text-outline-light hover:text-gold/50'}`}
                         >
                           <Star size={32} fill={star <= formTestimoni.rating ? 'currentColor' : 'none'} />
@@ -518,18 +518,18 @@ const Home: React.FC = () => {
 
                   <div>
                     <label className="block text-sm font-semibold text-on-surface mb-1 font-sans">Isi Ulasan</label>
-                    <textarea 
+                    <textarea
                       required
                       rows={4}
                       className="w-full border border-outline-light rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-gold focus:border-gold outline-none transition-all font-sans resize-none"
                       placeholder="Ceritakan pengalaman Anda menggunakan MSANTRI..."
                       value={formTestimoni.isi_testimoni}
-                      onChange={e => setFormTestimoni({...formTestimoni, isi_testimoni: e.target.value})}
+                      onChange={e => setFormTestimoni({ ...formTestimoni, isi_testimoni: e.target.value })}
                     ></textarea>
                   </div>
 
-                  <button 
-                    type="submit" 
+                  <button
+                    type="submit"
                     disabled={isSubmitting}
                     className="w-full bg-primary hover:bg-[#003d29] text-white rounded-lg py-3 font-semibold font-sans transition-colors disabled:opacity-70 disabled:cursor-not-allowed mt-4"
                   >
@@ -548,14 +548,14 @@ const Home: React.FC = () => {
       {selectedPengumuman && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-12">
           {/* Backdrop Blur */}
-          <div 
+          <div
             className="absolute inset-0 bg-slate-900/60 backdrop-blur-md transition-opacity cursor-pointer"
             onClick={() => setSelectedPengumuman(null)}
           />
-          
+
           {/* Modal Content */}
           <div className="bg-white/95 backdrop-blur-xl rounded-3xl w-full max-w-3xl max-h-[85vh] overflow-hidden flex flex-col relative z-10 shadow-2xl animate-fadeUp border border-white/50">
-            
+
             {/* Header Modal */}
             <div className="px-8 py-7 border-b border-slate-100 flex items-start justify-between bg-gradient-to-br from-slate-50 to-white">
               <div className="pr-8">
@@ -571,14 +571,14 @@ const Home: React.FC = () => {
                   {selectedPengumuman.judul_info}
                 </h2>
               </div>
-              <button 
+              <button
                 onClick={() => setSelectedPengumuman(null)}
                 className="w-10 h-10 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-red-100 hover:text-red-500 transition-colors shrink-0 shadow-sm"
               >
                 <X size={20} />
               </button>
             </div>
-            
+
             {/* Body Modal */}
             <div className="p-8 overflow-y-auto custom-scrollbar bg-white flex-grow">
               <div className="prose prose-slate prose-lg max-w-none text-slate-600 font-sans leading-relaxed whitespace-pre-wrap">
@@ -588,7 +588,7 @@ const Home: React.FC = () => {
 
             {/* Footer Modal */}
             <div className="px-8 py-5 border-t border-slate-100 bg-slate-50 flex justify-end">
-              <button 
+              <button
                 onClick={() => setSelectedPengumuman(null)}
                 className="btn-primary shadow-md hover:shadow-lg transition-all"
               >
