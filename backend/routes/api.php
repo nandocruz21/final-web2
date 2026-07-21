@@ -25,6 +25,8 @@ Route::middleware('auth:sanctum')->group(function () {
     // Admin Routes
     Route::prefix('admin')->group(function () {
         Route::get('/dashboard', [\App\Http\Controllers\Api\DashboardApiController::class, 'index']);
+        Route::put('/profil', [AuthApiController::class, 'updateProfile']);
+        Route::post('/profil/foto', [AuthApiController::class, 'updateFoto']);
         
         // Standar CRUD menggunakan apiResource
         Route::apiResource('rapor', \App\Http\Controllers\Api\RaporApiController::class);

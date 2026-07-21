@@ -143,8 +143,10 @@ class PublicApiController extends Controller
         $query = Information::orderByDesc('tanggal_posting')->orderByDesc('id');
 
         if ($search) {
-            $query->where('judul_info', 'like', "%{$search}%")
+            $query->where(function ($q) use ($search) {
+                $q->where('judul_info', 'like', "%{$search}%")
                   ->orWhere('isi_info', 'like', "%{$search}%");
+            });
         }
 
         if ($kategori && $kategori !== 'Semua Kategori') {

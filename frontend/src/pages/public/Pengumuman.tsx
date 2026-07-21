@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { Volume2, Users, CreditCard, Award, Calendar, ChevronRight, Search, Filter, Book, Info, X, AlertTriangle } from 'lucide-react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import api from '../../services/api';
+import { publicService } from '../../services/publicService';
 
 /**
  * Halaman Papan Pengumuman
@@ -20,10 +20,7 @@ const Pengumuman: React.FC = () => {
 
   const fetchPengumuman = useCallback(() => {
     setLoading(true);
-    let url = `/pengumuman?kategori=${selectedKategori}&page=${page}`;
-    if (searchQuery) url += `&q=${searchQuery}`;
-
-    api.get(url)
+    publicService.getPengumuman(selectedKategori, page, searchQuery)
       .then(res => {
         setPengumuman(res.data.data || []);
         if (res.data.current_page) {

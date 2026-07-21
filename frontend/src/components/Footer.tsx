@@ -40,11 +40,11 @@ const Footer: React.FC = () => {
           <h4 className="font-sans font-semibold text-gold mb-5 uppercase tracking-widest text-xs">Tautan Cepat</h4>
           <ul className="space-y-3">
             {[
-              { to: '/', label: 'Beranda Utama' },
-              { to: '/cek-rapor', label: 'Cek Progres Santri' },
-              { to: '/jadwal', label: 'Jadwal Pengajian' },
-              { to: '/pengumuman', label: 'Papan Informasi' },
+              { to: '/', label: 'Beranda' },
+              { to: '/pengumuman', label: 'Pengumuman' },
+              { to: '/cek-rapor', label: 'Cek Rapor' },
               { to: '/profil', label: 'Profil TPQ' },
+              { to: '/hubungi', label: 'Hubungi Kami' },
             ].map(item => (
               <li key={item.to}>
                 <Link

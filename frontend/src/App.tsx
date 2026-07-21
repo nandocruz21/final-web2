@@ -8,9 +8,11 @@ import AdminLogin from './pages/admin/Login';
 import AdminDashboard from './pages/admin/Dashboard';
 import SantriList from './pages/admin/SantriList';
 import SantriForm from './pages/admin/SantriForm';
+import SantriDetail from './pages/admin/SantriDetail';
 import ProfilTpq from './pages/public/ProfilTpq';
 import HubungiKami from './pages/public/HubungiKami';
 
+import ProfilAdmin from './pages/admin/ProfilAdmin';
 import RaporList from './pages/admin/RaporList';
 import Kehadiran from './pages/admin/Kehadiran';
 import InformationList from './pages/admin/InformationList';
@@ -44,10 +46,12 @@ function App() {
         <Route path="/admin/santri" element={<ProtectedRoute><SantriList /></ProtectedRoute>} />
         <Route path="/admin/santri/tambah" element={<ProtectedRoute><SantriForm /></ProtectedRoute>} />
         <Route path="/admin/santri/edit/:id" element={<ProtectedRoute><SantriForm /></ProtectedRoute>} />
+        <Route path="/admin/santri/detail/:id" element={<ProtectedRoute><SantriDetail /></ProtectedRoute>} />
         <Route path="/admin/rapor" element={<ProtectedRoute><RaporList /></ProtectedRoute>} />
         <Route path="/admin/kehadiran" element={<ProtectedRoute><Kehadiran /></ProtectedRoute>} />
         <Route path="/admin/pengumuman" element={<ProtectedRoute><InformationList /></ProtectedRoute>} />
         <Route path="/admin/pesan" element={<ProtectedRoute><MessageList /></ProtectedRoute>} />
+        <Route path="/admin/pengaturan" element={<ProtectedRoute><ProfilAdmin /></ProtectedRoute>} />
         
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />

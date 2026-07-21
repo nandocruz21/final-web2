@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import AdminLayout from '../../components/AdminLayout';
-import api from '../../services/api';
+import { raporService } from '../../services/raporService';
+import { santriService } from '../../services/santriService';
 import { Search, Plus, Trash2, Edit, ChevronLeft, ChevronRight, Calendar } from 'lucide-react';
 
 interface RaporItem {
@@ -46,7 +47,7 @@ const RaporList: React.FC = () => {
   const fetchRapor = async () => {
     setLoading(true);
     try {
-      const res = await api.get(`/admin/rapor?page=${page}&date=${dateFilter}&search=${search}`);
+      const res = await raporService.getAll(page, dateFilter, search);
       if (res.data.status === 'success') {
         setRapor(res.data.data.data);
         setTotalPages(res.data.data.last_page);
@@ -60,7 +61,7 @@ const RaporList: React.FC = () => {
 
   const fetchSantri = async () => {
     try {
-      const res = await api.get('/admin/santri');
+      const res = await santriService.getAll();
       if (res.data.status === 'success') {
         setSantriList(res.data.data);
       }
@@ -74,8 +75,8 @@ const RaporList: React.FC = () => {
     setSubmitting(true);
     
     const request = editId 
-      ? api.put(`/admin/rapor/${editId}`, formData)
-      : api.post('/admin/rapor', formData);
+      ? raporService.update(editId, formData)
+      : raporService.create(formData);
       
     request
       .then(() => {
@@ -104,7 +105,7 @@ const RaporList: React.FC = () => {
 
   const handleDelete = (id: number) => {
     if (window.confirm("Apakah Anda yakin ingin menghapus riwayat rapor ini?")) {
-      api.delete(`/admin/rapor/${id}`)
+      raporService.delete(id)
         .then(() => fetchRapor())
         .catch(err => {
           console.error("Error deleting rapor:", err);

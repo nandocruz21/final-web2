@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import AdminLayout from '../../components/AdminLayout';
-import api from '../../services/api';
+import { santriService } from '../../services/santriService';
 import { ArrowLeft, Save } from 'lucide-react';
 
 const SantriForm: React.FC = () => {
@@ -23,8 +23,8 @@ const SantriForm: React.FC = () => {
   const [foto, setFoto] = useState<File | null>(null);
 
   useEffect(() => {
-    if (isEdit) {
-      api.get(`/admin/santri/${id}`)
+    if (id) {
+      santriService.getById(id)
         .then(res => {
           if (res.data.status === 'success') {
             const santri = res.data.data;
@@ -74,17 +74,14 @@ const SantriForm: React.FC = () => {
         data.append('foto', foto);
       }
 
-      if (isEdit) {
+      if (id) {
+        // Method spoofing untuk Laravel karena PHP tidak membaca multipart/form-data pada request PUT murni
         data.append('_method', 'PUT');
-        await api.post(`/admin/santri/${id}`, data, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        });
-        alert('Data berhasil diperbarui!');
+        await santriService.update(id, data);
+        alert('Data santri berhasil diperbarui!');
       } else {
-        await api.post('/admin/santri', data, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        });
-        alert('Data berhasil ditambahkan!');
+        await santriService.create(data);
+        alert('Data santri berhasil ditambahkan!');
       }
       
       navigate('/admin/santri');

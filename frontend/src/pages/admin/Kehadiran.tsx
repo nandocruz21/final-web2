@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AdminLayout from '../../components/AdminLayout';
-import api from '../../services/api';
+import { santriService } from '../../services/santriService';
 import { Search, CheckCircle2, XCircle, Clock, AlertCircle } from 'lucide-react';
 
 interface Santri {
@@ -22,7 +22,7 @@ const Kehadiran: React.FC = () => {
 
   const fetchSantri = async () => {
     try {
-      const res = await api.get('/admin/santri');
+      const res = await santriService.getAll();
       if (res.data.status === 'success') {
         setSantri(res.data.data);
       }
@@ -36,7 +36,7 @@ const Kehadiran: React.FC = () => {
   const handleUpdateStatus = async (id: number, status: string) => {
     setUpdatingId(id);
     try {
-      const res = await api.post(`/admin/santri/${id}/status`, { status });
+      const res = await santriService.updateStatus(id, status);
       if (res.data.status === 'success') {
         setSantri(prev => prev.map(s => s.id === id ? { ...s, kehadiran: status as any } : s));
       }

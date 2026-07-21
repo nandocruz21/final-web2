@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\ProgressHistory;
+use App\Http\Requests\StoreRaporRequest;
+use App\Http\Requests\UpdateRaporRequest;
+use App\Http\Resources\RaporResource;
 use Illuminate\Http\Request;
 
 class RaporApiController extends Controller
@@ -28,17 +31,9 @@ class RaporApiController extends Controller
 
         $paginator = $query->paginate(10);
 
-        $paginator->getCollection()->transform(function ($history) {
-            return [
-                'id' => $history->id,
-                'student_id' => $history->student_id,
-                'nama_santri' => $history->santri ? $history->santri->nama_lengkap : 'Unknown',
-                'capaian_hafalan' => $history->capaian_hafalan,
-                'catatan_pengajar' => $history->catatan_pengajar,
-                'kehadiran' => $history->kehadiran,
-                'tanggal' => $history->created_at->format('d M Y H:i'),
-            ];
-        });
+        // Menggunakan Resource Collection untuk response seragam
+        $resourceCollection = RaporResource::collection($paginator->getCollection());
+        $paginator->setCollection($resourceCollection->collection);
 
         return response()->json([
             'status' => 'success',
@@ -46,66 +41,60 @@ class RaporApiController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreRaporRequest $request)
     {
-        $request->validate([
-            'student_id' => 'required|exists:students,id',
-            'capaian_hafalan' => 'required|string',
-            'catatan_pengajar' => 'nullable|string',
-            'kehadiran' => 'required|in:hadir,izin,sakit,alpha'
-        ]);
+        // Validasi sudah ditangani oleh StoreRaporRequest, controller lebih bersih
+        $data = $request->validated();
 
-        // Buat riwayat rapor baru
         $history = ProgressHistory::create([
-            'student_id' => $request->student_id,
-            'capaian_hafalan' => $request->capaian_hafalan,
-            'catatan_pengajar' => $request->catatan_pengajar,
-            'kehadiran' => $request->kehadiran,
+            'student_id' => $data['student_id'],
+            'capaian_hafalan' => $data['capaian_hafalan'],
+            'catatan_pengajar' => $data['catatan_pengajar'] ?? null,
+            'kehadiran' => $data['kehadiran'],
             'tanggal_riwayat' => now()->toDateString()
         ]);
 
-        // Update data santri terakhir
-        $student = \App\Models\Student::find($request->student_id);
-        $student->update([
-            'capaian_hafalan' => $request->capaian_hafalan,
-            'catatan_pengajar' => $request->catatan_pengajar,
-            'kehadiran' => $request->kehadiran,
-        ]);
+        $student = \App\Models\Student::find($data['student_id']);
+        if ($student) {
+            $student->update([
+                'capaian_hafalan' => $data['capaian_hafalan'],
+                'catatan_pengajar' => $data['catatan_pengajar'] ?? null,
+                'kehadiran' => $data['kehadiran'],
+            ]);
+        }
 
         return response()->json([
             'status' => 'success',
             'message' => 'Rapor berhasil ditambahkan',
-            'data' => $history
+            'data' => new RaporResource($history)
         ], 201);
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateRaporRequest $request, $id)
     {
-        $request->validate([
-            'capaian_hafalan' => 'required|string',
-            'catatan_pengajar' => 'nullable|string',
-            'kehadiran' => 'required|in:hadir,izin,sakit,alpha'
-        ]);
+        // Validasi sudah ditangani oleh UpdateRaporRequest
+        $data = $request->validated();
 
         $history = ProgressHistory::findOrFail($id);
         $history->update([
-            'capaian_hafalan' => $request->capaian_hafalan,
-            'catatan_pengajar' => $request->catatan_pengajar,
-            'kehadiran' => $request->kehadiran,
+            'capaian_hafalan' => $data['capaian_hafalan'],
+            'catatan_pengajar' => $data['catatan_pengajar'] ?? null,
+            'kehadiran' => $data['kehadiran'],
         ]);
 
-        // Opsional: Update data santri juga
         $student = \App\Models\Student::find($history->student_id);
-        $student->update([
-            'capaian_hafalan' => $request->capaian_hafalan,
-            'catatan_pengajar' => $request->catatan_pengajar,
-            'kehadiran' => $request->kehadiran,
-        ]);
+        if ($student) {
+            $student->update([
+                'capaian_hafalan' => $data['capaian_hafalan'],
+                'catatan_pengajar' => $data['catatan_pengajar'] ?? null,
+                'kehadiran' => $data['kehadiran'],
+            ]);
+        }
 
         return response()->json([
             'status' => 'success',
             'message' => 'Rapor berhasil diperbarui',
-            'data' => $history
+            'data' => new RaporResource($history)
         ]);
     }
 

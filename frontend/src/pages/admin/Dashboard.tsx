@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Users, FileText, CheckSquare, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import AdminLayout from '../../components/AdminLayout';
-import api from '../../services/api';
+import { dashboardService } from '../../services/dashboardService';
 
 const Dashboard: React.FC = () => {
   const [data, setData] = useState({
@@ -14,7 +14,7 @@ const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.get('/admin/dashboard')
+    dashboardService.getStats()
       .then(res => {
         if (res.data.status === 'success') {
           setData(res.data.data);

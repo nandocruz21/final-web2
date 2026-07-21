@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Plus, Edit2, Trash2, Search, Download } from 'lucide-react';
+import { Plus, Edit2, Trash2, Search, Download, Eye } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import AdminLayout from '../../components/AdminLayout';
-import api from '../../services/api';
+import { santriService } from '../../services/santriService';
 
 const SantriList: React.FC = () => {
   const [santri, setSantri] = useState<any[]>([]);
@@ -12,7 +12,7 @@ const SantriList: React.FC = () => {
   const fetchSantri = async () => {
     try {
       setLoading(true);
-      const response = await api.get('/admin/santri');
+      const response = await santriService.getAll();
       if (response.data.status === 'success') {
         setSantri(response.data.data);
       }
@@ -30,7 +30,7 @@ const SantriList: React.FC = () => {
   const handleDelete = async (id: number) => {
     if (window.confirm("Apakah Anda yakin ingin menghapus data ini?")) {
       try {
-        const response = await api.delete(`/admin/santri/${id}`);
+        const response = await santriService.delete(id);
         if (response.data.status === 'success') {
           fetchSantri(); // Refresh list
         }
@@ -43,7 +43,7 @@ const SantriList: React.FC = () => {
 
   const handleDownloadPdf = async (id: number, nama: string) => {
     try {
-      const response = await api.get(`/admin/santri/${id}/report-pdf`, { responseType: 'blob' });
+      const response = await santriService.downloadPdf(id);
       
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
@@ -113,12 +113,17 @@ const SantriList: React.FC = () => {
                     filteredSantri.map((item) => (
                       <tr key={item.id} className="hover:bg-surface-low/50 transition-colors">
                         <td className="px-6 py-4">
-                          <img 
-                            src={item.foto === 'default.png' ? '/placeholder-user.jpg' : `http://localhost:8000/uploads/${item.foto}`} 
-                            alt={item.nama_lengkap} 
-                            className="w-10 h-10 rounded-full object-cover border border-gold/30 shadow-sm"
-                            onError={(e) => { (e.target as HTMLImageElement).src = '/placeholder-user.jpg' }}
-                          />
+                          <div className="relative w-10 h-10 rounded-full border border-gold/30 shadow-sm bg-primary/10 text-primary flex items-center justify-center font-bold text-lg overflow-hidden">
+                            {(item.nama_lengkap || 'U').charAt(0).toUpperCase()}
+                            {item.foto && item.foto !== 'default.png' && (
+                              <img 
+                                src={`http://localhost:8000/uploads/${item.foto}`} 
+                                alt={item.nama_lengkap} 
+                                className="absolute inset-0 w-full h-full object-cover"
+                                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                              />
+                            )}
+                          </div>
                         </td>
                         <td className="px-6 py-4 font-bold text-on-surface">{item.nama_lengkap}</td>
                         <td className="px-6 py-4 truncate max-w-[150px] text-on-surface-variant">{item.alamat}</td>
@@ -142,6 +147,13 @@ const SantriList: React.FC = () => {
                             >
                               <Download size={16} />
                             </button>
+                            <Link 
+                              to={`/admin/santri/detail/${item.id}`}
+                              className="w-8 h-8 flex items-center justify-center bg-emerald-50 text-emerald-700 rounded-md hover:bg-emerald-100 border border-emerald-200 transition-colors"
+                              title="Lihat Profil"
+                            >
+                              <Eye size={16} />
+                            </Link>
                             <Link 
                               to={`/admin/santri/edit/${item.id}`}
                               className="w-8 h-8 flex items-center justify-center bg-blue-50 text-blue-700 rounded-md hover:bg-blue-100 border border-blue-200 transition-colors"

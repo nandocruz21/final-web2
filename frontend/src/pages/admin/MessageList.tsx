@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import api from '../../services/api';
+import { messageService } from '../../services/messageService';
 import { Mail, MailOpen, Trash2, Search, CheckCircle2, X } from 'lucide-react';
 import AdminLayout from '../../components/AdminLayout';
 
@@ -11,8 +11,11 @@ const MessageList: React.FC = () => {
 
   const fetchMessages = () => {
     setLoading(true);
-    api.get('/admin/pesan')
-      .then(res => setMessages(res.data))
+    messageService.getAll()
+      .then(res => {
+        const data = res.data.data || res.data;
+        setMessages(Array.isArray(data) ? data : []);
+      })
       .catch(err => console.error(err))
       .finally(() => setLoading(false));
   };
@@ -22,7 +25,7 @@ const MessageList: React.FC = () => {
   }, []);
 
   const handleMarkAsRead = (id: number) => {
-    api.post(`/admin/pesan/${id}/baca`)
+    messageService.markAsRead(id)
       .then(() => {
         setMessages(messages.map(m => m.id === id ? { ...m, is_read: 1 } : m));
       })
@@ -31,7 +34,7 @@ const MessageList: React.FC = () => {
 
   const handleDelete = (id: number) => {
     if (!window.confirm('Yakin ingin menghapus pesan ini?')) return;
-    api.delete(`/admin/pesan/${id}`)
+    messageService.delete(id)
       .then(() => {
         setMessages(messages.filter(m => m.id !== id));
         if (selectedMessage?.id === id) setSelectedMessage(null);
@@ -46,9 +49,9 @@ const MessageList: React.FC = () => {
     }
   };
 
-  const filteredMessages = messages.filter(m => 
-    m.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    m.subject.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredMessages = (messages || []).filter(m => 
+    (m?.name || '').toLowerCase().includes(searchTerm.toLowerCase()) || 
+    (m?.subject || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (

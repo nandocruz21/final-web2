@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Search, User, FileText, ChevronRight, X, Calendar, BookOpen, AlertCircle, Download } from 'lucide-react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import api from '../../services/api';
+import { publicService } from '../../services/publicService';
 
 /**
  * Halaman Cek Rapor Santri
@@ -25,7 +25,7 @@ const CekRapor: React.FC = () => {
   useEffect(() => {
     if (!searchQuery.trim()) {
       setLoading(true);
-      api.get('/cek-rapor')
+      publicService.checkRapor()
         .then(res => {
           const semuaSantri = res.data.santri || [];
           setResults(semuaSantri.slice(0, 5));
@@ -40,7 +40,7 @@ const CekRapor: React.FC = () => {
     const timer = setTimeout(() => {
       setLoading(true);
       setSearched(true);
-      api.get(`/cek-rapor?q=${searchQuery}`)
+      publicService.searchSantri(searchQuery)
         .then(res => {
           setResults(res.data.santri || []);
           setLoading(false);
@@ -65,7 +65,7 @@ const CekRapor: React.FC = () => {
     setIsModalOpen(true);
     setLoadingRiwayat(true);
     
-    api.get(`/riwayat/${santri.id}`)
+    publicService.getRiwayat(santri.id)
       .then(res => {
         setRiwayatRapor(res.data || []);
       })
@@ -79,7 +79,7 @@ const CekRapor: React.FC = () => {
   };
 
   const handleDownloadPdf = (id: number, nama: string) => {
-    api.get(`/cetak-rapor/${id}`, { responseType: 'blob' })
+    publicService.downloadRaporPdf(id)
       .then(response => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement('a');
@@ -99,8 +99,8 @@ const CekRapor: React.FC = () => {
     <div className="min-h-screen bg-surface font-sans text-on-surface flex flex-col">
       <Header />
 
-      <div style={{ backgroundColor: '#004d34' }} className="py-14 px-6 md:px-12">
-        <div className="max-w-4xl mx-auto animate-fadeUp">
+      <div style={{ backgroundColor: '#004d34' }} className="py-14 px-6 md:px-12 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto relative z-10 animate-fadeUp">
           <p className="label-small mb-3" style={{ color: '#a37c35' }}>Progres Belajar</p>
           <h1 className="font-serif text-5xl font-bold mb-3" style={{ color: '#ffffff' }}>Cek Rapor Santri</h1>
           <p className="font-sans text-sm" style={{ color: 'rgba(255,255,255,0.65)' }}>
@@ -134,25 +134,31 @@ const CekRapor: React.FC = () => {
           </form>
         </div>
 
-        {/* Hasil Pencarian */}
-        {searched && (
+        {/* Area Hasil / Loading / Panduan */}
+        {loading ? (
+          <div className="animate-fadeUp" style={{ animationDelay: '200ms' }}>
+            <div className="text-center py-16 card-marble border-dashed flex flex-col items-center justify-center">
+              <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin mb-4" />
+              <p className="font-serif text-lg text-on-surface animate-pulse">Menelusuri Data Santri...</p>
+            </div>
+          </div>
+        ) : !searched ? (
+          <div className="text-center py-16 animate-fadeIn">
+            <div className="w-20 h-20 bg-primary/5 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Search size={36} className="text-primary/30" />
+            </div>
+            <p className="font-serif text-xl text-on-surface mb-2">Cari Santri Anda</p>
+            <p className="text-on-surface-variant font-sans text-sm">Masukkan nama lengkap santri di kolom pencarian di atas.</p>
+          </div>
+        ) : (
           <div className="animate-fadeUp" style={{ animationDelay: '200ms' }}>
             <div className="flex items-center justify-between mb-5">
               <p className="font-sans text-sm text-on-surface-variant">
-                {loading ? 'Mencari data...' : 'Ditemukan:'}
-                {!loading && <span className="font-semibold text-primary ml-1">{results.length} Santri</span>}
+                Ditemukan: <span className="font-semibold text-primary ml-1">{results.length} Santri</span>
               </p>
-              {loading && (
-                <div className="w-5 h-5 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
-              )}
             </div>
 
-            {loading ? (
-              <div className="text-center py-16 card-marble border-dashed flex flex-col items-center justify-center">
-                <div className="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin mb-4" />
-                <p className="font-serif text-lg text-on-surface animate-pulse">Menelusuri Data Santri...</p>
-              </div>
-            ) : results.length === 0 ? (
+            {results.length === 0 ? (
               <div className="text-center py-16 card-marble border-dashed">
                 <User size={48} className="mx-auto text-outline-light mb-4" />
                 <p className="font-serif text-lg text-on-surface mb-1">Santri Tidak Ditemukan</p>
@@ -183,17 +189,6 @@ const CekRapor: React.FC = () => {
                 ))}
               </div>
             )}
-          </div>
-        )}
-
-        {/* Panduan jika belum search */}
-        {!searched && (
-          <div className="text-center py-16">
-            <div className="w-20 h-20 bg-primary/5 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Search size={36} className="text-primary/30" />
-            </div>
-            <p className="font-serif text-xl text-on-surface mb-2">Cari Santri Anda</p>
-            <p className="text-on-surface-variant font-sans text-sm">Masukkan nama lengkap santri di kolom pencarian di atas.</p>
           </div>
         )}
       </main>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import { MapPin, Phone, Mail, Send, Loader2 } from 'lucide-react';
-import api from '../../services/api';
+import { publicService } from '../../services/publicService';
 
 /**
  * Halaman Hubungi Kami (Kontak)
@@ -28,7 +28,7 @@ const HubungiKami: React.FC = () => {
     setLoading(true);
     try {
       // 1. Simpan ke database melalui API
-      await api.post('/hubungi', formData);
+      await publicService.submitContactMessage(formData);
       
       // 2. Tampilkan pesan sukses
       // Pesan WA sekarang dikirim melalui backend menggunakan Fonnte

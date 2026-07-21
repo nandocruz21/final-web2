@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Lock, Mail, ArrowRight, ArrowLeft, Eye, EyeOff } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
+import { authService } from '../../services/authService';
+
 /**
  * Halaman Login Pengelola (Admin)
  * Memungkinkan pengajar dan staf MSANTRI untuk masuk ke Dasbor 
@@ -51,20 +53,12 @@ const Login: React.FC = () => {
     setErrorMsg('');
     
     try {
-      // API call requires full URL or relying on axios base url, but we'll import api
-      const response = await fetch('http://localhost:8000/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          username: email,
-          password: password
-        })
+      const response = await authService.login({
+        username: email,
+        password: password
       });
 
-      const data = await response.json();
+      const data = response.data;
 
       if (data.success && data.token) {
         localStorage.setItem('admin_token', data.token);
@@ -72,8 +66,8 @@ const Login: React.FC = () => {
       } else {
         setErrorMsg(data.message || 'Login gagal. Periksa kembali email dan password Anda.');
       }
-    } catch (err) {
-      setErrorMsg('Gagal terhubung ke server. Pastikan server berjalan.');
+    } catch (err: any) {
+      setErrorMsg(err.response?.data?.message || 'Gagal terhubung ke server. Pastikan server berjalan.');
     } finally {
       setLoading(false);
     }
@@ -215,7 +209,7 @@ const Login: React.FC = () => {
 // Custom button component to use the useGoogleLogin hook for access_token
 const GoogleLoginButton = ({ onSuccess, onError }: { onSuccess: Function, onError: Function }) => {
   const login = useGoogleLogin({
-    onSuccess: (tokenResponse) => onSuccess(tokenResponse),
+    onSuccess: (tokenResponse: any) => onSuccess(tokenResponse),
     onError: () => onError('Login failed'),
   });
 

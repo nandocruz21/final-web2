@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Plus, Trash2, Calendar, LayoutGrid, Type, AlignLeft, Edit, AlertTriangle } from 'lucide-react';
-import api from '../../services/api';
+import { informationService } from '../../services/informationService';
 import AdminLayout from '../../components/AdminLayout';
 
 const InformationList: React.FC = () => {
@@ -20,7 +20,7 @@ const InformationList: React.FC = () => {
 
   const fetchData = () => {
     setLoading(true);
-    api.get(`/admin/informasi?page=${page}`)
+    informationService.getAll(page)
       .then(res => {
         setInformasi(res.data.data);
         setPagination({
@@ -41,8 +41,8 @@ const InformationList: React.FC = () => {
     setSubmitting(true);
     
     const request = editId 
-      ? api.put(`/admin/informasi/${editId}`, formData)
-      : api.post('/admin/informasi', formData);
+      ? informationService.update(editId, formData)
+      : informationService.create(formData);
       
     request
       .then(() => {
@@ -71,7 +71,7 @@ const InformationList: React.FC = () => {
 
   const handleDelete = (id: number) => {
     if (window.confirm("Apakah Anda yakin ingin menghapus pengumuman ini?")) {
-      api.delete(`/admin/informasi/${id}`)
+      informationService.delete(id)
         .then(() => fetchData())
         .catch(err => {
           console.error("Error deleting information:", err);

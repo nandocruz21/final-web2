@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import QuranScene from '../../components/QuranScene';
-import api from '../../services/api';
+import { publicService } from '../../services/publicService';
 
 const Home: React.FC = () => {
   const [data, setData] = useState<any>(null);
@@ -37,7 +37,7 @@ const Home: React.FC = () => {
 
   const fetchHomeData = () => {
     setLoading(true);
-    api.get('/home').then(res => {
+    publicService.getHomeData().then(res => {
       setData(res.data);
     }).catch(err => {
       console.error("Error fetching home data:", err);
@@ -53,7 +53,7 @@ const Home: React.FC = () => {
   const handleTestimoniSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    api.post('/testimoni', formTestimoni).then(() => {
+    publicService.submitTestimoni(formTestimoni).then(() => {
       setSubmitSuccess(true);
       fetchHomeData(); // Refresh data
       setTimeout(() => {
@@ -78,7 +78,7 @@ const Home: React.FC = () => {
         {/* ================================================ */}
         {/* HERO SECTION — Al-Quran 3D Melayang              */}
         {/* ================================================ */}
-        <section className="relative overflow-hidden bg-surface min-h-screen flex items-center">
+        <section className="relative overflow-hidden bg-surface pt-8 pb-8 md:min-h-[100svh] md:flex md:items-center md:py-0">
 
           {/* Lingkaran cahaya hijau di belakang (efek ambient) */}
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
@@ -104,28 +104,28 @@ const Home: React.FC = () => {
             </div>
           ))}
 
-          <div className="max-w-7xl mx-auto px-6 md:px-12 pt-0 pb-20 grid grid-cols-1 md:grid-cols-2 gap-12 items-center w-full">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 pt-0 pb-10 md:pb-20 flex flex-row items-center justify-between w-full gap-2 md:gap-12">
 
             {/* --- KIRI: Teks Hero --- */}
-            <div className="space-y-6" style={{ animation: 'fadeUp 0.8s ease-out forwards' }}>
+            <div className="space-y-4 md:space-y-6 w-[55%] md:w-full z-10" style={{ animation: 'fadeUp 0.8s ease-out forwards' }}>
               {/* Label kecil bergaya butik */}
 
               {/* Judul utama — Playfair Display */}
-              <h2 className="font-serif text-5xl md:text-6xl leading-tight text-on-surface">
+              <h2 className="font-serif text-3xl sm:text-4xl md:text-6xl leading-tight text-on-surface">
                 TPQ{' '}
                 <span className="text-gold-gradient">Miftahul</span>
                 <br />Jannah
               </h2>
 
               {/* Deskripsi */}
-              <p className="text-on-surface-variant font-sans text-lg leading-relaxed max-w-md">
+              <p className="text-on-surface-variant font-sans text-xs sm:text-sm md:text-lg leading-relaxed max-w-md pr-2">
                 Tempat Pengajian Al-Quran modern untuk mencetak generasi Qur'ani yang cemerlang. Pantau hafalan anak Anda secara real-time.
               </p>
 
               {/* Tombol CTA */}
-              <div className="flex flex-wrap gap-4 pt-2">
-                <Link to="/cek-rapor" className="btn-primary">
-                  Cek Progres Santri
+              <div className="flex flex-wrap gap-2 md:gap-4 pt-2">
+                <Link to="/cek-rapor" className="btn-primary text-xs md:text-sm px-3 md:px-5 py-2 md:py-2.5">
+                  Cek Progres
                 </Link>
               </div>
 
@@ -147,18 +147,18 @@ const Home: React.FC = () => {
                 </div>
               ) : (
                 data && (
-                  <div className="flex gap-8 pt-4 border-t border-outline-light">
+                  <div className="flex flex-wrap gap-3 md:gap-8 pt-4 border-t border-outline-light">
                     <div>
-                      <p className="font-serif text-2xl font-bold text-primary">{data.totalSantri ?? 0}+</p>
-                      <p className="text-xs text-on-surface-variant font-sans">Santri Aktif</p>
+                      <p className="font-serif text-lg md:text-2xl font-bold text-primary">{data.totalSantri ?? 0}+</p>
+                      <p className="text-[10px] md:text-xs text-on-surface-variant font-sans">Santri Aktif</p>
                     </div>
                     <div>
-                      <p className="font-serif text-2xl font-bold text-primary">{data.totalPengajar ?? 0}+</p>
-                      <p className="text-xs text-on-surface-variant font-sans">Pengajar</p>
+                      <p className="font-serif text-lg md:text-2xl font-bold text-primary">{data.totalPengajar ?? 0}+</p>
+                      <p className="text-[10px] md:text-xs text-on-surface-variant font-sans">Pengajar</p>
                     </div>
-                    <div>
-                      <p className="font-serif text-2xl font-bold text-primary">{data.totalPembaruanRapor ?? 0}+</p>
-                      <p className="text-xs text-on-surface-variant font-sans">Rapor Diperbarui</p>
+                    <div className="hidden sm:block">
+                      <p className="font-serif text-lg md:text-2xl font-bold text-primary">{data.totalPembaruanRapor ?? 0}+</p>
+                      <p className="text-[10px] md:text-xs text-on-surface-variant font-sans">Rapor Diperbarui</p>
                     </div>
                   </div>
                 )
@@ -166,7 +166,7 @@ const Home: React.FC = () => {
             </div>
 
             {/* --- KANAN: Gambar Al-Quran 3D Melayang --- */}
-            <div className="relative flex items-center justify-center h-[480px] w-full" style={{ perspective: '1000px' }}>
+            <div className="relative flex items-center justify-center h-[220px] md:h-[480px] w-[45%] md:w-full mt-0" style={{ perspective: '1000px' }}>
               {/* Bayangan realistis di lantai bawah buku */}
               <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-56 h-8 bg-black/25 rounded-[100%] blur-md animate-floatShadow" />
 
@@ -174,7 +174,7 @@ const Home: React.FC = () => {
               <img
                 src="/quran-3d.png"
                 alt="Al-Quran 3D"
-                className="w-full max-w-[280px] md:max-w-[340px] h-auto object-contain animate-float drop-shadow-2xl relative z-10"
+                className="w-full max-w-[160px] md:max-w-[340px] h-auto object-contain animate-float drop-shadow-2xl relative z-10"
               />
 
               {/* Partikel bintang emas di sekitar buku */}

@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Services\StudentService;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
+use App\Http\Resources\SantriResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class StudentApiController extends Controller
 {
@@ -20,9 +22,10 @@ class StudentApiController extends Controller
     public function index()
     {
         $santri = $this->studentService->all();
+
         return response()->json([
             'status' => 'success',
-            'data' => $santri
+            'data' => SantriResource::collection($santri)
         ]);
     }
 
@@ -32,7 +35,7 @@ class StudentApiController extends Controller
             $student = $this->studentService->find($id);
             return response()->json([
                 'status' => 'success',
-                'data' => $student
+                'data' => new SantriResource($student)
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -51,7 +54,7 @@ class StudentApiController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'Data santri berhasil ditambahkan',
-                'data' => $student
+                'data' => new SantriResource($student)
             ], 201);
         } catch (\Exception $e) {
             return response()->json([
@@ -70,7 +73,7 @@ class StudentApiController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'Data santri berhasil diperbarui',
-                'data' => $student
+                'data' => new SantriResource($student)
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -89,10 +92,39 @@ class StudentApiController extends Controller
             }
             $student = $this->studentService->updateStatus($id, $status);
 
+            // Notifikasi WA via Fonnte hanya saat "Hadir"
+            if ($status === 'hadir' && !empty($student->no_wa_ortu)) {
+                $fonnteToken = env('FONNTE_TOKEN');
+                if ($fonnteToken && $fonnteToken !== 'TOKEN_ANDA_DISINI') {
+                    $waktu = now()->format('d-m-Y H:i');
+                    $waText = "Assalamualaikum Wr. Wb.\n\nBapak/Ibu Wali dari Ananda *{$student->nama_lengkap}*,\nKami menginformasikan bahwa Ananda telah *HADIR* dan sampai di tempat mengaji pada {$waktu} WITA.\n\nTerima kasih.\nWassalamualaikum Wr. Wb.";
+                    
+                    try {
+                        // Menjalankan request ke Fonnte SETELAH response dikirim ke frontend
+                        // Ini akan menghilangkan delay pada tombol kehadiran
+                        app()->terminating(function () use ($fonnteToken, $student, $waText) {
+                            try {
+                                Http::withHeaders([
+                                    'Authorization' => $fonnteToken,
+                                ])->post('https://api.fonnte.com/send', [
+                                    'target' => $student->no_wa_ortu,
+                                    'message' => $waText,
+                                    'countryCode' => '62',
+                                ]);
+                            } catch (\Exception $e) {
+                                \Log::error('Fonnte send error in background: ' . $e->getMessage());
+                            }
+                        });
+                    } catch (\Exception $e) {
+                        \Log::error('Fonnte setup error: ' . $e->getMessage());
+                    }
+                }
+            }
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'Status kehadiran berhasil diperbarui',
-                'data' => $student
+                'data' => new SantriResource($student)
             ]);
         } catch (\Exception $e) {
             return response()->json([
