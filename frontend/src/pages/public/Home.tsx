@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Users, BookOpen, CheckCircle2, GraduationCap, ChevronRight, Star, X, Calendar, AlertTriangle, Volume2, CreditCard, Award } from 'lucide-react';
+import { Users, BookOpen, CheckCircle2, GraduationCap, ChevronRight, Star, X, Calendar, Volume2, CreditCard, Award } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
@@ -427,7 +427,7 @@ const Home: React.FC = () => {
         {/* ================================================ */}
         {/* SECTION PENGUMUMAN TERBARU                       */}
         {/* ================================================ */}
-        {(data?.info || (data?.urgentInfo && data.urgentInfo.length > 0)) && (
+        {data?.info && (
           <section className="py-12 bg-surface-low px-6 md:px-12">
             <div className="max-w-7xl mx-auto">
               <div className="flex items-center justify-between mb-8">
@@ -440,49 +440,17 @@ const Home: React.FC = () => {
                 </Link>
               </div>
 
-              {/* Banner Pengumuman Darurat */}
-              {data?.urgentInfo && data.urgentInfo.length > 0 && (
-                <div className="mb-6 flex flex-col gap-4">
-                  {data.urgentInfo.map((item: any) => (
-                    <div onClick={() => setSelectedPengumuman(item)} key={item.id} className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-red-600 to-red-800 text-white shadow-xl shadow-red-900/20 border border-red-500 p-6 md:p-8 cursor-pointer group animate-fadeUp block">
-                      <div className="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
-                      <div className="relative z-10 flex flex-col md:flex-row gap-6 items-start md:items-center">
-                        <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-white/20 flex items-center justify-center shrink-0 border border-white/30 animate-pulse">
-                          <AlertTriangle size={32} className="text-white" />
-                        </div>
-                        <div className="flex-grow">
-                          <div className="flex items-center gap-3 mb-2">
-                            <span className="bg-red-900/50 text-white px-3 py-1 rounded-full text-[10px] font-bold font-sans uppercase tracking-widest border border-red-400/30">
-                              🚨 Info Darurat
-                            </span>
-                          </div>
-                          <h2 className="font-serif text-2xl md:text-3xl font-bold mb-2 group-hover:text-gold transition-colors">{item.judul_info}</h2>
-                          <p className="font-sans text-red-100 text-sm md:text-base line-clamp-2">{item.isi_info}</p>
-                        </div>
-                        <div className="shrink-0 mt-4 md:mt-0">
-                          <span className="bg-white text-red-700 group-hover:bg-gold group-hover:text-white px-6 py-2.5 md:py-3 rounded-full font-sans font-bold text-sm shadow-lg transition-colors flex items-center gap-2">
-                            Lihat Detail <ChevronRight size={16} />
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
               {/* Pengumuman Biasa */}
-              {data?.info && (
-                <div onClick={() => setSelectedPengumuman(data.info)} className="card-marble p-6 flex flex-col md:flex-row items-start md:items-center gap-6 hover:border-gold/30 transition-all cursor-pointer">
-                  <div className="flex-1">
-                    <span className="label-small text-gold mb-2 block">{data.info.kategori || 'Umum'}</span>
-                    <h4 className="font-serif text-xl text-on-surface mb-2">{data.info.judul_info}</h4>
-                    <p className="text-on-surface-variant font-sans text-sm line-clamp-2">{data.info.isi_info}</p>
-                  </div>
-                  <span className="btn-primary text-sm whitespace-nowrap">
-                    Baca Selengkapnya
-                  </span>
+              <div onClick={() => setSelectedPengumuman(data.info)} className="card-marble p-6 flex flex-col md:flex-row items-start md:items-center gap-6 hover:border-gold/30 transition-all cursor-pointer">
+                <div className="flex-1">
+                  <span className="label-small text-gold mb-2 block">{data.info.kategori || 'Umum'}</span>
+                  <h4 className="font-serif text-xl text-on-surface mb-2">{data.info.judul_info}</h4>
+                  <p className="text-on-surface-variant font-sans text-sm line-clamp-2">{data.info.isi_info}</p>
                 </div>
-              )}
+                <span className="btn-primary text-sm whitespace-nowrap">
+                  Baca Selengkapnya
+                </span>
+              </div>
             </div>
           </section>
         )}
