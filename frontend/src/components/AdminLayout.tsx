@@ -11,8 +11,10 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       {/* Sidebar Emerald & Gold */}
       <aside className="w-64 bg-primary text-white hidden md:flex flex-col fixed inset-y-0 left-0 z-20 shadow-xl border-r border-gold/20">
         <div className="p-6 border-b border-primary-dark/60 bg-primary-dark/40">
-          <div className="flex items-center gap-2 mb-1">
-            <img src="/logo.png" alt="Logo MSANTRI" className="w-8 h-8 object-contain drop-shadow-md" />
+          <div className="flex items-center gap-3 mb-1">
+            <div className="bg-white p-1.5 rounded-lg shadow-sm">
+              <img src="/logo.png" alt="Logo MSANTRI" className="w-7 h-7 object-contain" />
+            </div>
             <div className="font-serif font-bold text-2xl text-white tracking-wide flex-1">MSANTRI</div>
             <span className="text-white text-[10px] px-2 py-0.5 rounded-full bg-white/20 border border-white/30 font-sans font-bold uppercase tracking-wider shadow-sm">Admin</span>
           </div>
