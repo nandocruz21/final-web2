@@ -202,6 +202,37 @@ const Home: React.FC = () => {
         </section>
 
         {/* ================================================ */}
+        {/* SECTION PENGUMUMAN TERBARU                       */}
+        {/* ================================================ */}
+        {data?.info && (
+          <section className="py-12 bg-surface-low px-6 md:px-12">
+            <div className="max-w-7xl mx-auto">
+              <div className="flex items-center justify-between mb-8">
+                <div>
+                  <p className="label-small text-gold mb-1">Terbaru</p>
+                  <h3 className="font-serif text-3xl text-on-surface">Pengumuman</h3>
+                </div>
+                <Link to="/pengumuman" className="flex items-center gap-1 text-sm text-primary font-sans font-medium hover:text-primary-dark transition-colors group">
+                  Lihat Semua <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+
+              {/* Pengumuman Biasa */}
+              <div onClick={() => setSelectedPengumuman(data.info)} className="card-marble p-6 flex flex-col md:flex-row items-start md:items-center gap-6 hover:border-gold/30 transition-all cursor-pointer">
+                <div className="flex-1">
+                  <span className="label-small text-gold mb-2 block">{data.info.kategori || 'Umum'}</span>
+                  <h4 className="font-serif text-xl text-on-surface mb-2">{data.info.judul_info}</h4>
+                  <p className="text-on-surface-variant font-sans text-sm line-clamp-2">{data.info.isi_info}</p>
+                </div>
+                <span className="btn-primary text-sm whitespace-nowrap">
+                  Baca Selengkapnya
+                </span>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* ================================================ */}
         {/* SECTION STATISTIK                                */}
         {/* ================================================ */}
         <section className="bg-surface-low py-16 px-6 md:px-12">
@@ -424,36 +455,7 @@ const Home: React.FC = () => {
           </div>
         </section>
 
-        {/* ================================================ */}
-        {/* SECTION PENGUMUMAN TERBARU                       */}
-        {/* ================================================ */}
-        {data?.info && (
-          <section className="py-12 bg-surface-low px-6 md:px-12">
-            <div className="max-w-7xl mx-auto">
-              <div className="flex items-center justify-between mb-8">
-                <div>
-                  <p className="label-small text-gold mb-1">Terbaru</p>
-                  <h3 className="font-serif text-3xl text-on-surface">Pengumuman</h3>
-                </div>
-                <Link to="/pengumuman" className="flex items-center gap-1 text-sm text-primary font-sans font-medium hover:text-primary-dark transition-colors group">
-                  Lihat Semua <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </div>
 
-              {/* Pengumuman Biasa */}
-              <div onClick={() => setSelectedPengumuman(data.info)} className="card-marble p-6 flex flex-col md:flex-row items-start md:items-center gap-6 hover:border-gold/30 transition-all cursor-pointer">
-                <div className="flex-1">
-                  <span className="label-small text-gold mb-2 block">{data.info.kategori || 'Umum'}</span>
-                  <h4 className="font-serif text-xl text-on-surface mb-2">{data.info.judul_info}</h4>
-                  <p className="text-on-surface-variant font-sans text-sm line-clamp-2">{data.info.isi_info}</p>
-                </div>
-                <span className="btn-primary text-sm whitespace-nowrap">
-                  Baca Selengkapnya
-                </span>
-              </div>
-            </div>
-          </section>
-        )}
 
       </main>
 
